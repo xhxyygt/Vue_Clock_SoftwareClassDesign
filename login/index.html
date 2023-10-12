@@ -22,14 +22,13 @@
             background-position: center top;
             background-attachment: fixed
             ;
-            /* background-position: */
         }
         
         body {
             display: flex; 
             align-items: center; /*上下*/
             justify-content: center; /*左右*/
-            height: 100%;
+            height: 130%;
         }
         
         /* 登入界面的模块 */
@@ -335,7 +334,7 @@
     <div id="loginDiv">
         <form action="" id="form">
             <h1 style="text-align: center;color: rgb(70, 139, 199);">立即登录</h1>
-            <p>账号:<input id="email" type="text" ></p>
+            <p>账号:<input id="name" type="text" ></p>
             
             <p>密码:<input id="password" type="password" placeholder="密码长度至少为6位"></p>
             <p style="text-align: center;color: darkgray;"><a href="#">忘记密码?</a></p>
@@ -350,7 +349,7 @@
             //获取注册时存储在localStorage中的值
             var sex=localStorage.getItem("sex");
             var password=localStorage.getItem("password");
-            var email=localStorage.getItem("email");
+            var email=localStorage.getItem("name");
             var username=localStorage.getItem("username");
 
             //注册按钮跳转
@@ -361,20 +360,20 @@
             //判断登录是否成功
             function login_click(){
                 //获取用户输入的信息
-                var email1=document.getElementById("email").value;
+                var email1=document.getElementById("name").value;
                 var password1=document.getElementById("password").value;
                 
                 //判断输入的信息和注册的信息是否一致
                 if(email1!='' && password1!=''){
                     if (email1==email && password==password1){
-                        window.location.href="My_Album.html";
+                        window.location.href="register.html";
                     }
                     else{
-                        alert("邮箱或密码错误，请重新输入！");
+                        alert("账号或密码错误，请重新输入！");
                     }
                 }
                 else{
-                    alert("邮箱或密码不能为空！");
+                    alert("账号或密码不能为空！");
                 }
                 
             }
