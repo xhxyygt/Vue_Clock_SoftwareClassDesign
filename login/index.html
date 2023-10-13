@@ -25,16 +25,38 @@
         }
         
         body {
-            display: flex; 
-            align-items: center; /*上下*/
-            justify-content: center; /*左右*/
-            height: 130%;
+            display: flex;
+            float: left;
+            align-items: center; 
+            justify-content: center; 
+            height: 100%;
+            width: 100%;
+            margin: 20px;
+            /* box-shadow: 100px 10px gray; */
+            flex-direction: row; /*默认横屏左右排列*/
+            /* flex-direction: column; */
+            
+        }
+
+        /*时钟模块*/
+        .clock {
+        text-align: center;
+        align-items: center; /*上下*/
+        justify-content: center; /*左右*/
+        /* padding: 10px 0;  */
+        float: left;
+        width: 60%;
+        /* margin-bottom: 200px; */
         }
         
         /* 登入界面的模块 */
         #loginDiv {
+            /* display: block; */
+            float: left;
             width: 400px;
+            /* width: 70%; */
             display: flex;
+            margin: 5%;
             justify-content: center;
             align-items: center;
             height: 400px;
@@ -73,6 +95,23 @@
             width: 100px;
             height: 31px;
             font-size: 16px;
+        }
+        /*判断横屏竖屏来更改元素排列*/
+        @media screen and (orientation: portrait) {
+            body {
+                flex-direction: column;
+            }
+            #loginDiv {
+                margin: 0;
+                margin-top: 5%;
+                width: 80%;
+                height: 300px;
+            }
+            .clock {
+                width: 90%;
+                margin: 0;
+                /* margin-top: 5%; */
+            }
         }
     </style>
     <style type="text/css">
@@ -333,11 +372,11 @@
 
     <div id="loginDiv">
         <form action="" id="form">
-            <h1 style="text-align: center;color: rgb(70, 139, 199);">立即登录</h1>
+            <h1 style="text-align: center;color: rgb(11, 97, 163);">立即登录</h1>
             <p>账号:<input id="name" type="text" ></p>
             
             <p>密码:<input id="password" type="password" placeholder="密码长度至少为6位"></p>
-            <p style="text-align: center;color: darkgray;"><a href="#">忘记密码?</a></p>
+            <p style="text-align: center;color: darkgray;"><a href="#" style="color: rgb(233, 203, 12);">忘记密码? </a></p>
             <div style="text-align: center;margin-top: 30px;">
                 <input type="button" class="button" value="登录" onclick="login_click()">
                 <input type="button" class="button" value="注册" onclick="register_click()">
@@ -574,12 +613,12 @@
         content: "9";
     }
     
-    .clock {
+    /* .clock {
         text-align: center;
-        align-items: center; /*上下*/
-        justify-content: center; /*左右*/
+        align-items: center; 
+        justify-content: center; 
         margin-bottom: 200px;
-    }
+    } */
     
     .clock em {
         display: inline-block;
