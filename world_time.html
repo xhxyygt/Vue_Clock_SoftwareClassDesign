@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界各地时间</title>
+    <style>
+        *{margin: 0px;padding: 0px;background-color: rgb(243, 235, 235);}
+        #box{width:1150px;margin:350px auto;border:1px solid;padding:20px;background-color: rgb(242, 248, 242);}
+        p{font-size:20px;font-weight: bold;padding:5px;border-bottom: 2px solid rgb(245, 235, 235);background-color: #ffffff;}
+        span{display: inline-block;text-indent: 20px;background-color: rgb(247, 231, 231);}
+    </style>
+</head>
+<body>
+    <div>
+        <h1>中国标准时间|</h1>
+    </div>
+    <div id="box">
+        <p>北京时间：<br><span></span></p>
+        <!-- <p>伦敦时间：<br><span></span></p>
+        <p>悉尼时间：<br><span></span></p>
+        <p>洛杉矶时间：<br><span></span></p>
+        <p>印度时间：<br><span></span></p>
+        <p>迪拜时间：<br><span></span></p>
+        <p>西班牙时间：<br><span></span></p> -->
+    </div>
+    <script>
+        //获取到span
+        var spans = document.getElementsByTagName("span");
+        //定义星期数组
+        var arr = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+        //有名函数
+        function fn(){
+            var date = new Date();
+            //获得中时区的时间（毫秒）
+            var UTCTime = Date.now() + date.getTimezoneOffset()*60*1000;
+            //定义数组  
+            var timeArr = [
+                dateFormat(UTCTime + 60*60*1000),     //伦敦
+                dateFormat(date),                     //北京
+                dateFormat(UTCTime + 11*60*60*1000),  //悉尼
+                dateFormat(UTCTime - 7*60*60*1000),   //洛杉矶
+                dateFormat(UTCTime + 6*60*60*1000),   //印度
+                dateFormat(UTCTime + 4*60*60*1000),   //迪拜
+                dateFormat(UTCTime + 2*60*60*1000)    //西班牙
+            ];
+            //打印到控制台
+            console.log(timeArr);
+            //添加数据
+            for( var i = 0;i<spans.length;i++ ){
+                spans[i].innerHTML = timeArr[i];
+            }
+        }
+        //执行
+        fn();
+        //多次执行的定时器
+        setInterval(fn,1000);        
+        //传入形参  计算年月日....
+        function dateFormat(d){            
+            var date = new Date(d);
+            var YY = date.getFullYear();    
+            var MM = date.getMonth() + 1 ; 
+            var Day = date.getDay(); //星期三？？？
+            var DD = date.getDate();
+            var hh = addZero(date.getHours());
+            var mm = addZero(date.getMinutes());
+            var ss = addZero(date.getSeconds());
+            /*return  YY + "年" + MM + "月" + DD + "日" + hh + "时" + mm + "分" + ss + "秒  " + arr[Day]*/
+        }
+        //使输出的格式为双数
+        function addZero ( n ){
+            return n < 10 ? "0" + n : n + "";
+        }        
+    </script>
+</body>
+</html>
