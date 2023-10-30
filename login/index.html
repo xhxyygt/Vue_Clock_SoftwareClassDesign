@@ -20,44 +20,70 @@
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center top;
-            background-attachment: fixed
-            ;
+            background-attachment: fixed;
         }
         
         body {
-            display: flex; 
-            align-items: center; /*上下*/
-            justify-content: center; /*左右*/
-            height: 130%;
+            display: flex;
+            /* float: left; */
+            align-items: center; 
+            justify-content: center; 
+            height: 100%;
+            width: 100%;
+            /* box-shadow: 100px 10px gray; */
+            flex-direction: row; /*默认横屏左右排列*/
+            /* flex-direction: column; */
+            
+        }
+
+        /*时钟模块*/
+        .clock {
+        text-align: center;
+        align-items: center; /*上下*/
+        justify-content: center; /*左右*/
+        /* padding: 10px 0;  */
+        float: left;
+        width: 60%;
+        /* margin-bottom: 200px; */
         }
         
         /* 登入界面的模块 */
         #loginDiv {
-            width: 400px;
+            /* display: block; */
+            float: left;
+            width: 50%;
+            /* width: 70%; */
             display: flex;
+            margin: 5%;
             justify-content: center;
             align-items: center;
-            height: 400px;
+            height: 40%;
+            min-height: 400px;
             background-color: rgba(59, 115, 189, 0.3);
-            box-shadow: 7px 7px 17px rgba(52, 56, 66, 0.5);
-            border-radius: 30px; /*圆角矩形*/
+            background-color: rgba(34, 104, 132, 0.941); /*测试用*/
+            box-shadow: 17px 17px 20px rgba(52, 56, 66, 0.7);
+            border-radius: 5% /*圆角矩形*/
         } 
         
         
         
         
         p {
-            margin-top: 30px;
-            margin-left: 20px;
+            /* margin-top: 30px;
+            margin-left: 20px; */
+            margin-top: 15%;
+            margin-left: 8%;
             color: azure;
         }
         
         input {
             margin-left: 15px;
+            /* margin-left: 25%; */
             border-radius: 5px;
             border-style: hidden;
             height: 30px;
             width: 140px;
+            /* height: 3; */
             background-color: rgba(216, 191, 216, 0.5);
             outline: none;
             color: #f0edf3;
@@ -73,6 +99,24 @@
             width: 100px;
             height: 31px;
             font-size: 16px;
+        }
+        /*判断横屏竖屏来更改元素排列*/
+        @media screen and (orientation: portrait) {
+            body {
+                flex-direction: column;
+            }
+            #loginDiv {
+                margin: 0;
+                margin-top: 5%;
+                width: 80%;
+                height: 300px;
+            }
+            .clock {
+                
+                width: 90%;
+                margin: 0;
+                /* margin-top: 5%; */
+            }
         }
     </style>
     <style type="text/css">
@@ -333,11 +377,11 @@
 
     <div id="loginDiv">
         <form action="" id="form">
-            <h1 style="text-align: center;color: rgb(70, 139, 199);">立即登录</h1>
+            <h1 style="text-align: center;color: rgb(11, 97, 163);">立即登录</h1>
             <p>账号:<input id="name" type="text" ></p>
             
             <p>密码:<input id="password" type="password" placeholder="密码长度至少为6位"></p>
-            <p style="text-align: center;color: darkgray;"><a href="#">忘记密码?</a></p>
+            <p style="text-align: center;color: darkgray;"><a href="#" style="color: rgb(233, 203, 12);">忘记密码? </a></p>
             <div style="text-align: center;margin-top: 30px;">
                 <input type="button" class="button" value="登录" onclick="login_click()">
                 <input type="button" class="button" value="注册" onclick="register_click()">
@@ -574,12 +618,12 @@
         content: "9";
     }
     
-    .clock {
+    /* .clock {
         text-align: center;
-        align-items: center; /*上下*/
-        justify-content: center; /*左右*/
+        align-items: center; 
+        justify-content: center; 
         margin-bottom: 200px;
-    }
+    } */
     
     .clock em {
         display: inline-block;
