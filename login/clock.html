@@ -4,13 +4,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>my first canvas project</title>
 <style type="text/css">
-body{ width:100%;height:100%; background:#ac9f94;}
-#drawing{display:block;margin:40px auto 0 auto; background:#ac9f94;}
+*{zoom:60%;
+/* 水平竖直居中 */
+margin:0 auto;
+padding:0;
+
+}
+body{ width:90%;height:90%; background:#38aab200;
+
+}
+#drawing{display:block;margin:40px auto 0 auto; background:#4a34a200;}
 </style>
 </head>
 
 <body>
-<canvas id="drawing" width="1600px" height="760px">你看不见图片的时候就会看见我</canvas>
+    <div style="object-fit:contain">
+        <canvas id="drawing" width="1600px" height="800px" ">你看不见图片的时候就会看见我</canvas>
 
 <script type="text/javascript">
   //第一步找到canvas
@@ -193,3 +202,5 @@ function minute(){
 </script>
 </body>
 </html>
+
+    </div>

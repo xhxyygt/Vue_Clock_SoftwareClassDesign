@@ -169,3 +169,12 @@ input:focus::placeholder{
     background-color: #d3b7d8;
     color: #fff;
 }
+
+#clock{
+
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 4px;
+    /* 水平方向不显示滑动条 */
+    overflow-x: hidden;
+}
