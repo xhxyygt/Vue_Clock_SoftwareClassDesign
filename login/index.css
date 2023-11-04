@@ -15,7 +15,9 @@ body{
 }
 .container{
     background-color: #fff;
-    width: 650px;
+    /* width: 650px; */
+    width: 90%;
+    max-width: 650px;
     height: 415px;
     border-radius: 5px;
     /* 阴影 */
@@ -29,9 +31,11 @@ body{
     top: -10%;
     left: 5%;
     background-color: #d3b7d8;
-    width: 320px;
+    /* width: 320px; */
+    width: 50%;
+    /* max-width: 320px; */
     height: 500px;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     display: flex;
     justify-content: center;
@@ -59,6 +63,10 @@ h1{
     color: #fff;
     /* 字间距 */
     letter-spacing: 5px;
+    /*最大不超过form-box，自动调整字体大小*/
+    font-size: 140%;
+    font-weight: bold;
+    
 }
 input{
     background-color: transparent;
@@ -138,8 +146,11 @@ input:focus::placeholder{
     color: #d3b7d8;
 } */
 .con-box img{
-    width: 150px;
-    height: 150px;
+    /* max-width: 150px; */
+    width: 60%;
+    /*长宽比固定*/
+    height: auto;
+    /* height: 150px; */
     opacity: 0.9;
     margin: 40px 0;
 }
