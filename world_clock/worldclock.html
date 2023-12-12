@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>世界时钟</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button id="add-country">添加</button>
+    <ul id="country-list"></ul>
+<!-- 模态对话框 -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2>选择国家</h2>
+        <input type="text" id="search-country" placeholder="搜索国家...">
+        <!-- <div id="country-options">
+            <button class="country-btn" data-country="中国" data-timezone="Asia/Shanghai">中国</button>
+            <button class="country-btn" data-country="美国" data-timezone="America/New_York">美国</button>
+            <button class="country-btn" data-country="日本" data-timezone="Asia/Tokyo">日本</button>
+            <button class="country-btn" data-country="德国" data-timezone="Europe/Berlin">德国</button>
+        </div> -->
+        <!-- 大洲和国家的二级菜单 -->
+        <div class="menu-container">
+            <ul class="continent-menu">
+            <li data-continent="asia">亚洲</li>
+            <li data-continent="europe">欧洲</li>
+            <li data-continent="africa">非洲</li>
+            <!-- 其他大洲 -->
+            </ul>
+            <ul class="country-menu" id="asia-countries">
+            <!-- 亚洲国家列表 -->
+            <li data-country="CN" data-timezone ="Asia/Shanghai" >中国</li>
+            <li data-country="KR" data-timezone="Asia/Seoul">韩国</li>
+            <li data-country="JP" data-timezone="Asia/Tokyo">日本</li>
+            <li data-country="IN" data-timezone="Asia/Kolkata">印度</li>
+            <!-- 其他亚洲国家 -->
+            </ul>
+            <ul class="country-menu" id="europe-countries" style="display: none;">
+            <!-- 欧洲国家列表 -->
+            <li data-country="GB" data-timezone="Europe/London">英国</li>
+            <li data-country="DE" data-timezone="Europe/Berlin">德国</li>
+            <li data-country="FR" data-timezone="Europe/Paris">法国</li>
+            <li data-country="IT" data-timezone="Europe/Rome">意大利</li>
+            <!-- 其他欧洲国家 -->
+            </ul>
+            <ul class="country-menu" id="africa-countries" style="display: none;">
+            <!-- 非洲国家列表 -->
+            <li data-country="NG">尼日利亚</li>
+            <li data-country="EG">埃及</li>
+            <li data-country="ZA">南非</li>
+            <!-- 其他非洲国家 -->
+            </ul>
+            <!-- 其他大洲的国家列表 -->
+        </div>
+
+    </div>
+</div>
+<div id="country-times"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
