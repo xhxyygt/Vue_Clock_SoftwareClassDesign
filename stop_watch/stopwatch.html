@@ -1,0 +1,75 @@
+<body>
+    <div id="div1">
+        <div id="count">
+            <span id="id_M">00</span><span>:</span>
+            <span id="id_S">00</span><span>:</span>
+            <span id="id_MS">00</span>
+        </div>
+        <input id="start" type="button" value="开始">
+        <input id="pause" type="button" value="停止">
+        <input id="end" type="button" value="复位">
+    </div>
+</body>
+<style>
+    #div1{
+        width: 300px;
+        height: 400px;
+        background: blanchedalmond;
+        margin: 70px auto;
+        text-align: center;
+    }
+    #count{
+        width: 200px;
+        height: 100px;
+        line-height: 100px;
+        margin: auto;   /*让计数的这个块居中*/
+    }
+    #div1 input{
+        width: 150px;
+        height: 40px;
+        background-color: yellow;
+        font-size: 25px;
+        margin: auto;
+    }
+</style>
+<script>
+    // 可以将查找标签节点的操作进行简化
+    function $(id){
+        return document.getElementById(id);
+    }
+    window.onload = function(){
+        var count = 0; //开始计数以后，累加的总秒数
+        var timer = null;
+        $("start").onclick = function(){
+        clearInterval(timer);
+            timer = setInterval(function(){// 如果在这个位置写var，相当于timer是这个start点击事件定义的一个变量，在其他点击事件中不能使用
+                count++;
+                // 需要改变页面上的时分秒数
+                $("id_MS").innerHTML = showNum(count%100)
+                $("id_S").innerHTML = showNum(parseInt(count/100) % 60);
+                $("id_M").innerHTML = showNum(parseInt(count / 6000) % 60);
+            },10);
+        }
+        $("pause").onclick = function(){
+            // 取消定时器
+            clearInterval(timer);
+        }
+        $("end").onclick = function(){
+            clearInterval(timer);
+            // 将数据清零
+            count = 0;
+            // 将当前页面展示数据清零
+            $("id_MS").innerHTML = "00"
+            $("id_S").innerHTML = "00"
+            $("id_M").innerHTML = "00"
+        }
+    }
+        // 处理单个数字
+        function showNum(num){
+            if(num<10){
+                return "0" + num;
+            }else{
+                return num;
+            }
+        }
+</script>
