@@ -1,0 +1,8 @@
+[
+    { "name": "北京", "country": "中国", "timezone": "GMT+8:00", "tzIdentifier": "Asia/Shanghai" },
+    { "name": "东京", "country": "日本", "timezone": "GMT+9:00", "tzIdentifier": "Asia/Tokyo" },
+    { "name": "纽约", "country": "美国", "timezone": "GMT-5:00", "tzIdentifier": "America/New_York" },
+    { "name": "伦敦", "country": "英国", "timezone": "GMT+0:00", "tzIdentifier": "Europe/London" },
+    { "name": "巴黎", "country": "法国", "timezone": "GMT+1:00", "tzIdentifier": "Europe/Paris" }
+
+  ]

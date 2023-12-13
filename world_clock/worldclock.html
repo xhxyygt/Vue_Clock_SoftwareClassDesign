@@ -1,31 +1,47 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>世界时钟</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<title>世界时钟</title>
+<link rel="stylesheet" href="styles.css">
+
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+  #clock { text-align: center; margin-bottom: 30px; }
+  .city { background: #f0f0f0; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); margin-bottom: 10px; padding: 10px; display: flex; justify-content: space-between; align-items: center; min-height: 50px; }
+  .city-info { flex-grow: 1; text-align: left; }
+  .city-time { font-size: 24px;height: 30px; }
+  .city-date { font-size: 14px; height: 20px;}
+  .city-name { font-size: 20px; font-weight: bold; }
+  .delete-btn { cursor: pointer; border-radius: 5px; padding: 5px; background: #e0e0e0; margin-left: 10px; }
+  #city-menu { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 1px solid #ccc; padding: 20px; z-index: 1000; width: 80%; max-width: 600px; }
+  #city-menu input { width: calc(100% - 60px); margin-bottom: 10px; border-radius: 5px; padding: 5px; }
+  #city-menu ul { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; }
+  #city-menu li { cursor: pointer; margin-bottom: 5px; }
+  .close-btn { position: absolute; right: 10px; top: 10px; cursor: pointer; }
+  .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
+  .message { color: black; position: fixed; bottom: 10%; left: 50%; transform: translateX(-50%); z-index: 1001; display: none; border-radius: 10px; background: #f0f0f0; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+</style>
 </head>
 <body>
-    <button id="add-country">添加</button>
-    <ul id="country-list"></ul>
-<!-- 模态对话框 -->
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <span class="close">×</span>
-        <h2>选择国家</h2>
-        <input type="text" id="search-country" placeholder="搜索国家...">
-        <!-- <div id="country-options">
-            <button class="country-btn" data-country="中国" data-timezone="Asia/Shanghai">中国</button>
-            <button class="country-btn" data-country="美国" data-timezone="America/New_York">美国</button>
-            <button class="country-btn" data-country="日本" data-timezone="Asia/Tokyo">日本</button>
-            <button class="country-btn" data-country="德国" data-timezone="Europe/Berlin">德国</button>
-        </div> -->
-        <div id="city-menu"></div>
-    </div>
-</div>
-<div id="country-times"></div>
 
-    <script src="script.js"></script>
+<div id="clock"></div>
+<button onclick="toggleMenu()">添加城市</button>
+<div class="overlay" onclick="toggleMenu()"></div>
+<div id="city-menu">
+  <span class="close-btn" onclick="toggleMenu()">X</span>
+  <input type="text" id="search" placeholder="搜索城市、国家或时区" oninput="filterCities()">
+  <ul id="city-list">
+    <!-- 城市列表将在这里生成 -->
+  </ul>
+</div>
+<div id="cities"></div>
+<div id="message" class="message"></div>
+
+<script>
+
+</script>
+
+<script src="script.js"></script>
 </body>
 </html>
-

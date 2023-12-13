@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)https://www.rapidtables.org/zh-CN/tools/countdown-timer.html -->
+<html lang="zh-CN" class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--<base href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html">--><base href=".">
+
+<meta http-equiv="Content-Language" content="zh-CN">
+
+<title>Timer | Online Countdown Timer</title>
+<meta name="description" content="计时器，在线倒数计时器。">
+<link rel="stylesheet" href="./Timer _ Online Countdown Timer_files/jquery.mobile.min.css">
+<link rel="icon" type="image/x-icon" href="https://www.rapidtables.org/lib/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+	#time { margin-left:auto; margin-right:auto; }
+	/*#time td { text-align:center; }*/
+	#time td  a { margin-left:auto; margin-right:auto; }
+	#buttons { margin-top:8vw; text-align:center; }
+	#b1, #b2 { width:20vw; display:inline-block; }
+	#b1 { background:#b0f6b0; border-color:#8d8; }
+	#b1.green { background:#b0f6b0; border-color:#8d8; }
+	#b1.green:hover { background:#a0e6a0; }
+	#b1.red { background:#f6b0b0; border-color:#d88; }
+	#b1.red:hover { background:#e6a0a0; }
+	#list { max-width:320px; margin:0 auto; }
+	#footer { text-align:center; position:absolute; bottom:-120px; left:0; width:100%; }
+	body { overflow:hidden; }
+	@media all and (max-width: 640px) {
+		#main { margin:5% auto; }
+		#time tr:nth-child(2) td { font-size:16vw; }
+		#buttons { margin-top:8vw; }
+	}
+	@media all and (min-width: 641px) {
+		#main { margin:3% auto; }
+		#time tr:nth-child(2) td { font-size:8vw; }
+		#buttons { margin-top:4vw; }
+	}</style>
+
+
+<link rel="stylesheet" type="text/css" href="./Timer _ Online Countdown Timer_files/cookieconsent.min.css">
+<script src="./Timer _ Online Countdown Timer_files/f.txt"></script><script src="./Timer _ Online Countdown Timer_files/f(1).txt" id="google_shimpl"></script><script src="./Timer _ Online Countdown Timer_files/cookieconsent.min.js.下载"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#f0f0d0",
+      "text": "#333333"
+    },
+    "button": {
+      "background": "#b0b080",
+      "text": "#333"
+    }
+  },
+  "content": {
+    "dismiss": "OK",
+    "message": "This website uses cookies to improve your experience, analyze traffic and display ads.",
+    "href": "https://www.rapidtables.org/about/privacy.html"
+  }
+})});
+</script>
+<script src="./Timer _ Online Countdown Timer_files/jquery.min.js.下载"></script>
+<script src="./Timer _ Online Countdown Timer_files/jquery.mobile.min.js.下载"></script>
+<link rel="canonical" href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html">
+<link rel="alternate" hreflang="es" href="https://www.rapidtables.org/tools/countdown-timer.html">
+<link rel="alternate" hreflang="ar" href="https://www.rapidtables.org/ar/tools/countdown-timer.html">
+<link rel="alternate" hreflang="bg" href="https://www.rapidtables.org/bg/tools/countdown-timer.html">
+<link rel="alternate" hreflang="bn" href="https://www.rapidtables.org/bn/tools/countdown-timer.html">
+<link rel="alternate" hreflang="ca" href="https://www.rapidtables.org/ca/tools/countdown-timer.html">
+<link rel="alternate" hreflang="cs" href="https://www.rapidtables.org/cs/tools/countdown-timer.html">
+<link rel="alternate" hreflang="da" href="https://www.rapidtables.org/da/tools/countdown-timer.html">
+<link rel="alternate" hreflang="de" href="https://www.rapidtables.org/de/tools/countdown-timer.html">
+<link rel="alternate" hreflang="el" href="https://www.rapidtables.org/el/tools/countdown-timer.html">
+<link rel="alternate" hreflang="et" href="https://www.rapidtables.org/et/tools/countdown-timer.html">
+<link rel="alternate" hreflang="fi" href="https://www.rapidtables.org/fi/tools/countdown-timer.html">
+<link rel="alternate" hreflang="tl" href="https://www.rapidtables.org/tl/tools/countdown-timer.html">
+<link rel="alternate" hreflang="fr" href="https://www.rapidtables.org/fr/tools/countdown-timer.html">
+<link rel="alternate" hreflang="gu" href="https://www.rapidtables.org/gu/tools/countdown-timer.html">
+<link rel="alternate" hreflang="he" href="https://www.rapidtables.org/he/tools/countdown-timer.html">
+<link rel="alternate" hreflang="hi" href="https://www.rapidtables.org/hi/tools/countdown-timer.html">
+<link rel="alternate" hreflang="hr" href="https://www.rapidtables.org/hr/tools/countdown-timer.html">
+<link rel="alternate" hreflang="hu" href="https://www.rapidtables.org/hu/tools/countdown-timer.html">
+<link rel="alternate" hreflang="id" href="https://www.rapidtables.org/id/tools/countdown-timer.html">
+<link rel="alternate" hreflang="is" href="https://www.rapidtables.org/is/tools/countdown-timer.html">
+<link rel="alternate" hreflang="it" href="https://www.rapidtables.org/it/tools/countdown-timer.html">
+<link rel="alternate" hreflang="ja" href="https://www.rapidtables.org/ja/tools/countdown-timer.html">
+<link rel="alternate" hreflang="kn" href="https://www.rapidtables.org/kn/tools/countdown-timer.html">
+<link rel="alternate" hreflang="ko" href="https://www.rapidtables.org/ko/tools/countdown-timer.html">
+<link rel="alternate" hreflang="lt" href="https://www.rapidtables.org/lt/tools/countdown-timer.html">
+<link rel="alternate" hreflang="lv" href="https://www.rapidtables.org/lv/tools/countdown-timer.html">
+<link rel="alternate" hreflang="mk" href="https://www.rapidtables.org/mk/tools/countdown-timer.html">
+<link rel="alternate" hreflang="ml" href="https://www.rapidtables.org/ml/tools/countdown-timer.html">
+<link rel="alternate" hreflang="mr" href="https://www.rapidtables.org/mr/tools/countdown-timer.html">
+<link rel="alternate" hreflang="ms" href="https://www.rapidtables.org/ms/tools/countdown-timer.html">
+<link rel="alternate" hreflang="nl" href="https://www.rapidtables.org/nl/tools/countdown-timer.html">
+<link rel="alternate" hreflang="no" href="https://www.rapidtables.org/no/tools/countdown-timer.html">
+<link rel="alternate" hreflang="pl" href="https://www.rapidtables.org/pl/tools/countdown-timer.html">
+<link rel="alternate" hreflang="pt" href="https://www.rapidtables.org/pt/tools/countdown-timer.html">
+<link rel="alternate" hreflang="ro" href="https://www.rapidtables.org/ro/tools/countdown-timer.html">
+<link rel="alternate" hreflang="ru" href="https://www.rapidtables.org/ru/tools/countdown-timer.html">
+<link rel="alternate" hreflang="sk" href="https://www.rapidtables.org/sk/tools/countdown-timer.html">
+<link rel="alternate" hreflang="sl" href="https://www.rapidtables.org/sl/tools/countdown-timer.html">
+<link rel="alternate" hreflang="sr" href="https://www.rapidtables.org/sr/tools/countdown-timer.html">
+<link rel="alternate" hreflang="sv" href="https://www.rapidtables.org/sv/tools/countdown-timer.html">
+<link rel="alternate" hreflang="ta" href="https://www.rapidtables.org/ta/tools/countdown-timer.html">
+<link rel="alternate" hreflang="te" href="https://www.rapidtables.org/te/tools/countdown-timer.html">
+<link rel="alternate" hreflang="th" href="https://www.rapidtables.org/th/tools/countdown-timer.html">
+<link rel="alternate" hreflang="tr" href="https://www.rapidtables.org/tr/tools/countdown-timer.html">
+<link rel="alternate" hreflang="uk" href="https://www.rapidtables.org/uk/tools/countdown-timer.html">
+<link rel="alternate" hreflang="ur" href="https://www.rapidtables.org/ur/tools/countdown-timer.html">
+<link rel="alternate" hreflang="vi" href="https://www.rapidtables.org/vi/tools/countdown-timer.html">
+<link rel="alternate" hreflang="zh-CN" href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html">
+<link rel="alternate" hreflang="zh-TW" href="https://www.rapidtables.org/zh-TW/tools/countdown-timer.html">
+<script async="" src="./Timer _ Online Countdown Timer_files/coun_w3.js.下载"></script>
+
+<script async="" src="./Timer _ Online Countdown Timer_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1YVDBW7SMW');
+</script>
+<script> 
+function KJ_AsOT(){var a=document.getElementsByTagName("head")[0],b=document.createElement("script");b.type="text/javascript",b.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2898904755959147",a.appendChild(b)}setTimeout(KJ_AsOT,3000);</script>
+<meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><style></style><script type="text/javascript" src="./Timer _ Online Countdown Timer_files/f(2).txt" data-checked-head="true"></script><meta http-equiv="origin-trial" content="As0hBNJ8h++fNYlkq8cTye2qDLyom8NddByiVytXGGD0YVE+2CEuTCpqXMDxdhOMILKoaiaYifwEvCRlJ/9GcQ8AAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="AgRYsXo24ypxC89CJanC+JgEmraCCBebKl8ZmG7Tj5oJNx0cmH0NtNRZs3NB5ubhpbX/bIt7l2zJOSyO64NGmwMAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A/ERL66fN363FkXxgDc6F1+ucRUkAhjEca9W3la6xaLnD2Y1lABsqmdaJmPNaUKPKVBRpyMKEhXYl7rSvrQw+AkAAACNeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MTkzNTk5OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A6OdGH3fVf4eKRDbXb4thXA4InNqDJDRhZ8U533U/roYjp4Yau0T3YSuc63vmAs/8ga1cD0E3A7LEq6AXk1uXgsAAACTeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MTkzNTk5OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"></head>
+<body class="ui-mobile-viewport ui-overlay-a" aria-hidden="false"><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-banner cc-type-info cc-theme-block cc-bottom cc-color-override--164332451 " style=""><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">This website uses cookies to improve your experience, analyze traffic and display ads. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://www.rapidtables.org/about/privacy.html" target="_blank">Learn more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">OK</a></div><!--googleon: all--></div>
+<div data-role="page" class="ui-responsive-panel ui-page ui-page-theme-a ui-page-active" data-url="/zh-CN/tools/countdown-timer.html" tabindex="0" data-title="计时器-在线倒数计时器" style="min-height: 742px;">
+<div data-role="header" id="header" role="banner" class="ui-header ui-bar-inherit">
+<a id="barsbtn" href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html#toc_panel" data-role="button" data-icon="bars" title="面板" data-iconpos="notext" class="ui-link ui-btn-left ui-btn ui-icon-bars ui-btn-icon-notext ui-shadow ui-corner-all" role="button"></a>
+<h1 class="ui-title" role="heading" aria-level="1">倒计时器</h1>
+</div>
+<div role="main" class="ui-content" id="main">
+<table id="time">
+<tbody><tr>
+<td><a id="upbtn1" href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html#" data-role="button" data-icon="carat-u" data-iconpos="notext" title="上" class="ui-link ui-btn ui-icon-carat-u ui-btn-icon-notext ui-shadow ui-corner-all" role="button" style="visibility: visible;"></a></td>
+<td>&nbsp;</td>
+<td><a id="upbtn2" href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html#" data-role="button" data-icon="carat-u" data-iconpos="notext" title="上" class="ui-link ui-btn ui-icon-carat-u ui-btn-icon-notext ui-shadow ui-corner-all" role="button" style="visibility: visible;"></a></td>
+<td>&nbsp;</td>
+<td><a id="upbtn3" href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html#" data-role="button" data-icon="carat-u" data-iconpos="notext" title="上" class="ui-link ui-btn ui-icon-carat-u ui-btn-icon-notext ui-shadow ui-corner-all" role="button" style="visibility: visible;"></a></td>
+</tr>
+<tr>
+<td id="hours">00</td>
+<td>：</td>
+<td id="minutes">00</td>
+<td>：</td>
+<td id="seconds">00</td>
+</tr>
+<tr>
+<td><a id="dnbtn1" href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html#" data-role="button" data-icon="carat-d" data-iconpos="notext" title="下" class="ui-link ui-btn ui-icon-carat-d ui-btn-icon-notext ui-shadow ui-corner-all" role="button" style="visibility: visible;"></a></td>
+<td>&nbsp;</td>
+<td><a id="dnbtn2" href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html#" data-role="button" data-icon="carat-d" data-iconpos="notext" title="下" class="ui-link ui-btn ui-icon-carat-d ui-btn-icon-notext ui-shadow ui-corner-all" role="button" style="visibility: visible;"></a></td>
+<td>&nbsp;</td>
+<td><a id="dnbtn3" href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html#" data-role="button" data-icon="carat-d" data-iconpos="notext" title="下" class="ui-link ui-btn ui-icon-carat-d ui-btn-icon-notext ui-shadow ui-corner-all" role="button" style="visibility: visible;"></a></td>
+</tr>
+</tbody></table>
+<div id="buttons">
+<form>
+<a href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html#" id="b1" data-role="button" data-icon="clock" class="green ui-link ui-btn ui-icon-clock ui-btn-icon-left ui-shadow ui-corner-all" role="button">Start</a> <a href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html#" id="b2" data-role="button" data-icon="delete" class="ui-link ui-btn ui-icon-delete ui-btn-icon-left ui-shadow ui-corner-all" role="button">重置</a>
+</form>
+</div>
+</div>
+<div data-role="footer" id="footer" role="contentinfo" class="ui-footer ui-bar-inherit">
+<p>
+<a data-role="button" href="https://www.rapidtables.org/zh-CN/about/about.html" rel="nofollow" class="ui-link ui-btn ui-shadow ui-corner-all" role="button">关于</a> <a data-role="button" href="https://www.rapidtables.org/zh-CN/about/terms.html" rel="nofollow" class="ui-link ui-btn ui-shadow ui-corner-all" role="button">使用条款</a> <a data-role="button" href="https://www.rapidtables.org/zh-CN/about/privacy.html" rel="nofollow" class="ui-link ui-btn ui-shadow ui-corner-all" role="button">隐私政策</a>
+</p>
+<p>﻿© 2023 <a data-role="button" href="https://www.rapidtables.org/zh-CN/" class="ui-link ui-btn ui-shadow ui-corner-all" role="button">RT</a></p>
+</div>
+<div data-role="panel" data-display="overlay" data-position="left" data-theme="a" data-dismissible="true" data-swipe-close="true" id="toc_panel" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-panel-closed ui-body-a ui-panel-animate">
+<div class="ui-panel-inner"><ul data-role="listview" class="ui-listview">
+<li data-icon="delete" class="ui-first-child"><a href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html#header" data-rel="close" class="ui-btn ui-btn-icon-right ui-icon-delete">关闭面板</a></li>
+<li data-icon="home"><a rel="external" href="https://www.rapidtables.org/zh-CN/tools/index.html" class="ui-btn ui-btn-icon-right ui-icon-home">设为首页</a></li>
+<li data-icon="clock"><a href="https://www.rapidtables.org/zh-CN/tools/alarm-clock.html" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-clock">闹钟</a></li>
+<li data-icon="calendar"><a href="https://www.rapidtables.org/zh-CN/tools/calendar.html" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-calendar">日历</a></li>
+<li data-icon="clock"><a href="https://www.rapidtables.org/zh-CN/tools/countdown-timer.html" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-clock">倒计时器</a></li>
+<li data-icon="clock"><a href="https://www.rapidtables.org/zh-CN/tools/current-time.html" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-clock">当前时间</a></li>
+<li data-icon="clock"><a href="https://www.rapidtables.org/zh-CN/tools/stopwatch.html" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-clock">跑表</a></li>
+<li data-icon="calendar" class="ui-last-child"><a href="https://www.rapidtables.org/zh-CN/tools/todays-date.html" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-calendar">今天的日期</a></li>
+</ul></div>
+</div>
+</div>
+<script>
+	var timer;
+	var startTime={'h':0, 'm':0, 's':0};
+	var options = {'delay':1000};
+	
+	$(document).on('pagecreate', function()
+	{
+		$(":jqmData(role='page')").attr("data-title", document.title);
+	    
+	    var Timer = function(viewFunc, options) {
+	    	var interval;
+	    	var clock, set_clock;
+	    	var update_time, prev_update_time;
+	    	var stop_time;
+	    	var state;
+	    	var states={"init":0, "stop":1, "run":2};
+	    	
+			// default options
+			options = options || {};
+			options.delay = options.delay || 1;
+			
+	    	reset();
+	    	
+	    	function start() {
+	    		update_time = prev_update_time = Date.now();
+		    	if( clock<options.delay ) {
+		    		clearInterval(interval);
+					interval = setInterval(update, clock);
+		    	}
+		    	else
+					interval = setInterval(update, options.delay);
+				state = states.run;
+	    	}
+	    	function stop() {
+	    		stop_time = Date.now();
+		    	clearInterval(interval);
+		    	clock-=(stop_time-update_time);
+		    	state = states.stop;
+	    	}
+	    	function reset() {
+		    	clearInterval(interval);
+			    clock = (startTime.h*3600+startTime.m*60+startTime.s)*1000;
+			    stop_time = 0;
+			    state = states.init;
+	    	}
+	    	function getState() {
+			    return state;
+	    	}
+	    	/*
+	    	function getTime() {
+	    		var now = Date.now();
+	    		var time = clock+(now-update_time);
+			    return time;
+	    	}*/
+	    	function update() {
+	    		update_time = Date.now();
+			    //clock+=options.delay;
+			    clock-=update_time-prev_update_time;
+		    	if( clock<options.delay ) {
+		    		clearInterval(interval);
+					interval = setInterval(update, clock);
+		    	}
+			    prev_update_time = update_time;
+			    viewFunc(clock);
+	    	}
+	    	// public api
+	    	this.start = start;
+	    	this.stop = stop;
+	    	this.reset = reset;
+	    	this.getState = getState;
+	    	this.states = states;
+	    	//this.getTime = getTime;
+	    };
+	    
+		function pad(x) {
+			return (x < 10 ? '0' : '') + x;
+		}
+		function vibrate() {
+			navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate; 
+			if (navigator.vibrate) {
+		    	navigator.vibrate([500, 300, 100]);
+		   	}
+		}
+		function playsound() {
+			var file,volume;
+			// get file
+			var filename=['Alarm Clock.mp3','alarm_1.mp3','Digital Notification.mp3','Alert Notification.wav','Notification Alarm.mp3','Notification.mp3','Rooster Crowing.wav'];
+	    	//var i=$("#s8").prop("selectedIndex");
+			file = '/lib/audio/'+filename[2];
+			var audio = new Audio(file);
+			//audio.volume = volume;
+			audio.play();		
+		}
+		
+	    function updateView(clock) {
+	    	var h,m,s;
+			//s = Math.floor((clock+500)/1000);
+			s = Math.ceil(clock/1000);
+			m = Math.floor(s/60);
+			s-=m*60;
+			h = Math.floor(m/60);
+			m-=h*60;
+			if( s==60 ) {
+				s=0;
+				if( ++m==60 ) {
+					m=0;
+					h++;
+				}
+			}
+			h = pad(h);
+			m = pad(m);
+			s = pad(s);
+		    time = h+':'+m+':'+s;
+	    	$("#hours").html(h);
+	    	$("#minutes").html(m);
+	    	$("#seconds").html(s);
+	    	document.title = time;
+	    	//if( h==0 && m==0 && s==0 ) {
+	    	if( clock<=0 ) {
+	    		//$(".ui-content").css('background-color', '#ccc');
+		    	timer.stop();
+				$("#b1").text('...');
+				$("#b1").removeClass("red");
+				$("#b1").addClass("green");
+		    	vibrate();
+		    	playsound();
+		    	setTimeout(function() {
+		    		timer.reset();
+		    		timeView();
+				}, 2000);
+	    	}
+	    }
+	    
+	    timer = new Timer(updateView, options);
+	    
+	    function timeView() {
+			timer.reset();
+	    	$("#hours").html(pad(startTime.h));
+	    	$("#minutes").html(pad(startTime.m));
+	    	$("#seconds").html(pad(startTime.s));
+			$("#b1").text('Start');
+			$("#b1").removeClass("red");
+			$("#b1").addClass("green");
+			$("#upbtn1").css('visibility','visible');
+			$("#upbtn2").css('visibility','visible');
+			$("#upbtn3").css('visibility','visible');
+			$("#dnbtn1").css('visibility','visible');
+			$("#dnbtn2").css('visibility','visible');
+			$("#dnbtn3").css('visibility','visible');
+			document.title = "Timer | Online Countdown Timer";
+	    }
+	    
+	    $("#upbtn1").click(function() {
+	    	if( ++startTime.h==100 ) startTime.h = 0;
+	    	timeView();
+	    });
+	    $("#upbtn2").click(function() {
+	    	if( ++startTime.m==60 ) startTime.m = 0;
+	    	timeView();
+	    });
+	    $("#upbtn3").click(function() {
+	    	if( ++startTime.s==60 ) startTime.s = 0;
+	    	timeView();
+	    });
+	    $("#dnbtn1").click(function() {
+	    	if( --startTime.h<0 ) startTime.h = 99;
+	    	timeView();
+	    });
+	    $("#dnbtn2").click(function() {
+	    	if( --startTime.m<0 ) startTime.m = 59;
+	    	timeView();
+	    });
+	    $("#dnbtn3").click(function() {
+	    	if( --startTime.s<0 ) startTime.s = 59;
+	    	timeView();
+	    });
+	    
+	    $("#b1").click(function() {
+	    	if( timer.getState()==timer.states.init || timer.getState()==timer.states.stop ) {
+	    		if( timer.getState()==timer.states.init && startTime.h==0 && startTime.m==0 && startTime.s==0 ) return;
+		    	timer.start();
+				$("#b1").text('Stop');
+				$("#b1").toggleClass("green");
+				$("#b1").toggleClass("red");
+				$("#upbtn1").css('visibility','hidden');
+				$("#upbtn2").css('visibility','hidden');
+				$("#upbtn3").css('visibility','hidden');
+				$("#dnbtn1").css('visibility','hidden');
+				$("#dnbtn2").css('visibility','hidden');
+				$("#dnbtn3").css('visibility','hidden');
+			}
+	    	else if( timer.getState()==timer.states.run ) {
+		    	timer.stop();
+				$("#b1").text('Continue');
+				$("#b1").toggleClass("red");
+				$("#b1").toggleClass("green");
+		    }
+	    });
+	    
+	    $("#b2").click(function() {
+		    timer.reset();
+			timeView();
+	    });
+	});
+</script>
+
+
+<div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div><div class="ui-panel-dismiss"></div><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;" data-ad-status="unfilled"><div id="aswift_0_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 0px; width: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="./Timer _ Online Countdown Timer_files/ads.html" data-google-container-id="a!1" data-load-complete="true"></iframe></div></ins><iframe src="./Timer _ Online Countdown Timer_files/aframe.html" width="0" height="0" style="display: none;"></iframe></body><iframe id="google_esf" name="google_esf" src="./Timer _ Online Countdown Timer_files/zrt_lookup_inhead_fy2021.html" style="display: none;"></iframe><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important; width: 100vw !important; height: 100vh !important; inset: 0px auto auto 0px !important; clear: none !important; float: none !important; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; padding: 0px !important; position: fixed !important; vertical-align: baseline !important; visibility: visible !important; z-index: 2147483647 !important; background: transparent !important;" aria-hidden="true" data-ad-status="filled" data-vignette-loaded="true"><div id="aswift_1_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none !important; height: 100vh !important; width: 100vw !important; margin: 0px !important; padding: 0px !important; position: relative !important; visibility: visible !important; background-color: transparent !important; display: inline-block !important; inset: auto !important; clear: none !important; float: none !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; vertical-align: baseline !important; z-index: auto !important;"><iframe id="aswift_1" name="aswift_1" style="width: 100vw !important; height: 100vh !important; inset: 0px auto auto 0px !important; position: absolute !important; clear: none !important; display: inline !important; float: none !important; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; padding: 0px !important; vertical-align: baseline !important; visibility: visible !important; z-index: auto !important;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="" height="" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="./Timer _ Online Countdown Timer_files/zrt_lookup_inhead_fy2021(1).html" data-google-container-id="a!2" data-google-query-id="CJTIrb-pjIMDFadGDwIdGCUE3A" data-load-complete="true"></iframe></div></ins></html>
