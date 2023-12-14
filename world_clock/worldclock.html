@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>世界时钟</title>
+<link rel="stylesheet" href="styles.css">
+
+<style>
+</style>
+</head>
+<body>
+
+<div id="clock"></div>
+<!--点击按钮添加城市，点击遮罩层（即页面空白处）关闭菜单-->
+<button onclick="toggleMenu()">添加城市</button>
+<div class="overlay" onclick="toggleMenu()"></div>
+<div id="city-menu">
+  <span class="close-btn" onclick="toggleMenu()">✖</span>
+  <input type="text" id="search" placeholder="搜索城市、国家或时区" oninput="filterCities()">
+  <ul id="city-list">
+    <!-- 城市列表将在这里生成 -->
+  </ul>
+</div>
+<div id="cities"></div>
+<div id="message" class="message"></div>
+
+<script>
+
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
