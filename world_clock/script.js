@@ -7,7 +7,10 @@
   //   // 更多城市...
   // ];
 
+  // 从cities.json文件中获取城市列表
   var cities = [] //用于接收文件里的城市列表
+  let addedCities = []; // 用于存储已添加的城市名称
+
   document.addEventListener('DOMContentLoaded', (event) => {
     fetch('./cities.json')
       .then(response => response.json())
@@ -15,12 +18,11 @@
         // 确保data是一个数组
         if (Array.isArray(cities)) {
           // 使用从cities.json文件中获取的城市数据
-          data.forEach(city => {
-            // 处理每个城市的数据
-            console.log(city.name); // 示例：打印城市名称
-            // ...其余代码保持不变...
-            cities = data
-          });
+          cities = data;
+          // 调试用，打印城市列表
+          // data.forEach(city => { 
+          //   console.log(city.name); 
+          // });
         } else {
           console.error('Data is not an array:', data);
         }
@@ -28,52 +30,68 @@
       .catch(error => {
         console.error('Error fetching cities:', error);
       });
+    
+    // // 从本地存储中获取已添加的城市列表（不能正常显示）
+    // const storedCities = localStorage.getItem('addedCities');
+    // if (storedCities) {
+    //   addedCities = JSON.parse(storedCities);
+    //   addedCities.forEach(cityName => {
+    //     const city = cities.find(c => c.name === cityName);
+    //     if (city) displayCity(city.name, city.timezone, city.tzIdentifier);
+    //   });
+    // }
   });
   
-  
-  
-    let addedCities = [];
-  
+
+
+
+    // 更新本地时间
     function updateLocalTime() {
       const now = new Date();
-      // document.getElementById('clock').innerHTML = now.toLocaleTimeString().slice(0, 5) + ' ' + now.toLocaleDateString();
-      document.getElementById('clock').innerHTML = now.toLocaleTimeString() + ' ' + now.toLocaleDateString();
+      // document.getElementById('clock').innerHTML = now.toLocaleTimeString().slice(0, 5) + ' ' + now.toLocaleDateString(); //小时和分钟
+      document.getElementById('clock').innerHTML = now.toLocaleTimeString() + ' ' + now.toLocaleDateString(); //小时、分钟和秒
+      //改为12小时制
+      // document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US', { hour12: true  }) + ' ' + now.toLocaleDateString(); 
     }
     setInterval(updateLocalTime, 1000);
-  
+    
+    // 消息模块，3s后消失
     function showMessage(text) {
       const messageDiv = document.getElementById('message');
       messageDiv.textContent = text;
       messageDiv.style.display = 'block';
       setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
     }
-  
+
+    // 打开/关闭城市列表
     function toggleMenu() {
       const menu = document.getElementById('city-menu');
-      const overlay = document.querySelector('.overlay');
+      const overlay = document.querySelector('.overlay');  // 遮罩层
       const isMenuVisible = menu.style.display === 'block';
-      menu.style.display = isMenuVisible ? 'none' : 'block';
+      menu.style.display = isMenuVisible ? 'none' : 'block'; // 切换菜单的显示状态（打开->关闭 关闭->打开）
       overlay.style.display = isMenuVisible ? 'none' : 'block';
-      if (!isMenuVisible) populateCities();
+      if (!isMenuVisible) populateCities(); 
     }
-  
+    
+    // 显示城市列表并相应点击
     function populateCities() {
       const cityList = document.getElementById('city-list');
       cityList.innerHTML = '';
       cities.forEach(city => {
-        const li = document.createElement('li');
+        const li = document.createElement('li'); 
         li.innerHTML = `<span class="city-name">${city.name}</span> - ${city.country} - ${city.timezone}`;
         li.onclick = function() { selectCity(city); };
         cityList.appendChild(li);
       });
     }
-  
+
+    // 搜索城市
     function filterCities() {
       const search = document.getElementById('search').value.toLowerCase();
       const filteredCities = cities.filter(city => {
         return city.name.toLowerCase().includes(search) ||
-               city.country.toLowerCase().includes(search) ||
-               city.timezone.toLowerCase().includes(search);
+              city.country.toLowerCase().includes(search) ||
+              city.timezone.toLowerCase().includes(search);
       });
       const cityList = document.getElementById('city-list');
       cityList.innerHTML = '';
@@ -84,13 +102,15 @@
         cityList.appendChild(li);
       });
     }
-  
+    
+    // 点击城市的响应
     function selectCity(city) {
       if (addedCities.includes(city.name)) {
         showMessage('该时区已存在');
-        toggleMenu();
+        toggleMenu(); // 关闭菜单
       } else {
-        addedCities.push(city.name);
+        addedCities.push(city.name); // 将城市名称添加到addedCities数组中
+        localStorage.setItem('addedCities', JSON.stringify(addedCities)); // 将addedCities数组存储到本地
         displayCity(city.name, city.timezone, city.tzIdentifier);
         toggleMenu();
       }
@@ -108,7 +128,12 @@
       const deleteBtn = document.createElement('div');
       deleteBtn.className = 'delete-btn';
       deleteBtn.innerHTML = '删除';
-      deleteBtn.onclick = function() { cityDiv.remove(); addedCities = addedCities.filter(c => c !== name); };
+      deleteBtn.onclick = function() {
+        cityDiv.remove(); 
+        addedCities = addedCities.filter(c => c !== name);
+        localStorage.setItem('addedCities', JSON.stringify(addedCities)); // 删除后也要更新本地
+      };
+      
       cityInfo.appendChild(cityTime);
       cityInfo.appendChild(cityDate);
       cityDiv.appendChild(cityInfo);
