@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: white;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center top;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #a09797;
+      margin-bottom: 70px;
+    }
+
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .countdown-input {
+      width: 80px;
+      margin: 0 10px;
+      text-align: center;
+    }
+    .countdown-button:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    .timer {
+      font-size: 34px;
+      color: #161616;
+      margin-top: 30px;
+    }
+    
+    /* 新增导航栏样式 */
+    .navbar {
+      background-color: #f2f2f2;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: inset 0 0 5px #aaa;
+      padding: 10px 20px;
+      margin-bottom: 50px;
+    }
+    .navbar a {
+      color: #333;
+      text-decoration: none;
+      margin-right: 20px;
+      font-size: 18px;
+    }
+    .navbar a:hover {
+      color: #666;
+    }
+  </style>
+</head>
+<body onload="resetCountdown()">
+  <div class="navbar">
+    <nav>
+      <ul>
+        <li><a href="#">闹钟</a></li>
+        <li><a href="#">世界时钟</a></li>
+        <li><a href="Stoptimer/stoptimer.html">秒表</a><li>
+        <li><a href="Timer/Timer-wentao.html">计时器</a></li>
+              <li><a href="#">日历</a></li>
+              <li><a href="#">睡眠追踪</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <h1>倒计时</h1>
+
+  <div class="countdown-container">
+    <input id="hour-input" type="number" min="0" max="24" step="1" class="countdown-input" value="0">
+    <label for="hour-input">时</label>
+    <input id="minute-input" type="number" min="0" max="59" step="1" class="countdown-input"value="0">
+    <label for="minute-input">分</label>
+    <input id="second-input" type="number" min="0" max="59" step="1" class="countdown-input"value="0">
+    <label for="second-input">秒</label>
+  </div>
+
+  <button class="countdown-button" onclick="startCountdown()">
+  <img src="images/start.png" width="100" alt="图片">
+  </button>
+  <button class="countdown-button" onclick="pauseCountdown()">
+  <img src="images/pause.png" width="100" alt="图片">
+  </button>
+  <button class="countdown-button" onclick="resetCountdown()">
+  <img src="images/reset.png" width="100" alt="图片">
+  </button>
+
+  <div id="timer" class="timer"></div>
+
+  <script>
+    var duration = 0;
+    var deadline = 0;
+    var intervalId = null;
+
+    var hourInput = document.getElementById('hour-input');
+    var minuteInput = document.getElementById('minute-input');
+    var secondInput = document.getElementById('second-input');
+
+    function updateDuration() {
+      var hours = parseInt(hourInput.value);
+      var minutes = parseInt(minuteInput.value);
+      var seconds = parseInt(secondInput.value);
+
+      duration = hours * 3600 + minutes * 60 + seconds;
+    }
+
+    function startCountdown() {
+      updateDuration();
+
+      if (isNaN(duration) || duration <= 0) {
+        alert("请输入一个大于零的数字");
+        return;
+      }
+
+      var now = new Date().getTime();
+      deadline = now + duration * 1000;
+
+      intervalId = setInterval(function() {
+        now = new Date().getTime();
+        var distance = deadline - now;
+
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("timer").innerHTML = hours + " 时 " +
+          minutes + " 钟 " + seconds + " 秒 ";
+
+        if (distance < 0) {
+          clearInterval(intervalId);
+          document.getElementById("timer").innerHTML = "倒计时结束";
+        }
+      }, 1000);
+    }
+
+    function pauseCountdown() {
+      clearInterval(intervalId);
+    }
+
+    function resetCountdown() {
+      clearInterval(intervalId);
+      document.getElementById("timer").innerHTML = "0 小时 0 分钟 0 秒";
+      duration = 0;
+      deadline = 0;
+    }
+  </script>
+</body>
+</html>
