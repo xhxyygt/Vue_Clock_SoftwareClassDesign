@@ -1,0 +1,19 @@
+[
+  { "name": "北京", "country": "中国", "timezone": "GMT+8:00", "tzIdentifier": "Asia/Shanghai" },
+  { "name": "柏林", "country": "德国", "timezone": "GMT+1:00", "tzIdentifier": "Europe/Berlin" },
+  { "name": "巴黎", "country": "法国", "timezone": "GMT+1:00", "tzIdentifier": "Europe/Paris" },
+  { "name": "东京", "country": "日本", "timezone": "GMT+9:00", "tzIdentifier": "Asia/Tokyo" },
+  { "name": "华盛顿", "country": "美国", "timezone": "GMT-5:00", "tzIdentifier": "America/New_York" },
+  { "name": "开罗", "country": "埃及", "timezone": "GMT+2:00", "tzIdentifier": "Africa/Cairo" },
+  { "name": "洛杉矶", "country": "美国", "timezone": "GMT-8:00", "tzIdentifier": "America/Los_Angeles" },
+  { "name": "墨西哥城", "country": "墨西哥", "timezone": "GMT-6:00", "tzIdentifier": "America/Mexico_City" },
+  { "name": "莫斯科", "country": "俄罗斯", "timezone": "GMT+3:00", "tzIdentifier": "Europe/Moscow" },
+  { "name": "纽约", "country": "美国", "timezone": "GMT-5:00", "tzIdentifier": "America/New_York" },
+  { "name": "伦敦", "country": "英国", "timezone": "GMT+0:00", "tzIdentifier": "Europe/London" },
+  { "name": "新德里", "country": "印度", "timezone": "GMT+5:30", "tzIdentifier": "Asia/Kolkata" },
+  { "name": "新西伯利亚", "country": "俄罗斯", "timezone": "GMT+7:00", "tzIdentifier": "Asia/Novosibirsk" },
+  { "name": "悉尼", "country": "澳大利亚", "timezone": "GMT+11:00", "tzIdentifier": "Australia/Sydney" },
+  { "name": "香港", "country": "中国", "timezone": "GMT+8:00", "tzIdentifier": "Asia/Hong_Kong" }
+  
+
+  ]

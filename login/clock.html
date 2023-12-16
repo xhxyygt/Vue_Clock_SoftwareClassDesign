@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>my first canvas project</title>
+<style type="text/css">
+*{zoom:60%;
+/* 水平竖直居中 */
+margin:0 auto;
+padding:0;
+
+}
+body{ width:90%;height:90%; background:#38aab200;
+
+}
+#drawing{display:block;margin:40px auto 0 auto; background:#4a34a200;}
+</style>
+</head>
+
+<body>
+    <div style="object-fit:contain">
+        <canvas id="drawing" width="1600px" height="800px" ">你看不见图片的时候就会看见我</canvas>
+
+<script type="text/javascript">
+  //第一步找到canvas
+var drawing=document.getElementById("drawing");
+var context;
+  //第二步判断浏览器支持canvas
+if(drawing.getContext)
+{
+  //第三步获取绘图上下文
+  context=drawing.getContext("2d");	
+  context.strokeStyle="#fff";
+  setInterval(minute,1000);
+}
+
+function minute(){
+  var day=new Date();
+  var hour=day.getHours();
+  var minute=day.getMinutes();
+  var seconds=day.getSeconds();
+  var gradient;  
+   hour=hour+minute/60;
+   hour=hour<12?hour:hour-12;
+   minute= minute+seconds/60;
+
+  context.fillStyle="#ac9f94";
+  context.clearRect(0,0,1600,760);
+     
+  context.save();
+  gradient=context.createLinearGradient(800,80,800,680);
+  gradient.addColorStop(0,"#3d3734");
+  gradient.addColorStop(1,"#000");
+  context.fillStyle="gradient"; 
+  context.beginPath();
+  context.moveTo(500,380);
+  context.fillRect(500,380,600,300);
+  context.closePath();
+  context.restore();
+  
+  //外表盘
+  context.save();
+  context.beginPath();
+  context.shadowColor="#b9af9c";
+  context.shadowBlur=200;
+  context.fillStyle="#f4f4ea";
+  context.lineWidth=5;
+  gradient=context.createLinearGradient(800,80,800,680);
+  gradient.addColorStop(0,"#fff");
+  gradient.addColorStop(1,"#f4f4ea"); 
+  context.strokeStyle=gradient;
+  context.moveTo(1100,380); 
+  context.arc(800,380, 300, 0, 2*Math.PI, false);
+  context.fill();
+  context.stroke();
+  context.closePath();
+  context.restore();
+  
+   //内表盘  
+  context.beginPath();
+  context.moveTo(1090,380);
+  context.arc(800,380, 190,  0, 2*Math.PI, false);
+  gradient=context.createLinearGradient(800,190,800,570);
+  gradient.addColorStop(0,"#e8e8de");
+  gradient.addColorStop(1,"#f4f4ea"); 
+  context.fillStyle=gradient;
+  context.fill();
+  context.closePath();
+  
+  //设置圆盘中的12个小圆圈
+  for(var i=0;i<12;i++)
+  {
+	context.save();
+	context.fillStyle="#eaeae0";
+	gradient=context.createLinearGradient(0,-255,0,-235);
+    gradient.addColorStop(0,"#e9e5e4");
+    gradient.addColorStop(1,"#f6f6ee"); 
+    context.fillStyle=gradient;
+	context.strokeStyle=gradient;
+	context.translate(800,380);
+	context.rotate(30*i*Math.PI/180);
+	context.beginPath();
+	context.moveTo(0,-240);
+	context.arc(0,-245, 10, 0, 2*Math.PI, false);
+	context.closePath();
+    context.fill();
+	context.stroke();
+	context.restore();
+  }  
+
+  //设置字体
+  context.save();
+  context.translate(800,380);
+  context.fillStyle="#f4f4ea";
+  context.fillRect(-10,-255,20,20);
+  context.fillRect(-10,240,20,20);
+  context.fillRect(-255,-10,20,20);
+  context.fillRect(235,-10,20,20);
+  context.beginPath();
+  context.font="bold 80px Arial";
+  context.textAlign="center";
+  context.textBaseline="middle";
+  context.fillStyle="#96968c";
+  context.fillText("12",0,-245);
+  context.fillText("3",245,0);
+  context.fillText("6",0,245);
+  context.fillText("9",-245,0);
+  context.closePath();
+  context.restore();
+  
+  
+  //时针
+  context.save();
+  context.lineWidth = 10 ;
+  context.strokeStyle="#554a44"
+  
+  context.shadowColor="#cecac4";
+  context.shadowBlur=5;
+  context.shadowOffsetX=8;
+  context.shadowOffsetY=8;
+  context.translate(800,380);
+  /*旋转元素*/
+  context.rotate(hour*30*Math.PI/180); 
+  context.beginPath();
+  context.moveTo(0, 15);
+  context.lineTo(0, -100);
+  context.stroke();
+  context.closePath();
+  context.restore();//将旋转后的元素放回画布
+  
+  
+  //分针
+  context.save();
+  context.lineWidth = 10 ;
+  context.strokeStyle="#554a44";
+  context.shadowColor="#cecac4";
+  context.shadowBlur=5;
+  context.shadowOffsetX=8;
+  context.shadowOffsetY=8;
+  context.translate(800,380);
+  context.rotate(minute*6*Math.PI/180);
+  context.beginPath();
+  context.moveTo(0, 15);
+  context.lineTo(0, -215);
+  context.stroke();
+  context.closePath();
+  context.restore();
+  
+  //秒针
+  context.save();
+  context.strokeStyle="#de896f";
+  context.shadowColor="#cecac4";
+  context.shadowBlur=5;
+  context.shadowOffsetX=8;
+  context.shadowOffsetY=8;
+  context.translate(800,380);
+  context.rotate(seconds*6*Math.PI/180);
+  context.beginPath();
+  context.moveTo(0, 15);
+  context.lineTo(0, -160);
+  context.lineWidth=4;
+  context.stroke();
+  context.closePath();
+  context.restore();
+  
+  //指针焦点的圈圈
+  context.beginPath();
+  context.moveTo(810,380);
+  context.arc(800,380, 10,  0, 2*Math.PI, false);
+  gradient=context.createRadialGradient(800,380,3,800,380,10);
+  gradient.addColorStop(0,"#e4e3e3");
+  gradient.addColorStop(1,"#8a8987"); 
+  context.fillStyle=gradient;
+  context.fill();
+  context.lineWidth=2;
+  context.strokeStyle="#554a44";
+  context.stroke();
+  context.closePath();
+}
+
+
+</script>
+</body>
+</html>
+
+    </div>
