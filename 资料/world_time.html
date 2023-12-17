@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>秒表</title>
+    <style>
+        #div1{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            padding: 0;
+            text-align: center;
+            background-color: white;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center top;
+        }
+        #count{
+            width: 900px;
+            height: 400px;
+            line-height: 600px;
+            margin: auto;   /*让计数的这个块居中*/
+        }
+        #div1 input{
+            width: 350px;
+            height: 40px;
+            background-color: yellow;
+            font-size: 25px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">
+        <div id="count">
+            <span id="id_M">00</span><span>:</span>
+            <span id="id_S">00</span><span>:</span>
+            <span id="id_MS">00</span>
+        </div>
+        <button id="start" type="button" value="开始">
+            <img src="images/start.png" width="100" alt="图片">
+        </button>
+        <button id="pause" type="button" value="停止">
+            <img src="images/pause.png" width="100" alt="图片">
+        </button>
+        <button id="end" type="button" value="复位">
+            <img src="images/reset.png" width="100" alt="图片">
+        </button>
+        <button id="record" type="button" value="记录">
+        <img src="images/stopWatch.png" width="100" alt="图片">
+        </button>
+        <ul id="recordList">
+        </ul>
+    </div>
+    <script>
+        // 可以将查找标签节点的操作进行简化
+        function $(id){
+            return document.getElementById(id);
+        }
+        window.onload = function(){
+            var count = 0; //开始计数以后，累加的总秒数
+            var timer = null;
+            var recordList = $("recordList"); // 获取记录列表节点
+            $("start").onclick = function(){
+                clearInterval(timer);
+                timer = setInterval(function(){
+                    count++;
+                    // 需要改变页面上的时分秒数
+                    $("id_MS").innerHTML = showNum(count%100)
+                    $("id_S").innerHTML = showNum(parseInt(count/100) % 60);
+                    $("id_M").innerHTML = showNum(parseInt(count / 6000) % 60);
+                },10);
+            }
+            $("pause").onclick = function(){
+                // 取消定时器
+                clearInterval(timer);
+            }
+            $("end").onclick = function(){
+                clearInterval(timer);
+                // 将数据清零
+                count = 0;
+                // 将当前页面展示数据清零
+                $("id_MS").innerHTML = "00"
+                $("id_S").innerHTML = "00"
+                $("id_M").innerHTML = "00"
+                // 清空记录列表
+                recordList.innerHTML = '';
+            }
+            $("record").onclick = function(){
+                // 获取当前时间
+                var time = $("id_M").innerHTML + ':' + $("id_S").innerHTML + ':' + $("id_MS").innerHTML;
+                // 创建一个li元素
+                var li = document.createElement('li');
+                // 设置li的内容为时间
+                li.innerHTML = time;
+                // 将li添加到记录列表中
+                recordList.appendChild(li);
+            }
+        }
+        // 处理单个数字
+        function showNum(num){
+            if(num<10){
+                return "0" + num;
+            }else{
+                return num;
+            }
+        }
+    </script>
+</body>
+</html>

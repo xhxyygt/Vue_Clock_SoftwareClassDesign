@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calendar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      color: #333;
+      margin: 0;
+			padding: 0;
+    }
+    nav {
+			background-color: #333;
+			height: 50px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+		}
+		nav ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+		}
+		nav li {
+			margin: 0 10px;
+		}
+		nav a {
+			color: white;
+			text-decoration: none;
+			padding: 5px 10px;
+			border-radius: 5px;
+			transition: all 0.3s ease-in-out;
+		}
+		nav a:hover {
+			background-color: white;
+			color: #333;
+		}
+    h2 {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="number"], select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #333;
+      color: white;
+    }
+    .highlight {
+      background-color: black;
+      color: white;
+    }
+    .reminder {
+      background-color: yellow;
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    var reminderData = {}; // 存储提醒事项的数据
+    
+    function generateCalendar() {
+      var year = document.getElementById("year").value;
+      var month = document.getElementById("month").value;
+      
+      var firstDay = new Date(year, month, 1);
+      var lastDay = new Date(year, month + 1, 0);
+      var daysInMonth = lastDay.getDate();
+      
+      var startDay = firstDay.getDay();
+      var endDay = lastDay.getDay();
+      
+      var calendarTable = document.getElementById("calendar");
+      calendarTable.innerHTML = "";
+      
+      var headerRow = document.createElement("tr");
+      var daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      for (var i = 0; i < daysOfWeek.length; i++) {
+        var headerCell = document.createElement("th");
+        headerCell.textContent = daysOfWeek[i];
+        headerRow.appendChild(headerCell);
+      }
+      calendarTable.appendChild(headerRow);
+      
+      var date = 1;
+      var today = new Date(); // 获取今天的日期
+      var currentYear = today.getFullYear(); // 当前年份
+      var currentMonth = today.getMonth(); // 当前月份
+      
+      for (var i = 0; i < 6; i++) {
+        var row = document.createElement("tr");
+        
+        for (var j = 0; j < 7; j++) {
+          if (i === 0 && j < startDay) {
+            var cell = document.createElement("td");
+            row.appendChild(cell);
+          } else if (date > daysInMonth) {
+            break;
+          } else {
+            var cell = document.createElement("td");
+            cell.textContent = date;
+            
+            if (year == currentYear && month == currentMonth && date == today.getDate()) {
+              cell.classList.add("highlight"); // 添加 highlight 类
+            }
+            
+            // 检查是否有提醒事项
+            var reminderKey = year + "-" + (parseInt(month) + 1) + "-" + date;
+            if (reminderData[reminderKey]) {
+              cell.classList.add("reminder"); // 添加 reminder 类
+              cell.setAttribute("data-reminder", reminderData[reminderKey]); // 添加 data-reminder 属性
+            }
+            
+            cell.addEventListener("click", function() {
+              var selectedDate = this.textContent;
+              var reminderKey = year + "-" + (parseInt(month) + 1) + "-" + selectedDate;
+              var reminder = prompt("请输入提醒事项：", reminderData[reminderKey] || "");
+              
+              if (reminder !== null) {
+                reminderData[reminderKey] = reminder;
+                if (reminder) {
+                  this.classList.add("reminder");
+                  this.setAttribute("data-reminder", reminder);
+                } else {
+                  this.classList.remove("reminder");
+                  this.removeAttribute("data-reminder");
+                }
+              }
+            });
+            
+            row.appendChild(cell);
+            date++;
+          }
+        }
+        calendarTable.appendChild(row);
+        
+        if (date > daysInMonth) {
+          break;
+        }
+      }
+    }
+    
+    function viewReminder() {
+      var reminderDate = this.getAttribute("data-reminder-date");
+      var reminder = reminderData[reminderDate];
+      var newReminder = prompt("请输入提醒事项：", reminder || "");
+      
+      if (newReminder !== null) {
+        reminderData[reminderDate] = newReminder;
+        generateCalendar();
+      }
+    }
+    
+    // 在页面加载时生成当前日期的日历
+    window.onload = function() {
+      var today = new Date();
+      var yearInput = document.getElementById("year");
+      var monthSelect = document.getElementById("month");
+      
+      yearInput.value = today.getFullYear();
+      monthSelect.selectedIndex = today.getMonth();
+      
+      generateCalendar();
+      
+      // 绑定查看提醒事项的事件
+      var reminderCells = document.querySelectorAll(".reminder");
+      for (var i = 0; i < reminderCells.length; i++) {
+        var reminderCell = reminderCells[i];
+        var reminderDate = yearInput.value + "-" + (parseInt(monthSelect.value) + 1) + "-" + reminderCell.textContent;
+        reminderCell.setAttribute("data-reminder-date", reminderDate);
+        reminderCell.addEventListener("click", viewReminder);
+      }
+    };
+  </script>
+</head>
+<body>
+  <nav>
+		<ul>
+			<li><a href="../Main-top.html">闹钟</a></li>
+			<li><a href="../world_clock/worldclock.html">世界时钟</a></li>
+			<li><a href="../Stoptimer/stoptimer.html">秒表</a><li>
+			<li><a href="../Timer/Timer-wentao.html">计时器</a></li>
+      <li><a href="#">日历</a></li>
+      <li><a href="#">睡眠追踪</a></li>
+		</ul>
+	</nav>
+  <div class="container">
+    <h2>Calendar</h2>
+    <div>
+      <label for="year">Year:</label>
+      <input type="number" id="year" value="2021">
+    </div>
+    <div>
+      <label for="month">Month:</label>
+      <select id="month">
+        <option value="0">January</option>
+        <option value="1">February</option>
+        <option value="2">March</option>
+        <option value="3">April</option>
+        <option value="4">May</option>
+        <option value="5">June</option>
+        <option value="6">July</option>
+        <option value="7">August</option>
+        <option value="8">September</option>
+        <option value="9">October</option>
+        <option value="10">November</option>
+        <option value="11">December</option>
+      </select>
+    </div>
+    <button onclick="generateCalendar()">Generate Calendar</button>
+    <table id="calendar"></table>
+  </div>
+</body>
+</html>
