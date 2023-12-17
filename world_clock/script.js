@@ -93,6 +93,7 @@ SERVER_HOST = "10.19.190.183";
       .catch(error => console.log('error', error));
     
 
+
     // /*本地获取*/
     // fetch('./cities.json')
     // // 使用 then 方法指定第一个回调函数，用于处理响应对象
@@ -290,7 +291,7 @@ SERVER_HOST = "10.19.190.183";
           headers: myHeaders,
           redirect: 'follow'
         };
-        fetch("//"+SERVER_HOST+":8080/world_clock/delete?city_id="+city_id, requestOptions)
+        fetch("//"+SERVER_HOST+":8080/world_clock/delete?city_id="+city_id.toString(), requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
