@@ -1,43 +1,32 @@
 
+
 body { 
     font-family: Arial, sans-serif; 
     margin: 0; 
     padding: 0; 
     background: #f7f7f7;
+}
+.container {
+    /*上下留白*/
+    padding-top: 10px;
+    padding-bottom: 20px;
     /*左右留白*/
     padding-left: 20px;
     padding-right: 20px;
-}
+    /*居中*/
+    margin: 10px;
+    /*宽度*/
+    /* width: 100%; */
+/* 延伸到屏幕底部,留白一点点 */
+    min-height: calc(100vh - 100px);
 
 
-
-nav {
-    background-color: #333;
-    height: 50px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-nav ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-nav li {
-    margin: 0 10px;
-}
-nav a {
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-}
-nav a:hover {
-    background-color: white;
-    color: #333;
+    /*背景颜色*/
+    background-color: #ffffff;
+    /*圆角*/
+    border-radius: 10px;
+    /*阴影*/
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 
@@ -65,17 +54,51 @@ nav a:hover {
 .delete-btn { 
     cursor: pointer; 
     border-radius: 5px; 
-    padding: 5px; 
+    padding: 5px 10px; 
     background: #e0e0e0; 
     margin-left: 10px;
     text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
+.delete-btn:hover { background: #d0d0d0; }
 #city-menu { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 1px solid #ccc; padding: 20px; z-index: 1000; width: 80%; max-width: 600px; }
 #city-menu input { width: calc(100% - 60px); margin-bottom: 10px; border-radius: 5px; padding: 5px; }
 #city-menu ul { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; }
-#city-menu li { cursor: pointer; margin-bottom: 5px; }
-.close-btn { position: absolute; right: 10px; top: 10px; cursor: pointer; }
+#city-menu li { 
+    cursor: pointer; 
+    margin-bottom: 5px; 
+    background-color: #f9f9f9; /* 背景颜色 */
+    border: 1px solid #ddd; /* 边框 */
+    border-radius: 5px; /* 圆角边框 */
+    padding: 10px; /* 内边距 */
+    margin-bottom: 5px; /* 外边距 */
+    transition: background-color 0.3s; /* 过渡效果 */
+}
+#city-menu li:hover { background-color: #eaeaea; /* 鼠标悬停时的背景颜色 */ }
+.close-btn { 
+    position: absolute; 
+    right: 10px; top: 10px; 
+    cursor: pointer; 
+    font-size: 20px;
+    font-weight: bold;
+    color: #ccc;
+}
+.close-btn:hover { color: #999; }
 .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
+button#addcity{
+    border: none;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 200px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 17px;
+    /* font-weight: bold; */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+button#addcity:hover{
+    background-color: #e0e0e0;
+}
 
 /* 消息提示框样式 */
 .message {
@@ -92,23 +115,5 @@ nav a:hover {
 }
 
 
-/* 拟物风格的菜单和国家列表样式 */
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-/* 列表项样式 */
-li {
-    background-color: #f9f9f9; /* 背景颜色 */
-    border: 1px solid #ddd; /* 边框 */
-    border-radius: 5px; /* 圆角边框 */
-    padding: 10px; /* 内边距 */
-    margin-bottom: 5px; /* 外边距 */
-    transition: background-color 0.3s; /* 过渡效果 */
-}
-/* 悬停效果 */
-li:hover {
-    background-color: #eaeaea; /* 鼠标悬停时的背景颜色 */
-}
+
 

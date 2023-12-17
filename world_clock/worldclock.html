@@ -6,16 +6,13 @@
 <link rel="stylesheet" href="styles.css">
 
 <style >
-  body {
-        margin: 0;
-			  padding: 0;
-  }
-  nav {
+	/* menu类左右不留白 */
+  nav.menu {
 			background-color: #333;
-			height: 50px;
+			min-height: 50px;
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
-	nav ul {
+	nav.menu ul {
 			margin: 0;
 			padding: 0;
 			list-style: none;
@@ -23,25 +20,38 @@
 			justify-content: center;
 			align-items: center;
 			height: 100%;
+			min-height: 50px;
+
 	}
-	nav li {
+	nav.menu li {
 			margin: 0 10px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
 	}
-	nav a {
+	nav.menu a {
 			color: white;
 			text-decoration: none;
 			padding: 5px 10px;
 			border-radius: 5px;
 			transition: all 0.3s ease-in-out;
+			/* 文本居中，跨行也居中, */
+			text-align: center;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+
 	}
-	nav a:hover {
+	nav.menu a:hover {
 			background-color: white;
 			color: #333;
 	}
 </style>
 </head>
 <body>
-  <nav>
+  <nav class="menu">
     <ul>
         <li><a href="../Main-top.html">闹钟</a></li>
         <li><a href="#">世界时钟</a></li>
@@ -51,23 +61,22 @@
         <li><a href="#">睡眠追踪</a></li>
     </ul>
 </nav>
-<div id="clock"></div>
-<!--点击按钮添加城市，点击遮罩层（即页面空白处）关闭菜单-->
-<button onclick="toggleMenu()">添加城市</button>
-<div class="overlay" onclick="toggleMenu()"></div>
-<div id="city-menu">
-  <span class="close-btn" onclick="toggleMenu()">✖</span>
-  <input type="text" id="search" placeholder="搜索城市、国家或时区" oninput="filterCities()">
-  <ul id="city-list">
-    <!-- 城市列表将在这里生成 -->
-  </ul>
+<div class="container">
+	<div id="clock"></div>
+	<!--点击按钮添加城市，点击遮罩层（即页面空白处）关闭菜单-->
+	<button id="addcity" onclick="toggleMenu()">添加城市</button>
+	<div class="overlay" onclick="toggleMenu()"></div>
+	<div id="city-menu">
+		<span class="close-btn" onclick="toggleMenu()">✖</span>
+		<input type="text" id="search" placeholder="搜索城市、国家或时区" oninput="filterCities()">
+		<ul id="city-list">
+		<!-- 城市列表将在这里生成 -->
+		</ul>
+	</div>
+	<div id="cities"></div>
 </div>
-<div id="cities"></div>
+
 <div id="message" class="message"></div>
-
-<script>
-
-</script>
 
 <script src="script.js"></script>
 </body>
