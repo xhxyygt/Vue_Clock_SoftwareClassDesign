@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>HTML 闹钟</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #333;
+        }
+
+        .add-btn {
+            display: block;
+            width: 100px;
+            height: 40px;
+            margin: 10px auto;
+            border: none;
+            border-radius: 10px;
+            background-color: #00a0e9;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .alarm-list {
+            list-style: none;
+        }
+
+        .alarm-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .alarm-time {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .alarm-off {
+            color: #999;
+            font-weight: normal;
+        }
+
+        .alarm-btn {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background-color: #00a0e9;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .alarm-btn:hover {
+            background-color: #0086c9;
+        }
+
+        .alarm-btn:active {
+            background-color: #006ca9;
+        }
+
+        .alarm-delete {
+            margin-left: 10px;
+        }
+
+        .alarm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .alarm-modal.active {
+            display: block;
+        }
+
+        .alarm-form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        .alarm-input {
+            display: block;
+            width: 100%;
+            height: 40px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .alarm-submit {
+            display: block;
+            width: 100px;
+            height: 40px;
+            margin: 10px auto;
+            border: none;
+            border-radius: 10px;
+            background-color: #00a0e9;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HTML 闹钟</h1>
+        <button class="add-btn" id="add-btn">添加</button>
+        <ul class="alarm-list" id="alarm-list"></ul>
+    </div>
+    <div class="alarm-modal" id="alarm-modal">
+        <form class="alarm-form" id="alarm-form">
+            <input type="time" class="alarm-input" id="alarm-input" required>
+            <input type="submit" class="alarm-submit" id="alarm-submit" value="确认">
+        </form>
+    </div>
+    <script>
+        // 获取元素
+        var addBtn = document.getElementById("add-btn");
+        var alarmList = document.getElementById("alarm-list");
+        var alarmModal = document.getElementById("alarm-modal");
+        var alarmForm = document.getElementById("alarm-form");
+        var alarmInput = document.getElementById("alarm-input");
+        var alarmSubmit = document.getElementById("alarm-submit");
+
+        // 定义闹钟数组
+        var alarms = [];
+
+        // 定义添加闹钟的函数
+        function addAlarm() {
+            // 显示模态框
+            alarmModal.classList.add("active");
+            // 清空输入框的值
+            alarmInput.value = "";
+            // 给提交按钮添加点击事件
+            alarmSubmit.onclick = function (e) {
+                // 阻止表单默认提交行为
+                e.preventDefault();
+                // 获取输入框的值
+                var alarmTime = alarmInput.value;
+                // 判断输入框的值是否为空
+                if (alarmTime) {
+                    // 创建一个闹钟对象
+                    var alarm = {
+                        time: alarmTime,
+                        on: true
+                    };
+                    // 将闹钟对象添加到闹钟数组中
+                    alarms.push(alarm);
+                    // 调用渲染闹钟列表的函数
+                    renderAlarmList();
+                    // 隐藏模态框
+                    alarmModal.classList.remove("active");
+                } else {
+                    // 提示用户输入时间
+                    alert("请输入闹钟时间");
+                }
+            };
+        }
+
+        // 定义渲染闹钟列表的函数
+        function renderAlarmList() {
+            // 清空闹钟列表的内容
+            alarmList.innerHTML = "";
+            // 遍历闹钟数组
+            for (var i = 0; i < alarms.length; i++) {
+                // 获取当前闹钟对象
+                var alarm = alarms[i];
+                // 创建一个闹钟列表项元素
+                var alarmItem = document.createElement("li");
+                // 给闹钟列表项元素添加类名
+                alarmItem.className = "alarm-item";
+                // 判断闹钟是否打开
+                if (alarm.on) {
+                    // 闹钟打开时，显示黑色加粗字体
+                    alarmItem.innerHTML = `
+                        <span class="alarm-time">${alarm.time}</span>
+                        <div>
+                            <button class="alarm-btn alarm-toggle" data-index="${i}">✔</button>
+                            <button class="alarm-btn alarm-delete" data-index="${i}">✘</button>
+                        </div>
+                    `;
+                } else {
+                    // 闹钟关闭时，显示灰色字体
+                    alarmItem.innerHTML = `
+                        <span class="alarm-time alarm-off">${alarm.time}</span>
+                        <div>
+                            <button class="alarm-btn alarm-toggle" data-index="${i}">✔</button>
+                            <button class="alarm-btn alarm-delete" data-index="${i}">✘</button>
+                        </div>
+                    `;
+                }
+                // 将闹钟列表项元素添加到闹钟列表中
+                alarmList.appendChild(alarmItem);
+            }
+            // 给闹钟列表添加点击事件
+            alarmList.onclick = function (e) {
+                // 获取点击的目标元素
+                var target = e.target;
+                // 判断目标元素是否是闹钟按钮
+                if (target.classList.contains("alarm-btn")) {
+                    // 获取目标元素的索引值
+                    var index = target.dataset.index;
+                    // 判断目标元素是否是闹钟切换按钮
+                    if (target.classList.contains("alarm-toggle")) {
+                        // 切换闹钟的状态
+                        alarms[index].on = !alarms[index].on;
+                        // 重新渲染闹钟列表
+                        renderAlarmList();
+                    }
+                    // 判断目标元素是否是闹钟删除按钮
+                    if (target.classList.contains("alarm-delete")) {
+                        // 删除闹钟数组中的对应元素
+                        alarms.splice(index, 1);
+                        // 重新渲染闹钟列表
+                        renderAlarmList();
+                    }
+                }
+                // 判断目标元素是否是闹钟时间
+                if (target.classList.contains("alarm-time")) {
+                    // 获取目标元素的索引值
+                    var index = target.parentNode.dataset.index;
+                    // 显示模态框
+                    alarmModal.classList.add("active");
+                    // 设置输入框的值为当前闹钟的时间
+                    alarmInput.value = alarms[index].time;
+                    // 给提交按钮添加点击事件
+                    alarmSubmit.onclick = function (e) {
+                        // 阻止表单默认提交行为
+                        e.preventDefault();
+                        // 获取输入框的值
+                        var alarmTime = alarmInput.value;
+                        // 判断输入框的值是否为空
+                        if (alarmTime) {
+                            // 修改闹钟数组中的对应元素的时间
+                            alarms[index].time = alarmTime;
+                            // 重新渲染闹钟列表
+                            renderAlarmList();
+                            // 隐藏模态框
+                            alarmModal.classList.remove("active");
+                        } else {
+                            // 提示用户输入时间
+                            alert("请输入闹钟时间");
+                        }
+                    };
+                }
+            };
+        }
+
+        // 定义检查闹钟的函数
+        function checkAlarm() {
+            // 获取当前时间
+            var date = new Date();
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var seconds = date.getSeconds();
+            // 格式化当前时间为 hh:mm:ss 的形式
+            var currentTime = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+            // 遍历闹钟数组
+            for (var i = 0; i < alarms.length; i++) {
+                // 获取当前闹钟对象
+                var alarm = alarms[i];
+                // 判断当前闹钟是否打开并且时间与当前时间相等
+                if (alarm.on && alarm.time === currentTime) {
+                    // 弹出提示消息
+                    alert("闹钟响了！");
+                    // 关闭闹钟
+                    alarm.on = false;
+                    // 重新渲染闹钟列表
+                    renderAlarmList();
+                }
+            }
+        }
+
+        // 给添加按钮添加点击事件
+        addBtn.onclick = function () {
+            // 调用添加闹钟的函数
+            addAlarm();
+        };
+
+        // 每隔一秒调用检查闹钟的函数
+        setInterval(checkAlarm, 1000);
+    </script>
+</body>
+</html>
