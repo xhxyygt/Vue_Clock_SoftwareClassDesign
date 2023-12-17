@@ -10,7 +10,8 @@
   //   {"id": 2439,"country": "尼日利亚","city": "阿布贾"}
   // ]
 
-SERVER_HOST = "10.19.190.183";
+// SERVER_HOST = "10.19.190.183";
+var SERVER_HOST;
 // localStorage存SERVER_HOST和token？
 
   // 从cities.json文件中获取城市列表
@@ -20,31 +21,40 @@ SERVER_HOST = "10.19.190.183";
 
 
   document.addEventListener('DOMContentLoaded', (event) => {
-
-/*1. 获取token（调试用，直接获取，若为实例则从localStorage获取）*/
+    //从本地获取SEVERHOST
+    SERVER_HOST = localStorage.getItem('SEVER-HOST');
+    // 从本地获取token
     myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
     myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify({
-      "username": "test",
-      "password": "2222"
-    });
+    token = localStorage.getItem('token');
+    myHeaders.append("Authorization", token);
     
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
+
+
+// /*1. 获取token（调试用，直接获取，若为实例则从localStorage获取）*/
+//     myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
+//     myHeaders.append("Content-Type", "application/json");
+//     var raw = JSON.stringify({
+//       "username": "test",
+//       "password": "2222"
+//     });
     
-    fetch("//"+SERVER_HOST+":8080/login", requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        // console.log(result);
-        if(result.code === 1){
-          console.log('success to get token');
-          // localStorage.setItem('token', result.data.Token);
-          myHeaders.append("Authorization", result.data.Token);
-          // console.log(result.data.Token);
+//     var requestOptions = {
+//       method: 'POST',
+//       headers: myHeaders,
+//       body: raw,
+//       redirect: 'follow'
+//     };
+    
+//     fetch("//"+SERVER_HOST+":8080/login", requestOptions)
+//       .then(response => response.json())
+//       .then(result => {
+//         // console.log(result);
+//         if(result.code === 1){
+//           console.log('success to get token');
+//           // localStorage.setItem('token', result.data.Token);
+//           myHeaders.append("Authorization", result.data.Token);
+//           // console.log(result.data.Token);
 
 /*2. 登陆成功，获取城市列表*/
           var requestOptions = {
@@ -86,11 +96,11 @@ SERVER_HOST = "10.19.190.183";
             .catch(error => console.log('error', error));
     
 
-        } else { //登陆失败
-          console.log(result.msg);
-        }
-      })
-      .catch(error => console.log('error', error));
+      //   } else { //登陆失败
+      //     console.log(result.msg);
+      //   }
+      // })
+      // .catch(error => console.log('error', error));
     
 
 
@@ -160,7 +170,7 @@ SERVER_HOST = "10.19.190.183";
     function updateLocalTime() {
       const now = new Date();
       // document.getElementById('clock').innerHTML = now.toLocaleTimeString().slice(0, 5) + ' ' + now.toLocaleDateString(); //小时和分钟
-      document.getElementById('clock').innerHTML = now.toLocaleTimeString() + ' ' + now.toLocaleDateString(); //小时、分钟和秒
+      document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US',{hour12: false}) + ' ' + now.toLocaleDateString(); //小时、分钟和秒
       //改为12小时制
       // document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US', { hour12: true  }) + ' ' + now.toLocaleDateString(); 
     }
