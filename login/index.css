@@ -178,3 +178,15 @@ input:focus::placeholder{
     /* 水平方向不显示滑动条 */
     overflow-x: hidden;
 }
+.message {
+    color: black; 
+    position: fixed; 
+    bottom: 10%; left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 1001; 
+    display: none; 
+    border-radius: 10px; 
+    background: #f0f0f0; 
+    padding: 10px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}

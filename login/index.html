@@ -52,9 +52,11 @@
             <button id="register">去注册</button>
         </div>
     </div>
+    <div id="message" class="message"></div>
     <script>
         // $("#flipperclock").load("flipperclock copy.html");
         SERVER_HOST="10.19.190.183";
+        localStorage.setItem('SEVER-HOST', SERVER_HOST);
         // 要操作到的元素
         let login=document.getElementById('login');
         let register=document.getElementById('register');
@@ -105,11 +107,13 @@
              .then(result =>{
               if(result.code===1){
                 console.log('登入成功');
+                showMessage('登入成功');
                 window.location.href="../Main-top.html";
                 localStorage.setItem('token', result.data.Token);
               }
               else{
                 console.log('登入失败');
+                showMessage('登入失败');
               }
              })
              .catch(error => console.log('error', error));
@@ -144,6 +148,7 @@
          .then(result => {
             if(result.code===1){
                 console.log('注册成功');
+                showMessage('注册成功');
                 form_box.style.transform = 'translateX(0%)';
                 register_box.classList.add('hidden');
                 login_box.classList.remove('hidden');
@@ -152,15 +157,22 @@
               }
               else{
                 console.log(result.message);
+                showMessage(result.message);
               }  
          })
          .catch(error => console.log('error', error));
         }else {
             console.log('两次密码不一致!');
+            showMessage('两次密码不一致!');
         }
-
-
          });
+
+    function showMessage(text) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = text;
+      messageDiv.style.display = 'block';
+      setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+    }
     </script>
 </body>
 
