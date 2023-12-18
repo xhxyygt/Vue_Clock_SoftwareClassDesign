@@ -84,7 +84,7 @@
             transform-origin: 50% 50%;
         }
         .progress-mask{
-            stroke-dasharray: 1.2 8.8;
+            stroke-dasharray: 1.2 4;
             stroke-width: 10;
             stroke-linecap: butt;
             fill:transparent;
@@ -92,7 +92,7 @@
 
         }
         .timer circle.background {
-            stroke: lightgray;
+            stroke: rgb(237, 237, 237);
             /* stroke-dasharray: 1.2 8.8; */
             stroke-linecap: butt;
             transform: rotate(-90deg);
@@ -110,15 +110,6 @@
 
             transform: rotate(-90deg);
 
-        
-            /* stroke: gray;
-            transition: stroke-dashoffset 0.5s linear;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-        
-            
-            stroke-dasharray: 40;
-            stroke-dashoffset: 40; */
 
         }
 
@@ -283,10 +274,10 @@
 <body>
     <nav>
         <ul>
-            <li><a href="../Main-top.html">闹钟</a></li>
-            <li><a href="../world_clock/worldclock.html">世界时钟</a></li>
-            <li><a href="../Stoptimer/stoptimer.html">秒表</a></li>
-            <li><a href="#">计时器</a></li>
+            <li><a href="../AlarmClock/alarm_clock.html">闹钟</a></li>
+			<li><a href="../world_clock/worldclock.html">世界时钟</a></li>
+			<li><a href="../StopWatch/stop_watch.html">秒表</a><li>
+			<li><a href="../Timer/timer.html">计时器</a></li>
             <li><a href="../Calender/calendar-1.html">日历</a></li>
             <li><a href="#">睡眠追踪</a></li>
         </ul>
@@ -420,6 +411,8 @@
 
         function startTimer() {
             // 开始计时
+            paused = false;
+            progress.style.stroke = "rgb(19, 143, 184)";
             duration = hourValue * 3600 + minuteValue * 60 + secondValue;
             remaining = duration;
             remaining_svg = duration*50; //提高帧率
@@ -514,9 +507,12 @@
     function pauseTimer() {
         // 暂停或恢复计时
         if (paused) {
+            progress.style.stroke = "rgb(19, 143, 184)";
             // 如果已经暂停，则恢复计时，并修改按钮的文本
             interval = setInterval(function () {
-                remaining--;
+                remaining_svg--;
+                //向上取整
+                remaining = Math.ceil(remaining_svg/50);
                 updateTimer();
                 if (remaining <= 0) {
                     clearInterval(interval);
@@ -526,8 +522,8 @@
                     buttons.style.display = "none";
                     settings.style.display = "grid";
                 }
-
-            }, 1000);
+            }, 20);
+            // }, 1000);
             pause.textContent = "暂停";
             paused = false;
         } else {
@@ -535,6 +531,8 @@
             clearInterval(interval);
             pause.textContent = "继续";
             paused = true;
+            //修改progress颜色为灰色
+            progress.style.stroke = "gray";
         }
     }
 
