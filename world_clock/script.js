@@ -322,7 +322,7 @@ var SERVER_HOST;
         const cityDateObj = new Date(now.getTime() + time*3600000);
         const timeDifference = (cityDateObj - now) / 3600000;
         const timeDiffFormatted = Math.abs(timeDifference) < 0.01 ? '与本地时间相同' : (timeDifference > 0 ? `快${Math.round(timeDifference)}小时` : `慢${Math.abs(Math.round(timeDifference))}小时`);
-        cityTime.innerHTML = `<strong>${cityDateObj.toLocaleTimeString().slice(0, 5)}</strong> ${name}`;
+        cityTime.innerHTML = `<strong>${cityDateObj.toLocaleTimeString('en-US',{hour12: false}).slice(0, 5)}</strong> ${name}`;
         cityDate.innerHTML = cityDateObj.toLocaleDateString().replace(/\//g, '-') + ' | ' + timeDiffFormatted;
       }
       updateCityTime(); // 立即更新时间，避免卡顿
