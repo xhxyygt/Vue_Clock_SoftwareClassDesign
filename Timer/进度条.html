@@ -1,0 +1,67 @@
+<html>
+<head>
+  <style>
+    /* 定义圆环的样式 */
+    .circle {
+      stroke: #f06; /* 描边颜色 */
+      stroke-width: 10; /* 描边宽度 */
+      fill: transparent; /* 填充颜色 */
+      stroke-dasharray: 880 880; /* 虚线长度和间隔 */
+      stroke-linecap: round; /* 虚线端点样式 */
+    }
+    /* 定义蒙版的样式 */
+    .mask {
+      stroke: #fff; /* 描边颜色 */
+      stroke-width: 10; /* 描边宽度 */
+      fill: transparent; /* 填充颜色 */
+      stroke-dasharray: 2 10; /* 虚线长度和间隔 */
+      stroke-linecap: butt; /* 虚线端点样式 */
+    }
+    /* 定义一个函数，根据圆的半径计算虚线的长度和间隔 */
+
+  </style>
+</head>
+<body>
+  <!-- 在body里创建一个SVG元素 -->
+  <svg width="300" height="300" viewBox="0 0 300 300">
+    <!-- 在SVG里创建一个mask元素 -->
+    <mask id="mask">
+      <!-- 在mask里创建一个路径元素 -->
+      <path class="mask" d="M 150 50 A 100 100 0 1 1 149.99 50"></path>
+    </mask>
+    <!-- 在SVG里创建一个圆环元素 -->
+    <circle class="circle" cx="150" cy="150" r="100" mask="url(#mask)"></circle>
+  </svg>
+  <script>
+    // 获取圆环元素
+    var circle = document.querySelector('.circle');
+    // 定义一个变量，表示进度的百分比
+    var percent = 0;
+    // 定义一个函数，根据进度的百分比改变虚线的位置
+    function update(percent) {
+      // 计算圆的周长
+      var circumference = Math.PI * 200;
+      // 计算虚线的偏移量
+      var dashOffset = 880 * (1 - percent / 100);
+      // 设置圆环的虚线偏移量
+      circle.style.strokeDashoffset = dashOffset;
+    }
+    // 定义一个定时器，每隔一秒更新一次进度
+    setInterval(function() {
+      // 如果进度达到100%，则停止定时器
+      if (percent >= 100) {
+        clearInterval(this);
+      } else {
+        // 否则，增加进度的百分比
+        percent += 10;
+        // 调用更新函数
+        update(percent);
+      }
+    }, 1000);
+
+    // function dash(r) {
+    //   return r * 0.3 + ' ' + r * 0.1;
+    // }
+  </script>
+</body>
+</html>

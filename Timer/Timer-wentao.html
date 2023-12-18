@@ -6,7 +6,9 @@
             text-align: center;
             margin: 0;
 			padding: 0;
+            /* background-color: rgb(171, 213, 238); */
         }
+        /* 顶部菜单栏显示 */
         nav {
 			background-color: #333;
 			height: 50px;
@@ -35,11 +37,13 @@
 			background-color: white;
 			color: #333;
 		}
+
+
         .timer {
             margin: 20px auto;
             width: 300px;
             height: 300px;
-            border: 10px solid black;
+            /* border: 10px solid black; */
             border-radius: 50%;
             position: relative;
         }
@@ -73,19 +77,49 @@
         }
 
         .timer circle {
+            /* r =140 */
             fill: none;
             stroke-width: 10;
             stroke-linecap: round;
             transform-origin: 50% 50%;
         }
+        .progress-mask{
+            stroke-dasharray: 1.2 8.8;
+            stroke-width: 10;
+            stroke-linecap: butt;
+            fill:transparent;
 
+
+        }
         .timer circle.background {
             stroke: lightgray;
+            /* stroke-dasharray: 1.2 8.8; */
+            stroke-linecap: butt;
+            transform: rotate(-90deg);
+
         }
 
         .timer circle.progress {
-            stroke: green;
+            /* 圆圈为虚线，间隔和每一段都很短 */
+            /* stroke: gray; */
+            stroke: rgb(19, 143, 184);
+            /* stroke-dasharray: 1.2 8.8; */
+            stroke-dasharray: 880 880;
+            /* 虚线边界为直角 */
+            /* stroke-linecap: butt; */
+
+            transform: rotate(-90deg);
+
+        
+            /* stroke: gray;
             transition: stroke-dashoffset 0.5s linear;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        
+            
+            stroke-dasharray: 40;
+            stroke-dashoffset: 40; */
+
         }
 
         .buttons {
@@ -94,6 +128,7 @@
             display: flex;
             justify-content: space-between;
         }
+
 
         .buttons button {
             width: 100px;
@@ -122,10 +157,13 @@
             grid-template-rows: repeat(5, 1fr); */
             grid-template-columns: 5fr 1fr 5fr 1fr 5fr 1fr;
             grid-template-rows: repeat(5, 1fr);
-
             grid-gap: 10px;
             align-items: center;
             justify-items: center;
+            
+            /* 整个块在页面的上下居中 */
+            position: relative;
+            transform: translateY(40%);
         }
 
         .settings button {
@@ -133,6 +171,7 @@
             grid-row: 1 / 2;
             width: 50px;
             height: 50px;
+            margin-top: 10%;
             border: none;
             border-radius: 50%;
             font-size: 30px;
@@ -199,6 +238,46 @@
             z-index: 9999;
         }
 
+/*消息提示框*/
+  #message-box {
+    /* 消息框阴影 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.2);
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+    /* 消息框在页面底部，左右居中 */
+    position: fixed;
+    bottom: 50%;
+    margin-bottom: 0px;
+    padding: 10px;
+    width: 300px;
+
+    text-align: center;
+    color: #333;
+    font-size: 20px;
+    line-height: 1.5;
+
+    /* 消息框的层级 */
+    z-index: 9999;
+  }
+
+  /* 为按钮添加纹理和细节 */
+  #ok-button {
+    background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+    width: 60px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+
+  /* 为按钮添加点击效果 */
+  #ok-button:active {
+    background: linear-gradient(to bottom, #d0d0d0, #f0f0f0);
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.2), inset 0 -1px 1px rgba(255, 255, 255, 0.2);
+  }
     </style>
 </head>
 <body>
@@ -212,18 +291,29 @@
             <li><a href="#">睡眠追踪</a></li>
         </ul>
     </nav>
+
+    <!-- 计时页面 -->
     <div class="timer" id="timer" style="display: none;">
         <h1 id="time">00:00:00</h1>
         <p id="total">共00秒</p>
         <svg>
-            <circle class="background" r="140" cx="150" cy="150"></circle>
-            <circle class="progress" r="140" cx="150" cy="150" id="progress"></circle>
+            <mask id="progress-mask">
+                <!-- 用path绘制圆心在150，150，半径140的圆-->
+                <path  class="progress-mask" d="M 150 10
+                        A 140 140 0 0 1 150 290
+                        A 140 140 0 0 1 150 10" fill="none" stroke="white" stroke-width="20"></path>
+                <!-- <circle r="140" cx="150" cy="150" :stroke-dasharray="1.2 8.8" stroke-dasharray: 1.2 8.8;stroke-width="12" stroke="black"></circle> -->
+            </mask>
+            <circle class="background" r="140" cx="150" cy="150" mask="url(#progress-mask)"></circle>
+            <circle class="progress" r="140" cx="150" cy="150" id="progress" mask="url(#progress-mask)"></circle>
         </svg>
     </div>
     <div class="buttons" id="buttons" style="display: none;">
         <button class="pause" id="pause">暂停</button>
         <button class="stop" id="stop">停止</button>
     </div>
+
+    <!-- 设定页面 -->
     <div class="settings" id="settings">
         <button class="increase" id="hour-increase" >▲</button>
         <button class="increase" id="minute-increase">▲</button>
@@ -244,8 +334,18 @@
         <button class="decrease" id="minute-decrease">▲</button>
         <button class="decrease" id="second-decrease">▲</button>
         <button class="start" id="start">开始计时</button>
+
+        <!--消息提示框-->
+        <dialog id="message-box">
+            <!-- 创建一个空的<p>元素，用来显示文本内容 -->
+            <p id="message-text"></p>
+            <!-- 创建一个按钮，点击后关闭对话框 -->
+            <button id="ok-button">确定</button>
+        </dialog>
     </div>
     <div><audio id="my-audio" src="output.wav"></audio></div>
+    
+    
     <script>
         // 获取元素
         const timer = document.getElementById("timer");
@@ -279,6 +379,7 @@
         let secondValue = 0;
         let duration = 0;
         let remaining = 0;
+        let remaining_svg = 0;
         let interval = null;
         let paused = false;
         var audio = document.getElementById("my-audio");
@@ -312,13 +413,16 @@
             } else {
                 total.textContent = "共" + Math.floor(duration / 3600) + "小时" + Math.floor(duration / 60) % 60 + "分" + (duration % 60) + "秒";
             }
-            progress.style.strokeDashoffset = 880 * (1 - remaining / duration);
+            progress.style.strokeDashoffset = 880 * (1 - remaining_svg / (duration*50));
+            // 根据剩余时间更新进度条progress的长度
+
         }
-       
+
         function startTimer() {
             // 开始计时
             duration = hourValue * 3600 + minuteValue * 60 + secondValue;
             remaining = duration;
+            remaining_svg = duration*50; //提高帧率
             if (duration > 0) {
                 // 如果设定的时间大于0，则切换到计时页面，并设置定时器
                 settings.style.display = "none";
@@ -327,7 +431,11 @@
                 updateTimer();
                 interval = setInterval(function () {
                     // 每隔一秒，剩余时间减一，并更新显示
-                    remaining--;
+                    // remaining--;
+                    // 每次循环剩余svg时间-1
+                    remaining_svg--;
+                    //向上取整
+                    remaining = Math.ceil(remaining_svg/50);
                     updateTimer();
                     if (remaining <= 0) {
                         //如果剩余时间小于等于0，则停止计时，并播放一个提示音，然后切换回设置页面
@@ -340,49 +448,69 @@
 
 
                 }
-            }, 1000);
+            // }, 1000);
+                }, 20);
         } else {
             // 如果设定的时间等于0，则提示用户输入一个有效的时间
             alert("请输入一个有效的时间");
         }
     }
+
+    function showMessage(messagetext){
+        var messageBox = document.getElementById("message-box");
+        var messageText = document.getElementById("message-text");
+        var  okButton = document.getElementById("ok-button");
+
+        // 为按钮添加点击事件监听器，关闭对话框
+        okButton.addEventListener("click", function() {
+            messageBox.close();
+            stopAudio();
+        });
+        messageText.innerHTML = messagetext;
+        messageBox.showModal();
+    }
+
     function showEndMessage() {
-            var alertBox = document.createElement("div");
-            alertBox.className = "alert";
+        showMessage("倒计时结束！");
+    }
+    // function showEndMessage() {
+    //         var alertBox = document.createElement("div");
+    //         alertBox.className = "alert";
             
-            var message = document.createElement("p");
-            message.innerHTML = "倒计时结束！";
-            message.style.fontSize = "24px";
-            message.style.marginBottom = "10px";
+    //         var message = document.createElement("p");
+    //         message.innerHTML = "倒计时结束！";
+    //         message.style.fontSize = "24px";
+    //         message.style.marginBottom = "10px";
             
-            var closeButton = document.createElement("button");
-            closeButton.innerHTML = "确定";
-            closeButton.style.padding = "5px 10px";
-            closeButton.style.fontSize = "16px";
-            closeButton.style.backgroundColor = "#ccc";
-            closeButton.style.border = "none";
-            closeButton.style.borderRadius = "3px";
-            closeButton.style.cursor = "pointer";
-            closeButton.onclick = function() {
-                document.body.removeChild(alertBox); // 点击关闭按钮时移除提示框
-                stopAudio();
-            };
+    //         var closeButton = document.createElement("button");
+    //         closeButton.innerHTML = "确定";
+    //         closeButton.style.padding = "5px 10px";
+    //         closeButton.style.fontSize = "16px";
+    //         closeButton.style.backgroundColor = "#ccc";
+    //         closeButton.style.border = "none";
+    //         closeButton.style.borderRadius = "3px";
+    //         closeButton.style.cursor = "pointer";
+    //         closeButton.onclick = function() {
+    //             document.body.removeChild(alertBox); // 点击关闭按钮时移除提示框
+    //             stopAudio();
+    //         };
 
-            alertBox.appendChild(message);
-            alertBox.appendChild(closeButton);
+    //         alertBox.appendChild(message);
+    //         alertBox.appendChild(closeButton);
 
-            document.body.appendChild(alertBox);
-        }
-        function playAudio() {
+    //         document.body.appendChild(alertBox);
+    //     }
+
+    function playAudio() {
         audio.loop = true; // 设置循环播放
         audio.play();
-        }
+    }
 
-       function stopAudio() {
+    function stopAudio() {
         audio.loop = false; // 取消循环播放
         audio.pause();
         audio.currentTime = 0;
-       }
+    }
     function pauseTimer() {
         // 暂停或恢复计时
         if (paused) {
