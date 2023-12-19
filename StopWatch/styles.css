@@ -1,0 +1,140 @@
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#div1 {
+    width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    /* 居中 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#count {
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    font-size: 36px;
+}
+
+#count span {
+    display: inline-block;
+    width: 80px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* 修改此处 */
+    margin-top: 30px;
+}
+
+.button {
+    width: 80px;
+    height: 40px;
+    margin: 2px;
+    background-color: #ffc107;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+/* 默认隐藏 */
+.button#end{
+    display: none;
+}
+.button:hover {
+    background-color: #ff9800;
+}
+
+#recordList {
+    width: 80%;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.record {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+}
+
+.record-index {
+    width: 30px;
+    text-align: center;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.record-time {
+    font-size: 18px;
+}
+
+
+/* 顶部菜单栏 */
+nav.menu {
+    background-color: #333;
+    min-height: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+nav.menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 50px;
+}
+
+nav.menu li {
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav.menu a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    /* 文本居中 */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav.menu a:hover {
+    background-color: white;
+    color: #333;
+}
+

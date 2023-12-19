@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<title>世界时钟</title>
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="styles-clock.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>世界时钟</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="styles-clock.css">
 </head>
 
 
@@ -53,7 +54,7 @@
 
 	<!-- <div id="clock"></div> -->
 	<!--点击按钮添加城市，点击遮罩层（即页面空白处）关闭菜单-->
-	<button id="addcity" onclick="toggleMenu()">添加城市</button>
+	<button type="button" id="addcity" onclick="toggleMenu()">添加城市</button>
 	<div class="overlay" onclick="toggleMenu()"></div>
 	<div id="city-menu">
 		<span class="close-btn" onclick="toggleMenu()">✖</span>
