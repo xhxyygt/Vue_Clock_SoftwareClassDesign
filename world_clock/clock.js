@@ -18,7 +18,12 @@ const clock = () =>{
 }
 setInterval(clock, 1000) // (Updates every 1s) 1000 = 1s 
 
-/*=============== TIME AND DATE TEXT ===============*/
+document.addEventListener('DOMContentLoaded', function(){
+   clock();
+   clockText();
+}) // 立即更新
+
+/*=============== 时间日期文字部分 ===============*/
 const dateDayWeek = document.getElementById('date-day-week'),
       dateMonth = document.getElementById('date-month'),
       dateDay = document.getElementById('date-day'),
@@ -28,10 +33,8 @@ const dateDayWeek = document.getElementById('date-day-week'),
       textAmPm = document.getElementById('text-ampm')
 
 const clockText = () =>{
-   // We get the Date object
    let date = new Date()
 
-   // We get the time and date
    let dayWeek = date.getDay(),
        month = date.getMonth(),
        day = date.getDate(),
@@ -40,7 +43,6 @@ const clockText = () =>{
        mm = date.getMinutes(),
        ampm
 
-   // We get the days of the week and the months. (First day of the week Sunday)
    let daysWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 

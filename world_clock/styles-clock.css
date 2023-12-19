@@ -1,6 +1,4 @@
 
-/*=============== GOOGLE FONTS ===============*/
-/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap"); */
 
 /*=============== VARIABLES CSS ===============*/
 :root {
@@ -28,19 +26,6 @@
   }
 }
 
-/*=============== BASE ===============*/
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  font-family: var(--body-font);
-  background-color: var(--body-color);
-  color: var(--text-color);
-}
-
 /*=============== CLOCK ===============*/
 .container-clock {
   /* height: 30vh; */
@@ -55,8 +40,8 @@ body {
 
 .clock {
   /* width: 50%; */
-  width: 200px;
-  height: 88px;
+  width: 210px;
+  height: 90px;
   background-color: var(--container-color);
   display: flex;
   align-items: center;
@@ -123,19 +108,21 @@ body {
 .clock__day-week, 
 .clock__text-ampm {
   /* font-size: var(--small-font-size); */
-    font-size: 15px;
+  font-size: 10px;
   font-weight: 500;
   margin-left: 0px;
 }
 
 .clock__month, 
 .clock__day, 
-.clock__year, 
-.clock__text-hour, 
-.clock__text-minutes {
+.clock__year{
   /* font-size: var(--h2-font-size); */
   font-size: 14px;
   font-weight: 600;
+}
+.clock__text-hour, 
+.clock__text-minutes{
+  font-size: 20px;
 }
 
 /*=============== BREAKPOINTS ===============*/

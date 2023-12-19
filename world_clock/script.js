@@ -160,21 +160,21 @@ var SERVER_HOST;
     //   });
     
 
-      updateLocalTime(); //打开后立即更新本地时间（防止隔1秒才出现造成卡顿效果）
+      // updateLocalTime(); //打开后立即更新本地时间（防止隔1秒才出现造成卡顿效果）
   });
   
 
 
 
-    // 更新本地时间
-    function updateLocalTime() {
-      const now = new Date();
-      // document.getElementById('clock').innerHTML = now.toLocaleTimeString().slice(0, 5) + ' ' + now.toLocaleDateString(); //小时和分钟
-      document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US',{hour12: false}) + ' ' + now.toLocaleDateString(); //小时、分钟和秒
-      //改为12小时制
-      // document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US', { hour12: true  }) + ' ' + now.toLocaleDateString(); 
-    }
-    setInterval(updateLocalTime, 1000);
+    // // 更新本地时间
+    // function updateLocalTime() {
+    //   const now = new Date();
+    //   // document.getElementById('clock').innerHTML = now.toLocaleTimeString().slice(0, 5) + ' ' + now.toLocaleDateString(); //小时和分钟
+    //   document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US',{hour12: false}) + ' ' + now.toLocaleDateString(); //小时、分钟和秒
+    //   //改为12小时制
+    //   // document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US', { hour12: true  }) + ' ' + now.toLocaleDateString(); 
+    // }
+    // setInterval(updateLocalTime, 1000);
     
     // 消息模块，3s后消失
     function showMessage(text) {
