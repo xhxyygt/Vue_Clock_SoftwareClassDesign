@@ -18,17 +18,18 @@ body {
     /*宽度*/
     /* width: 100%; */
 /* 延伸到屏幕底部,留白一点点 */
-    min-height: calc(100vh - 110px);
+    min-height: calc(100vh - 80px);
 
 
     /*背景颜色*/
-    background-color: #ffffff;
+    /* background-color: #dff7f6; */
+    background-color: #fff;
     /*圆角*/
     border-radius: 10px;
     /*阴影*/
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
 
+}
 
 /*网页最上边的当地时间*/
 #clock { 
@@ -46,6 +47,12 @@ body {
     justify-content: space-between; 
     align-items: center; 
     min-height: 50px;
+    transition: 0.3s;
+}
+.city:hover{
+    background: #d0d0d0;
+    scale:1.01;
+    box-shadow: 5px 5px 20px 1px rgb(100, 110, 110);
 }
 .city-info { flex-grow: 1; text-align: left; }
 .city-time { font-size: 24px;min-height: 30px;}
@@ -59,8 +66,14 @@ body {
     margin-left: 10px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: 0.5s;
 }
-.delete-btn:hover { background: #d0d0d0; }
+
+.delete-btn:hover { 
+    background: #d0d0d0;
+    scale:0.9;
+    box-shadow: 0px 0px 10px 2px rgb(122, 120, 120);
+ }
 #city-menu { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 1px solid #ccc; padding: 20px; z-index: 1000; width: 80%; max-width: 600px; }
 #city-menu input { width: calc(100% - 60px); margin-bottom: 10px; border-radius: 5px; padding: 5px; }
 #city-menu ul { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; }
@@ -82,8 +95,12 @@ body {
     font-size: 20px;
     font-weight: bold;
     color: #ccc;
+    transition: 0.5s
 }
-.close-btn:hover { color: #999; }
+.close-btn:hover { 
+    color: #ff0000; 
+    scale: 1.2;
+}
 .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
 button#addcity{
     border: none;
@@ -95,9 +112,12 @@ button#addcity{
     font-size: 17px;
     /* font-weight: bold; */
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: 0.4s;
 }
 button#addcity:hover{
-    background-color: #e0e0e0;
+    background-color: #ffffff;
+    scale:0.95;
+    box-shadow: 3px 3px 20px 1px rgb(135, 135, 135);
 }
 
 /* 消息提示框样式 */

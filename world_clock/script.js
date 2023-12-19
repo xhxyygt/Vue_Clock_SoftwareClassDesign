@@ -160,21 +160,21 @@ var SERVER_HOST;
     //   });
     
 
-      updateLocalTime(); //打开后立即更新本地时间（防止隔1秒才出现造成卡顿效果）
+      // updateLocalTime(); //打开后立即更新本地时间（防止隔1秒才出现造成卡顿效果）
   });
   
 
 
 
-    // 更新本地时间
-    function updateLocalTime() {
-      const now = new Date();
-      // document.getElementById('clock').innerHTML = now.toLocaleTimeString().slice(0, 5) + ' ' + now.toLocaleDateString(); //小时和分钟
-      document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US',{hour12: false}) + ' ' + now.toLocaleDateString(); //小时、分钟和秒
-      //改为12小时制
-      // document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US', { hour12: true  }) + ' ' + now.toLocaleDateString(); 
-    }
-    setInterval(updateLocalTime, 1000);
+    // // 更新本地时间
+    // function updateLocalTime() {
+    //   const now = new Date();
+    //   // document.getElementById('clock').innerHTML = now.toLocaleTimeString().slice(0, 5) + ' ' + now.toLocaleDateString(); //小时和分钟
+    //   document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US',{hour12: false}) + ' ' + now.toLocaleDateString(); //小时、分钟和秒
+    //   //改为12小时制
+    //   // document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US', { hour12: true  }) + ' ' + now.toLocaleDateString(); 
+    // }
+    // setInterval(updateLocalTime, 1000);
     
     // 消息模块，3s后消失
     function showMessage(text) {
@@ -201,7 +201,7 @@ var SERVER_HOST;
       cities.forEach(city => {
         const li = document.createElement('li'); 
         // li.innerHTML = `<span class="city-name">${city.name}</span> - ${city.country} - ${city.timezone}`;
-        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT ${city.id}`; //后端获取的
+        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT${(city.time_zone<0?"":"+") + city.time_zone}`; //后端获取的
         li.onclick = function() { selectCity(city); };
         cityList.appendChild(li);
       });
@@ -217,14 +217,14 @@ var SERVER_HOST;
         return city.city.toLowerCase().includes(search) ||
               city.country.toLowerCase().includes(search)||
               //id搜索(id是数字，所以要转换成字符串)
-              city.id.toString().includes(search);
+              city.time_zone.toString().includes(search);
       });
       const cityList = document.getElementById('city-list');
       cityList.innerHTML = '';
       filteredCities.forEach(city => {
         const li = document.createElement('li');
         // li.innerHTML = `<span class="city-name">${city.name}</span> - ${city.country} - ${city.timezone}`;
-        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT ${city.id}`;
+        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT${(city.time_zone<0?"":"+") + city.time_zone}`;
         li.onclick = function() { selectCity(city); };
         cityList.appendChild(li);
       });
