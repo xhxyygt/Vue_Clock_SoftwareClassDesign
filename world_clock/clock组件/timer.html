@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>倒计时计时器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f1f1f1;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .countdown-input {
+      width: 60px;
+      margin: 0 10px;
+      text-align: center;
+    }
+
+    .countdown-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .countdown-button:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    .timer {
+      font-size: 24px;
+      color: #333;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body onload="resetCountdown()">
+  <h1>倒计时计时器</h1>
+  <div class="countdown-container">
+    <label for="hour-input">时：</label>
+    <input id="hour-input" type="number" min="0" max="24" step="1" class="countdown-input">
+    <label for="minute-input">分：</label>
+    <input id="minute-input" type="number" min="0" max="59" step="1" class="countdown-input">
+    <label for="second-input">秒：</label>
+    <input id="second-input" type="number" min="0" max="59" step="1" class="countdown-input">
+  </div>
+  <button class="countdown-button" onclick="startCountdown()">开始倒计时</button>
+  <button class="countdown-button" onclick="pauseCountdown()">暂停倒计时</button>
+  <button class="countdown-button" onclick="resetCountdown()">复位倒计时</button>
+  <div id="timer" class="timer"></div>
+
+  <script>
+    var duration = 0;
+    var deadline = 0;
+    var intervalId = null;
+
+    var hourInput = document.getElementById('hour-input');
+    var minuteInput = document.getElementById('minute-input');
+    var secondInput = document.getElementById('second-input');
+
+    function updateDuration() {
+      var hours = parseInt(hourInput.value);
+      var minutes = parseInt(minuteInput.value);
+      var seconds = parseInt(secondInput.value);
+
+      duration = hours * 3600 + minutes * 60 + seconds;
+    }
+
+    function startCountdown() {
+      updateDuration();
+
+      if (isNaN(duration) || duration <= 0) {
+        alert("请输入一个大于零的数字");
+        return;
+      }
+
+      var now = new Date().getTime();
+      deadline = now + duration * 1000;
+
+      intervalId = setInterval(function() {
+        now = new Date().getTime();
+        var distance = deadline - now;
+
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("timer").innerHTML = hours + " 小时 " +
+          minutes + " 分钟 " + seconds + " 秒 ";
+
+        if (distance < 0) {
+          clearInterval(intervalId);
+          document.getElementById("timer").innerHTML = "倒计时结束";
+        }
+      }, 1000);
+    }
+
+    function pauseCountdown() {
+      clearInterval(intervalId);
+    }
+
+    function resetCountdown() {
+      clearInterval(intervalId);
+      document.getElementById("timer").innerHTML = "0 小时 0 分钟 0 秒";
+      duration = 0;
+      deadline = 0;
+      hourInput.value = 0;
+      minuteInput.value = 0;
+      secondInput.value = 0;
+    }
+  </script>
+</body>
+</html>

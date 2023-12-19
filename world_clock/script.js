@@ -201,7 +201,7 @@ var SERVER_HOST;
       cities.forEach(city => {
         const li = document.createElement('li'); 
         // li.innerHTML = `<span class="city-name">${city.name}</span> - ${city.country} - ${city.timezone}`;
-        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT ${city.id}`; //后端获取的
+        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT${(city.time_zone<0?"":"+") + city.time_zone}`; //后端获取的
         li.onclick = function() { selectCity(city); };
         cityList.appendChild(li);
       });
@@ -217,14 +217,14 @@ var SERVER_HOST;
         return city.city.toLowerCase().includes(search) ||
               city.country.toLowerCase().includes(search)||
               //id搜索(id是数字，所以要转换成字符串)
-              city.id.toString().includes(search);
+              city.time_zone.toString().includes(search);
       });
       const cityList = document.getElementById('city-list');
       cityList.innerHTML = '';
       filteredCities.forEach(city => {
         const li = document.createElement('li');
         // li.innerHTML = `<span class="city-name">${city.name}</span> - ${city.country} - ${city.timezone}`;
-        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT ${city.id}`;
+        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT${(city.time_zone<0?"":"+") + city.time_zone}`;
         li.onclick = function() { selectCity(city); };
         cityList.appendChild(li);
       });

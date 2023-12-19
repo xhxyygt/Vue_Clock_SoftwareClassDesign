@@ -1,0 +1,201 @@
+
+
+body { 
+    font-family: Arial, sans-serif; 
+    margin: 0; 
+    padding: 0; 
+    background: #f7f7f7;
+}
+.container {
+    /*上下留白*/
+    padding-top: 10px;
+    padding-bottom: 20px;
+    /*左右留白*/
+    padding-left: 20px;
+    padding-right: 20px;
+    /*居中*/
+    margin: 10px;
+    /*宽度*/
+    /* width: 100%; */
+/* 延伸到屏幕底部,留白一点点 */
+    min-height: calc(100vh - 80px);
+
+
+    /*背景颜色*/
+    /* background-color: #dff7f6; */
+    background-color: #fff;
+    /*圆角*/
+    border-radius: 10px;
+    /*阴影*/
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+
+}
+
+/*网页最上边的当地时间*/
+#clock { 
+    text-align: center; 
+    margin-top: 20px;
+    font-size: 30px;
+}
+.clock{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #dde1e7;
+    height: 250px;
+    width: 250dx;
+    border-radius: 50%;
+    box-shadow: -3px -3px 7px #ffffff73,
+    3px 3px 5px rgba(94,104,0.288);
+  
+}
+.clock::before{
+    position: absolute;
+    content: "";
+    height: 220px;
+    width: 220dx;
+    background: #dde1e7;
+    border-radius: 50%;
+    box-shadow: inset -3px -3px 7px #ffffff73,
+    inset 3px 3px 5px rgba(94,104,121,0.288);
+}
+.city {
+    background: #f0f0f0;
+    border-radius: 10px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+    margin-bottom: 10px; padding: 10px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    min-height: 50px;
+    transition: 0.3s;
+}
+.city:hover{
+    background: #d0d0d0;
+    scale:1.01;
+    box-shadow: 5px 5px 20px 1px rgb(100, 110, 110);
+}
+.city-info { flex-grow: 1; text-align: left; }
+.city-time { font-size: 24px;min-height: 30px;}
+.city-date { font-size: 14px; min-height: 20px;}
+.city-name { font-size: 20px; font-weight: bold; }
+.delete-btn { 
+    cursor: pointer; 
+    border-radius: 5px; 
+    padding: 5px 10px; 
+    background: #e0e0e0; 
+    margin-left: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: 0.5s;
+}
+
+.delete-btn:hover { 
+    background: #d0d0d0;
+    scale:0.9;
+    box-shadow: 0px 0px 10px 2px rgb(122, 120, 120);
+ }
+#city-menu { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 1px solid #ccc; padding: 20px; z-index: 1000; width: 80%; max-width: 600px; }
+#city-menu input { width: calc(100% - 60px); margin-bottom: 10px; border-radius: 5px; padding: 5px; }
+#city-menu ul { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; }
+#city-menu li { 
+    cursor: pointer; 
+    margin-bottom: 5px; 
+    background-color: #f9f9f9; /* 背景颜色 */
+    border: 1px solid #ddd; /* 边框 */
+    border-radius: 5px; /* 圆角边框 */
+    padding: 10px; /* 内边距 */
+    margin-bottom: 5px; /* 外边距 */
+    transition: background-color 0.3s; /* 过渡效果 */
+}
+#city-menu li:hover { background-color: #eaeaea; /* 鼠标悬停时的背景颜色 */ }
+.close-btn { 
+    position: absolute; 
+    right: 10px; top: 10px; 
+    cursor: pointer; 
+    font-size: 20px;
+    font-weight: bold;
+    color: #ccc;
+    transition: 0.5s
+}
+.close-btn:hover { 
+    color: #ff0000; 
+    scale: 1.2;
+}
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
+button#addcity{
+    border: none;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 200px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 17px;
+    /* font-weight: bold; */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: 0.4s;
+}
+button#addcity:hover{
+    background-color: #ffffff;
+    scale:0.95;
+    box-shadow: 3px 3px 20px 1px rgb(135, 135, 135);
+}
+
+/* 消息提示框样式 */
+.message {
+    color: black; 
+    position: fixed; 
+    bottom: 10%; left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 1001; 
+    display: none; 
+    border-radius: 10px; 
+    background: #f0f0f0; 
+    padding: 10px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* 顶部菜单栏 */
+nav.menu {
+    background-color: #333;
+    min-height: 50px;
+    box-shadow: 0 4px 8px rgba(93, 36, 36, 0.3);
+}
+
+nav.menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 50px;
+}
+
+nav.menu li {
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav.menu a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    /* 文本居中 */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav.menu a:hover {
+    background-color: white;
+    color: #333;
+}
+
