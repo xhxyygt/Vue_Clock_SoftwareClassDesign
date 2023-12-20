@@ -1,325 +1,62 @@
-<!DOCTYPE html>
 <html>
 <head>
-	<title>闹钟主界面</title>
-	<style>
-		body {
-			margin: 0;
-			padding: 0;
-			font-family: Arial, Helvetica, sans-serif;
-            background-color: #f0f0f0;
-		}
-		nav {
-			background-color: #333;
-			height: 50px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-		}
-		nav ul {
-			margin: 0;
-			padding: 0;
-			list-style: none;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 100%;
-		}
-		nav li {
-			margin: 0 10px;
-		}
-		nav a {
-			color: white;
-			text-decoration: none;
-			padding: 5px 10px;
-			border-radius: 5px;
-			transition: all 0.3s ease-in-out;
-		}
-		nav a:hover {
-			background-color: white;
-			color: #333;
-		}
+	  <meta charset="UTF-8">
+  <title>闹钟</title>
+  <link rel="stylesheet" href="styles.css">
+<style>
 
+</style>
 
-		.container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      }
-
-      h1 {
-        text-align: center;
-        margin-top: 0;
-      }
-
-      .alarm-form {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-      }
-
-      .alarm-form label {
-        margin-right: 10px;
-      }
-
-      .alarm-form input[type="datetime-local"] {
-        width: 200px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-        padding: 4px;
-        font-size: 16px;
-      }
-
-      .alarm-form button {
-        padding: 8px 16px;
-        font-size: 16px;
-        border-radius: 4px;
-        background-color: #4CAF50;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease-out;
-      }
-
-      .alarm-form button:hover {
-        background-color: #2E8B57;
-      }
-
-      .alarm-list {
-        padding: 0;
-        margin: 0;
-        list-style: none;
-      }
-
-      .alarm-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: #f0f0f0;
-      }
-
-      .alarm-item span {
-        font-size: 24px;
-        font-weight: bold;
-      }
-
-      .alarm-item button {
-        padding: 8px 16px;
-        font-size: 16px;
-        border-radius: 4px;
-        background-color: #f44336;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease-out;
-      }
-
-      .alarm-item button:hover {
-        background-color: #d32f2f;
-      }
-
-      .history {
-        margin-top: 20px;
-      }
-
-      .history h2 {
-        margin-top: 0;
-      }
-
-      .history-list {
-        padding: 0;
-        margin: 0;
-        list-style: none;
-      }
-
-      .history-item {
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: #f0f0f0;
-      }
-
-      .history-item p {
-        margin: 0;
-      }
-
-      .current-time {
-        text-align: center;
-        font-size: 24px;
-        margin-bottom: 20px;
-      }
-	</style>
-</head>
 <body>
-	<nav>
-		<ul>
-			<li><a href="#">闹钟</a></li>
-			<li><a href="../world_clock/worldclock.html">世界时钟</a></li>
-			<li><a href="../StopWatch/stop_watch.html">秒表</a><li>
-			<li><a href="../Timer/timer.html">计时器</a></li>
-            <li><a href="../Calender/calendar-1.html">日历</a></li>
-            <li><a href="#">睡眠追踪</a></li>
-		</ul>
-	</nav>
-	<div class="container">
-		<h1>多重定时闹钟</h1>
+<!-- 顶部菜单栏 -->
+<nav class="menu">
+    <ul>
+		<li><a href="../AlarmClock/alarm_clock.html">闹钟</a></li>
+		<li><a href="../world_clock/worldclock.html">世界时钟</a></li>
+		<li><a href="../StopWatch/stop_watch.html">秒表</a><li>
+		<li><a href="../Timer/timer.html">计时器</a></li>
+		<li><a href="../Calender/calendar_lunar.html">日历</a></li>
+		<li><a href="#">睡眠追踪</a></li>
+    </ul>
+</nav>
+<div>
+    <div class="container">
+      <div class="clock">
+        <div class="time"></div>
+        <div class="date"></div>
+      </div>
+      <div class="alarms"></div>
+    </div>
+    <div class="add-button">+</div>
+    <div class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title"></div>
+          <div class="modal-close">✖</div>
+        </div>
+        <div class="modal-body">
+          <div class="modal-time"></div>
+          <div class="modal-picker">
+            <div class="modal-picker-item modal-picker-hour">
+              <div class="modal-picker-button modal-picker-hour-up">+</div>
+              <div class="modal-picker-value modal-picker-hour-value"></div>
+              <div class="modal-picker-button modal-picker-hour-down">-</div>
+            </div>
+            <div class="modal-picker-item modal-picker-minute">
+              <div class="modal-picker-button modal-picker-minute-up">+</div>
+              <div class="modal-picker-value modal-picker-minute-value"></div>
+              <div class="modal-picker-button modal-picker-minute-down">-</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="modal-submit">完成</div>
+        </div>
+      </div>
+    </div>
+</div>
+
+  </body>
   
-		<form class="alarm-form">
-		  <label for="alarm-time">设定时间：</label>
-		  <input type="datetime-local" id="alarmTimeInput" name="alarm-time" required>
-		  <button type="submit">设定闹钟</button>
-		</form>
-  
-		<ul class="alarm-list" id="alarmList"></ul>
-  
-		<div class="current-time" id="currentTime"></div>
-  
-		<div class="history">
-		  <h2>历史记录</h2>
-		  <ul class="history-list" id="historyItems"></ul>
-		</div>
-	  </div>
-	  <script>
-		// JavaScript 代码
-		var alarmTimeouts = []; // 定时器数组
-		var alarmList = []; // 闹钟时间数组
-		var historyList = []; // 历史记录数组
-  
-		function addAlarm() {
-		  var alarmTimeInput = document.getElementById('alarmTimeInput');
-		  var alarmTime = alarmTimeInput.value.trim();
-  
-		  if (!alarmTime) {
-			alert("请输入有效的时间");
-			return;
-		  }
-  
-		  var alarmTimestamp = new Date(alarmTime).getTime();
-		  var currentTime = new Date().getTime();
-		  var timeDifference = alarmTimestamp - currentTime;
-  
-		  if (timeDifference <= 0) {
-			alert("请输入晚于当前时间的闹钟时间");
-			return;
-		  }
-  
-		  var alarm = {
-			time: new Date(alarmTimestamp),
-			timeout: null
-		  };
-		  alarmList.push(alarm);
-  
-		  // 创建闹钟元素
-		  var alarmListElement = document.getElementById('alarmList');
-		  var alarmItemElement = document.createElement('li');
-		  alarmItemElement.className = 'alarm-item';
-		  alarmItemElement.innerHTML = '<span>' + formatTime(alarm.time) + '</span><button onclick="deleteAlarm(' + (alarmList.length - 1) + ')">删除</button>';
-		  alarmListElement.appendChild(alarmItemElement);
-  
-		  // 设置定时器
-		  alarm.timeout = setTimeout(function() {
-			alert("时间到了！");
-			deleteAlarm(alarmList.length - 1);
-		  }, timeDifference);
-  
-		  alarmTimeouts.push(alarm.timeout); // 将定时器添加到数组中
-  
-		  // 记录历史记录
-		  var historyItem = {
-			time: alarm.time,
-			message: "闹钟设定时间：" + formatTime(alarm.time)
-		  };
-		  historyList.push(historyItem);
-  
-		  // 更新历史记录
-		  updateHistory();
-		}
-  
-		function deleteAlarm(index) {
-		  clearTimeout(alarmList[index].timeout); // 停止对应的定时器
-		  alarmTimeouts.splice(index, 1); // 从定时器数组中移除对应的定时器
-		  alarmList.splice(index, 1); // 从闹钟时间数组中移除对应的闹钟时间
-  
-		  // 从页面中移除对应的闹钟元素
-		  var alarmListElement = document.getElementById('alarmList');
-		  alarmListElement.removeChild(alarmListElement.childNodes[index]);
-  
-		  // 更新闹钟元素的索引
-		  var alarmElements = document.getElementsByClassName('alarm-item');
-		  for (var i = index; i < alarmElements.length; i++) {
-			var spanElement = alarmElements[i].querySelector('span');
-			var buttonElement = alarmElements[i].querySelector('button');
-			spanElement.innerHTML = formatTime(alarmList[i].time);
-			buttonElement.setAttribute('onclick', 'deleteAlarm(' + i + ')');
-		  }
-  
-		  // 记录历史记录
-		  var historyItem = {
-			time: new Date(),
-			message: "删除闹钟：" + formatTime(alarmList[index].time)
-		  };
-		  historyList.push(historyItem);
-  
-		  // 更新历史记录
-		  updateHistory();
-		}
-  
-		function updateCurrentTime() {
-		  var currentTimeElement = document.getElementById('currentTime');
-		  var now = new Date();
-		  var year = now.getFullYear();
-		  var month = now.getMonth() + 1;
-		  var date = now.getDate();
-		  var hours = now.getHours();
-		  var minutes = now.getMinutes();
-		  var seconds = now.getSeconds();
-		  var timeString = year + '年' + addZeroPrefix(month) + '月' + addZeroPrefix(date) + '日 ' + addZeroPrefix(hours) + ':' + addZeroPrefix(minutes) + ':' + addZeroPrefix(seconds);
-		  currentTimeElement.innerHTML = timeString;
-		}
-  
-		function updateHistory() {
-		  var historyItemsElement = document.getElementById('historyItems');
-		  historyItemsElement.innerHTML = '';
-		  for (var i = 0; i < historyList.length; i++) {
-			var historyItemElement = document.createElement('li');
-			historyItemElement.className = 'history-item';
-			var timeString = formatTime(historyList[i].time);
-			var message = historyList[i].message;
-			historyItemElement.innerHTML = '<p>' + timeString + '</p><p>' + message + '</p>';
-			historyItemsElement.appendChild(historyItemElement);
-		  }
-		}
-  
-		function formatTime(time) {
-		  var year = time.getFullYear();
-		  var month = time.getMonth() + 1;
-		  var date = time.getDate();
-		  var hours = time.getHours();
-		  var minutes = time.getMinutes();
-		  var seconds = time.getSeconds();
-		  return year + '年' + addZeroPrefix(month) + '月' + addZeroPrefix(date) + '日 ' + addZeroPrefix(hours) + ':' + addZeroPrefix(minutes) + ':' + addZeroPrefix(seconds);
-		}
-  
-		function addZeroPrefix(number) {
-		  if (number < 10) {
-			return '0' + number;
-		  } else {
-			return number;
-		  }
-		}
-  
-		// 设置定时器更新当前时间
-		setInterval(updateCurrentTime, 1000);
-  
-		// 监听表单提交事件
-		var alarmForm = document.querySelector('.alarm-form');
-		alarmForm.addEventListener('submit', function(event) {
-		  event.preventDefault(); // 阻止提交表单的默认行为
-		  addAlarm();
-		  alarmForm.reset(); // 重置表单
-		});
-	  </script>
-</body>
+  <script src="script.js"></script>
 </html>
