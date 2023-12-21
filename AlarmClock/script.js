@@ -1,7 +1,57 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Initialize the clock
-    getCurrentTime();
-});
+var SERVER_HOST;
+var myHeaders = new Headers();
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  //从本地获取SEVERHOST
+  SERVER_HOST = localStorage.getItem('SEVER-HOST');
+  // 从本地获取token
+  myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
+  myHeaders.append("Content-Type", "application/json");
+  token = localStorage.getItem('token');
+  myHeaders.append("Authorization", token);
+  
+//获取当前用户闹钟
+var pre_alarms=[];
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+fetch("//"+SERVER_HOST+":8080/clock", requestOptions)
+   .then(response => response.json())
+   .then(result => {
+    console.log(result);
+    if(result.code === 1){
+    pre_alarms=result.data.clocks;
+    pre_alarms.forEach( pre_alarm => {
+      var hour = parseInt(parseInt(pre_alarm.clock_time)/100); // 小时部分为第一个字符串
+      var minute = parseInt(pre_alarm.clock_time)%100; // 分钟部分为第二个字符串
+      var alarm = {
+        hour: hour,
+        minute: minute,
+        active: pre_alarm.status,// The alarm is active by default
+        id:pre_alarm.id
+        };
+      alarmList.push(alarm);
+      console.log(alarm);
+        // Sort the alarm list by time
+      alarmList.sort(function(a, b) {
+         return a.hour * 60 + a.minute - b.hour * 60 - b.minute;
+           });
+      // Render the alarm list
+      renderAlarmList();
+    })
+    }else{
+      console.log(result.msg);
+    }
+   })
+   .catch(error => console.log('error', error));
+
+  getCurrentTime();
+  // showMessage("Welcome to Alarm Clock!");
+})
+
+
 
 
 // Get the elements
@@ -33,7 +83,11 @@ var modalSubmit = document.querySelector(".modal-submit");
 // Initialize the variables
 var alarmList = []; // An array of alarm objects
 var currentAlarm = null; // The alarm object that is being edited or added
-var alarmSound = new Audio("alarm.mp3"); // The sound to play when the alarm goes off
+var alarmSound = new Audio("../Timer/Zelda’s Lullaby.ogg"); // The sound to play when the alarm goes off
+
+
+
+   
 // Define some helper functions
 function formatTime(num) {
   // Convert a number to a two-digit string
@@ -55,45 +109,169 @@ function getCurrentTime() {
 }
 
 function createAlarm(hour, minute) {
-  // Create an alarm object with the given hour and minute
-  var alarm = {
+  //保存闹钟
+  var raw = JSON.stringify({
+    "clock_time":hour *100 + minute
+   });
+   var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+  fetch("//"+SERVER_HOST+":8080/clock", requestOptions)
+   .then(response => response.json())
+   .then(result => {
+    if(result.code === 1){
+    console.log('success to add the alarm');
+    // Create an alarm object with the given hour and minute
+    var alarm = {
     hour: hour,
     minute: minute,
-    active: true // The alarm is active by default
-  };
-  // Add the alarm to the alarm list
-  alarmList.push(alarm);
-  // Sort the alarm list by time
-  alarmList.sort(function(a, b) {
+    active: true ,// The alarm is active by default
+    id:result.data.clocks.id
+    };
+      // Add the alarm to the alarm list
+    alarmList.push(alarm);
+    // Sort the alarm list by time
+    alarmList.sort(function(a, b) {
     return a.hour * 60 + a.minute - b.hour * 60 - b.minute;
-  });
-  // Render the alarm list
-  renderAlarmList();
+       });
+    // Render the alarm list
+    renderAlarmList();
+    }
+    else {
+      console.log(result.msg);
+      alert("新建失败，请重新添加");
+    }
+   })
+   .catch(error => console.log('error', error));
+
 }
 
 function deleteAlarm(index) {
   // Delete an alarm object with the given index
-  alarmList.splice(index, 1);
-  // Render the alarm list
-  renderAlarmList();
+   var raw = JSON.stringify({
+    "operation_type": 3,
+    "clock_id": alarmList[index].id
+   });
+   var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+ 
+  fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      if(result.code === 1){
+        console.log("删除成功");
+        alarmList.splice(index, 1);
+        // Render the alarm list
+        renderAlarmList();
+      }
+      else{
+        console.log(result.msg);
+      }
+    })
+    .catch(error => console.log('error', error));
 }
 
 function toggleAlarm(index) {
+  //发状态更改
+  var raw = JSON.stringify({
+    "operation_type": 1,
+    "status": alarmList[index].active ? 0:1,
+    "clock_id": alarmList[index].id
+ });
+ var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+ };
+ fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      if (result.code===1){
+        console.log('success to correct the status');
+        alarmList[index].active = !alarmList[index].active;
+        // Render the alarm list
+        renderAlarmList();
+        alert("修改成功");
+      }
+      else {
+        console.log(result.msg);
+        alert("修改失败");
+      }
+    })
+    .catch(error => console.log('error', error));
   // Toggle an alarm object's status with the given index
-  alarmList[index].active = !alarmList[index].active;
-  // Render the alarm list
-  renderAlarmList();
 }
 
 function editAlarm(index, hour, minute) {
   // Edit an alarm object's time with the given index, hour and minute
   //若编辑后时间改变闹钟激活（否则不更改状态）[待修改]
   if (alarmList[index].hour != hour || alarmList[index].minute != minute) {
-    alarmList[index].active = true;
+  //发状态更改
+  var raw = JSON.stringify({
+    "operation_type": 1,
+    "status": 1,
+    "clock_id": alarmList[index].id
+ });
+ var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+ };
+ fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      if (result.code===1){
+        console.log('success to correct the status');
+        alarmList[index].active = true;
+        renderAlarmList();
+        alert("修改成功");
+      }
+      else {
+        console.log(result.msg);
+        alert("修改失败");
+      }
+    })
+    .catch(error => console.log('error', error));
+  //发时间更改
+  var raw = JSON.stringify({
+    "operation_type": 2,
+    "clock_time":hour *100 + minute,
+    "clock_id": alarmList[index].id
+ });
+ var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+ };
+ fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      if (result.code===1){
+        console.log('success to correct the status');
+        alarmList[index].hour = hour;
+        alarmList[index].minute = minute;
+        alert("修改成功");
+        renderAlarmList();
+      }
+      else {
+        console.log(result.msg);
+        alert("修改失败");
+      }
+    })
+    .catch(error => console.log('error', error));
   }
-  alarmList[index].hour = hour;
-  alarmList[index].minute = minute;
-  
+
+
   // alarmList[index].active = true; // The alarm is active after editing
   // Sort the alarm list by time
   alarmList.sort(function(a, b) {
@@ -101,6 +279,23 @@ function editAlarm(index, hour, minute) {
   });
   // Render the alarm list
   renderAlarmList();
+}
+
+function showMessage(messagetext){
+  var messageBox = document.getElementById("message-box");
+  var messageText = document.getElementById("message-text");
+  var okButton = document.getElementById("ok-button");
+
+  // 为按钮添加点击事件监听器，关闭对话框
+  okButton.addEventListener("click", function() {
+      messageBox.close();
+      // stopAudio();
+      // Stop the alarm sound
+      alarmSound.pause();
+      alarmSound.currentTime = 0;
+  });
+  messageText.innerHTML = messagetext;
+  messageBox.showModal();
 }
 
 function checkAlarm() {
@@ -115,10 +310,11 @@ function checkAlarm() {
       // Play the alarm sound
       alarmSound.play();
       // Show an alert message
-      alert("闹钟响了！时间是 " + formatTime(hour) + ":" + formatTime(minute));
-      // Stop the alarm sound
-      alarmSound.pause();
-      alarmSound.currentTime = 0;
+      // alert("闹钟响了！时间是 " + formatTime(hour) + ":" + formatTime(minute));
+      showMessage("闹钟响了！时间是 " + formatTime(hour) + ":" + formatTime(minute));
+      // // Stop the alarm sound
+      // alarmSound.pause();
+      // alarmSound.currentTime = 0;
     //   // Turn off the alarm
     //   alarm.active = false;
       // Render the alarm list

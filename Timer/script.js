@@ -54,9 +54,11 @@
         }
         function updateTimer() {
             // 更新计时页面的显示
-            time.textContent = formatNumber(Math.floor(remaining / 3600)) + ":" + formatNumber(Math.floor(remaining / 60) % 60) + ":" + formatNumber(remaining % 60);
+            time.textContent = 
+                formatNumber(Math.floor(remaining / 3600)) + ":" + formatNumber(Math.floor(remaining / 60) % 60) + ":" + formatNumber(remaining % 60);
             // total.textContent = "共" + duration + "秒";
             // 根据设定时间分别显示共xx秒或共xx分xx秒或共xx小时xx分xx秒
+            // Math.floor是向下取整
             if (duration < 60) {
                 total.textContent = "共" + duration + "秒";
             } else if (duration < 3600) {
@@ -73,6 +75,7 @@
             // 开始计时
             paused = false;
             progress.style.stroke = "rgb(19, 143, 184)";
+            //将进度条描边设置为深蓝
             duration = hourValue * 3600 + minuteValue * 60 + secondValue;
             remaining = duration;
             remaining_svg = duration*50; //提高帧率
@@ -81,14 +84,15 @@
                 settings.style.display = "none";
                 timer.style.display = "block";
                 buttons.style.display = "flex";
+                pause.textContent = "暂停";
                 updateTimer();
                 interval = setInterval(function () {
-                    // 每隔一秒，剩余时间减一，并更新显示
+                    // 每隔20m秒，剩余时间减一，并更新显示
                     // remaining--;
                     // 每次循环剩余svg时间-1
                     remaining_svg--;
-                    //向上取整
                     remaining = Math.ceil(remaining_svg/50);
+                    //向上取整
                     updateTimer();
                     if (remaining <= 0) {
                         //如果剩余时间小于等于0，则停止计时，并播放一个提示音，然后切换回设置页面
@@ -98,21 +102,19 @@
                     timer.style.display = "none";
                     buttons.style.display = "none";
                     settings.style.display = "grid";
-
-
                 }
-            // }, 1000);
-                }, 20);
+            }, 20);
         } else {
             // 如果设定的时间等于0，则提示用户输入一个有效的时间
-            alert("请输入一个有效的时间");
+            showMessage("请输入一个有效的时间！");
+            //alert("请输入一个有效的时间！");
         }
     }
 
     function showMessage(messagetext){
         var messageBox = document.getElementById("message-box");
         var messageText = document.getElementById("message-text");
-        var  okButton = document.getElementById("ok-button");
+        var okButton = document.getElementById("ok-button");
 
         // 为按钮添加点击事件监听器，关闭对话框
         okButton.addEventListener("click", function() {
