@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>秒表</title>
 	<link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/c/font_4380206_ueqocr9g2l.css">
 </head>
 <body>
     <nav class="menu">
@@ -17,24 +18,17 @@
             <li><a href="#">睡眠追踪</a></li>
         </ul>
     </nav>
-    <div id="div1">
-        <div id="count">
-            <span id="id_M">00</span>:
-            <span id="id_S">00</span>:
-            <span id="id_MS">00</span>
-        </div>
-        <div class="button-container">
-            <button id="startPause" class="button" type="button" title="pause">
-                <img id="startPauseImg" src="images/start.png" width="30" title="pause">
-            </button>
-            <button id="end" class="button" type="button" title="end">
-                <img src="images/reset.png" width="30" title="end">
-            </button>
-            <button id="record" class="button" type="button" title="record">
-                <img src="images/stopWatch.png" width="30" title="record">
-            </button>
-        </div>
-        <ul id="recordList"></ul>
+    <div id="container">
+        <div id="timer">00:00.000</div>
+        <ul id="record-list" style="display: none;"></ul>
+    </div>
+
+    <div id="buttons">
+        <button class="iconfont icon-kaishi1" id="start"></button>
+        <button class="iconfont icon-miaobiao" id="record" style="display: none;"></button>
+        <button class="iconfont icon-weibiaoti519" id="pause" style="display: none;"></button>
+        <button class="iconfont icon-lujing" id="stop" style="display: none;"></button>
+        <button class="iconfont icon-kaishi1" id="resume" style="display: none;"></button>
     </div>
 
     <script src="script.js"></script>
