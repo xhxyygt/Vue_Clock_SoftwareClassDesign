@@ -12,10 +12,10 @@
   .container {
     width: 80%;
     max-width: 600px;
-    margin: 20px auto;
+    margin: 50px auto;
     border-radius: 20px;
     box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
-    padding: 20px;
+    padding: 30px;
   }
   
   .clock {
@@ -39,6 +39,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+    display: none;
   }
   
   .alarm {
@@ -82,6 +83,9 @@
   .delete-button {
     background-color: #e0e0e0;
     box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
   }
   
   .delete-button:hover {
@@ -162,6 +166,9 @@
     background-color: #e0e0e0;
     box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
     cursor: pointer;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
   }
   
   .modal-close:hover {
@@ -207,6 +214,11 @@
     background-color: #e0e0e0;
     box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
     cursor: pointer;
+    text-align: center;
+    line-height: 40px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #146bc9;
   }
   
   .modal-picker-button:hover {
@@ -239,6 +251,9 @@
     background-color: #e0e0e0;
     box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
     cursor: pointer;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
   }
   
   .modal-submit:hover {

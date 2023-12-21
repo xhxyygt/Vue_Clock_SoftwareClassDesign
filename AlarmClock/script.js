@@ -243,6 +243,8 @@ function renderAlarmList() {
   // Clear the alarms element
   alarms.innerHTML = "";
   // Loop through the alarm list
+  if(alarmList.length === 0) { alarms.style.display = "none"; }
+  else { alarms.style.display = "block";}
   for (var i = 0; i < alarmList.length; i++) {
     var alarm = alarmList[i]; // Get the alarm object
     // Create an alarm element
