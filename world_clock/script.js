@@ -191,7 +191,11 @@ var SERVER_HOST;
       const isMenuVisible = menu.style.display === 'block';
       menu.style.display = isMenuVisible ? 'none' : 'block'; // 切换菜单的显示状态（打开->关闭 关闭->打开）
       overlay.style.display = isMenuVisible ? 'none' : 'block';
-      if (!isMenuVisible) populateCities(); 
+      if (!isMenuVisible) {
+        populateCities(); 
+        // 清空搜索框
+        document.getElementById('search').value = '';
+      }
     }
     
     // 显示城市列表并相应点击
