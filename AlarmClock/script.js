@@ -51,8 +51,10 @@ fetch("//"+SERVER_HOST+":8080/clock", requestOptions)
   // showMessage("Welcome to Alarm Clock!");
 })
 
-
-
+// 禁止选中文本
+document.onselectstart = function() {
+  return false;
+}
 
 // Get the elements
 var container = document.querySelector(".container");
