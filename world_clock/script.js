@@ -12,9 +12,9 @@
 
 // SERVER_HOST = "10.19.190.183";
 var SERVER_HOST;
-// localStorage存SERVER_HOST和token？
+// localStorage存SERVER_HOST和token
 
-  // 从cities.json文件中获取城市列表
+
   var cities = [] //用于接收文件里的城市列表
   var addedCities = []; // 用于存储已添加的城市名称
   var myHeaders = new Headers();
@@ -31,7 +31,7 @@ var SERVER_HOST;
     
 
 
-// /*1. 获取token（调试用，直接获取，若为实例则从localStorage获取）*/
+// /*----0. 获取token（调试用，直接获取，若为实例则从localStorage获取）----*/
 //     myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
 //     myHeaders.append("Content-Type", "application/json");
 //     var raw = JSON.stringify({
@@ -56,7 +56,7 @@ var SERVER_HOST;
 //           myHeaders.append("Authorization", result.data.Token);
 //           // console.log(result.data.Token);
 
-/*2. 登陆成功，获取城市列表*/
+/*----1. 登陆成功，获取城市列表----*/
           var requestOptions = {
             method: 'GET',
             headers: myHeaders,
@@ -71,7 +71,7 @@ var SERVER_HOST;
                 cities = result.data.cities;
                 // console.log(cities);
 
-/*3. 获取用户已添加的城市*/ 
+/*----2. 获取用户已添加的城市----*/ 
                 fetch("//"+SERVER_HOST+":8080/world_clock/get", requestOptions)
                   .then(response => response.json())
                   // .then(result => console.log(result))

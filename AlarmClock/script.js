@@ -18,45 +18,44 @@ var requestOptions = {
   redirect: 'follow'
 };
 fetch("//"+SERVER_HOST+":8080/clock", requestOptions)
-   .then(response => response.json())
-   .then(result => {
-    console.log(result);
-    if(result.code === 1){
-    pre_alarms=result.data.clocks;
-    pre_alarms.forEach( pre_alarm => {
-      var hour = parseInt(parseInt(pre_alarm.clock_time)/100); // 小时部分为第一个字符串
-      var minute = parseInt(pre_alarm.clock_time)%100; // 分钟部分为第二个字符串
-      var alarm = {
-        hour: hour,
-        minute: minute,
-        active: pre_alarm.status,// The alarm is active by default
-        id:pre_alarm.id
-        };
-      alarmList.push(alarm);
-      console.log(alarm);
-        // Sort the alarm list by time
-      alarmList.sort(function(a, b) {
-         return a.hour * 60 + a.minute - b.hour * 60 - b.minute;
-           });
-      // Render the alarm list
-      renderAlarmList();
+    .then(response => response.json())
+    .then(result => {
+      // console.log(result);
+      if(result.code === 1){
+      pre_alarms=result.data.clocks;
+      pre_alarms.forEach( pre_alarm => {
+        // 从后端接收到的字符串转换为时间并添加闹钟
+        var hour = parseInt(parseInt(pre_alarm.clock_time)/100); // 小时部分为第一个字符串
+        var minute = parseInt(pre_alarm.clock_time)%100; // 分钟部分为第二个字符串
+        var alarm = {
+          hour: hour,
+          minute: minute,
+          active: pre_alarm.status,// 创建默认激活状态
+          id:pre_alarm.id
+          };
+        alarmList.push(alarm);
+        console.log(alarm);
+        // 时钟按时间排序
+        alarmList.sort(function(a, b) {
+          return a.hour * 60 + a.minute - b.hour * 60 - b.minute;
+        });
+        // 渲染时钟列表
+        renderAlarmList();
+      })
+      }else{
+        console.log(result.msg);
+      }
     })
-    }else{
-      console.log(result.msg);
-    }
-   })
-   .catch(error => console.log('error', error));
+    .catch(error => console.log('error', error));
 
   getCurrentTime();
-  // showMessage("Welcome to Alarm Clock!");
 })
 
-// 禁止选中文本
+// 禁止选中文本(防止误操作)
 document.onselectstart = function() {
   return false;
 }
 
-// Get the elements
 var container = document.querySelector(".container");
 var clock = document.querySelector(".clock");
 var time = document.querySelector(".time");
@@ -82,22 +81,19 @@ var modalPickerMinuteDown = document.querySelector(".modal-picker-minute-down");
 var modalFooter = document.querySelector(".modal-footer");
 var modalSubmit = document.querySelector(".modal-submit");
 
-// Initialize the variables
-var alarmList = []; // An array of alarm objects
-var currentAlarm = null; // The alarm object that is being edited or added
-var alarmSound = new Audio("../Timer/Zelda’s Lullaby.ogg"); // The sound to play when the alarm goes off
+var alarmList = []; // 闹钟数组
+var currentAlarm = null; // 当前闹钟（只有编辑时不为空）submitModal用以判断是新建还是编辑
+var alarmSound = new Audio("../Timer/Zelda’s Lullaby.ogg");
 
 
-
-   
-// Define some helper functions
+// 格式化显示时间
 function formatTime(num) {
   // Convert a number to a two-digit string
   return num < 10 ? "0" + num : num.toString();
 }
 
+// 页面上方的本地时间显示
 function getCurrentTime() {
-  // Get the current local time and date
   var date = new Date();
   var hour = date.getHours();
   var minute = date.getMinutes();
@@ -105,17 +101,18 @@ function getCurrentTime() {
   var year = date.getFullYear();
   var month = date.getMonth() + 1;
   var day = date.getDate();
-  // Update the time and date elements
+  // 更新显示时间
   time.innerHTML = formatTime(hour) + ":" + formatTime(minute) + ":" + formatTime(second);
   date.innerHTML = year + "-" + formatTime(month) + "-" + formatTime(day);
 }
 
+// 创建闹钟
 function createAlarm(hour, minute) {
-  //保存闹钟
+  // 向后端发创建请求
   var raw = JSON.stringify({
     "clock_time":hour *100 + minute
-   });
-   var requestOptions = {
+  });
+  var requestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: raw,
@@ -125,21 +122,20 @@ function createAlarm(hour, minute) {
    .then(response => response.json())
    .then(result => {
     if(result.code === 1){
-    console.log('success to add the alarm');
-    // Create an alarm object with the given hour and minute
+    // console.log('success to add the alarm');
+    // 创建并显示闹钟
     var alarm = {
     hour: hour,
     minute: minute,
-    active: true ,// The alarm is active by default
+    active: true ,// 默认激活
     id:result.data.clocks.id
     };
-      // Add the alarm to the alarm list
+    // 加入数组并排序
     alarmList.push(alarm);
-    // Sort the alarm list by time
     alarmList.sort(function(a, b) {
     return a.hour * 60 + a.minute - b.hour * 60 - b.minute;
-       });
-    // Render the alarm list
+    });
+    // 渲染时钟列表
     renderAlarmList();
     }
     else {
@@ -151,26 +147,26 @@ function createAlarm(hour, minute) {
 
 }
 
+// 删除闹钟
 function deleteAlarm(index) {
-  // Delete an alarm object with the given index
-   var raw = JSON.stringify({
+  // 发删除请求
+  var raw = JSON.stringify({
     "operation_type": 3,
     "clock_id": alarmList[index].id
-   });
-   var requestOptions = {
+  });
+  var requestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: raw,
     redirect: 'follow'
   };
- 
   fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
     .then(response => response.json())
     .then(result => {
       if(result.code === 1){
-        console.log("删除成功");
+        // console.log("删除成功");
+        // 本地删除
         alarmList.splice(index, 1);
-        // Render the alarm list
         renderAlarmList();
       }
       else{
@@ -180,119 +176,106 @@ function deleteAlarm(index) {
     .catch(error => console.log('error', error));
 }
 
+// 闹钟激活状态更改
 function toggleAlarm(index) {
   //发状态更改
   var raw = JSON.stringify({
     "operation_type": 1,
     "status": alarmList[index].active ? 0:1,
     "clock_id": alarmList[index].id
- });
- var requestOptions = {
+  });
+  var requestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: raw,
     redirect: 'follow'
- };
- fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
+  };
+  fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
     .then(response => response.json())
     .then(result => {
       if (result.code===1){
-        console.log('success to correct the status');
+        // 本地更改
         alarmList[index].active = !alarmList[index].active;
-        // Render the alarm list
         renderAlarmList();
-        alert("修改成功");
       }
       else {
         console.log(result.msg);
-        alert("修改失败");
+        alert("修改失败，请重试");
       }
     })
     .catch(error => console.log('error', error));
-  // Toggle an alarm object's status with the given index
 }
 
+// 编辑闹钟时间
 function editAlarm(index, hour, minute) {
-  // Edit an alarm object's time with the given index, hour and minute
-  //若编辑后时间改变闹钟激活（否则不更改状态）[待修改]
+
+  //若编辑后时间改变闹钟激活（否则不更改状态也不发请求）
   if (alarmList[index].hour != hour || alarmList[index].minute != minute) {
-  //发状态更改
-  var raw = JSON.stringify({
-    "operation_type": 1,
-    "status": 1,
-    "clock_id": alarmList[index].id
- });
- var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
- };
- fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-      if (result.code===1){
-        console.log('success to correct the status');
-        alarmList[index].active = true;
-        renderAlarmList();
-        alert("修改成功");
-      }
-      else {
-        console.log(result.msg);
-        alert("修改失败");
-      }
-    })
-    .catch(error => console.log('error', error));
-  //发时间更改
-  var raw = JSON.stringify({
-    "operation_type": 2,
-    "clock_time":hour *100 + minute,
-    "clock_id": alarmList[index].id
- });
- var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
- };
- fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-      if (result.code===1){
-        console.log('success to correct the status');
-        alarmList[index].hour = hour;
-        alarmList[index].minute = minute;
-        alert("修改成功");
-        renderAlarmList();
-      }
-      else {
-        console.log(result.msg);
-        alert("修改失败");
-      }
-    })
-    .catch(error => console.log('error', error));
+    //发状态更改
+    var raw = JSON.stringify({
+      "operation_type": 1,
+      "status": 1,
+      "clock_id": alarmList[index].id
+    });
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result.code===1){
+          console.log('success to correct the status');
+          alarmList[index].active = true;
+          renderAlarmList();
+        }
+        else {
+          console.log(result.msg);
+        }
+      })
+      .catch(error => console.log('error', error));
+    //发时间更改
+    var raw = JSON.stringify({
+      "operation_type": 2,
+      "clock_time":hour *100 + minute,
+      "clock_id": alarmList[index].id
+    });
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    fetch("//"+SERVER_HOST+":8080/clock/update", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result.code===1){
+          alarmList[index].hour = hour;
+          alarmList[index].minute = minute;
+          alarmList.sort(function(a, b) {
+            return a.hour * 60 + a.minute - b.hour * 60 - b.minute;
+          });
+          renderAlarmList();
+          alert("修改成功");
+        }
+        else {
+          console.log(result.msg);
+          alert("修改失败");
+        }
+      })
+      .catch(error => console.log('error', error));
   }
-
-
-  // alarmList[index].active = true; // The alarm is active after editing
-  // Sort the alarm list by time
-  alarmList.sort(function(a, b) {
-    return a.hour * 60 + a.minute - b.hour * 60 - b.minute;
-  });
-  // Render the alarm list
-  renderAlarmList();
 }
 
 function showMessage(messagetext){
   var messageBox = document.getElementById("message-box");
   var messageText = document.getElementById("message-text");
   var okButton = document.getElementById("ok-button");
-
-  // 为按钮添加点击事件监听器，关闭对话框
+  // 为按钮添加点击事件监听器，关闭对话框，停止闹钟声音
   okButton.addEventListener("click", function() {
       messageBox.close();
-      // stopAudio();
-      // Stop the alarm sound
       alarmSound.pause();
       alarmSound.currentTime = 0;
   });
@@ -300,8 +283,8 @@ function showMessage(messagetext){
   messageBox.showModal();
 }
 
+// 检查闹钟是否到时间
 function checkAlarm() {
-  // Check if any alarm has reached the set time
   var date = new Date();
   var hour = date.getHours();
   var minute = date.getMinutes();
@@ -309,46 +292,38 @@ function checkAlarm() {
   for (var i = 0; i < alarmList.length; i++) {
     var alarm = alarmList[i];
     if (alarm.active && alarm.hour == hour && alarm.minute == minute && second == 0) {
-      // Play the alarm sound
       alarmSound.play();
-      // Show an alert message
-      // alert("闹钟响了！时间是 " + formatTime(hour) + ":" + formatTime(minute));
       showMessage("闹钟响了！时间是 " + formatTime(hour) + ":" + formatTime(minute));
-      // // Stop the alarm sound
       // alarmSound.pause();
       // alarmSound.currentTime = 0;
-    //   // Turn off the alarm
     //   alarm.active = false;
-      // Render the alarm list
       renderAlarmList();
-      // Break the loop
       break;
     }
   }
 }
 
+// 模态窗口（添加/编辑）
 function showModal(mode, index) {
-  // Show the modal window with the given mode and index
-  // The mode can be either "add" or "edit"
-  // The index is the index of the alarm to be edited, or -1 for adding a new alarm
-  modal.style.display = "block"; // Show the modal element
+  // mode: "add" or "edit"
+  // index: 编辑闹钟的下标或"-1"添加闹钟
+  modal.style.display = "block"; 
+  // 添加闹钟
   if (mode == "add") {
-    // Initialize the modal content for adding a new alarm
     modalTitle.innerHTML = "添加闹钟";
-    // Get the current system time
     var date = new Date();
     var hour = date.getHours();
     var minute = date.getMinutes();
-    // Set the modal hour and minute values to the current system time
+    // 闹钟时间默认为打开时的系统时间
     modalPickerHourValue.innerHTML = formatTime(hour);
     modalPickerMinuteValue.innerHTML = formatTime(minute);
-    // Update the modal time
-    updateModalTime();
-    currentAlarm = null; // There is no current alarm
-  } else if (mode == "edit") {
-    // Initialize the modal content for editing an existing alarm
+    updateModalTime(); // 显示“xx小时xx分钟后响铃”
+    currentAlarm = null; 
+  } 
+  // 编辑闹钟  
+  else if (mode == "edit") {
     modalTitle.innerHTML = "编辑闹钟";
-    var alarm = alarmList[index]; // Get the alarm object
+    var alarm = alarmList[index]; // 获取被编辑的闹钟
     // var date = new Date();
     // var hour = date.getHours();
     // var minute = date.getMinutes();
@@ -357,183 +332,162 @@ function showModal(mode, index) {
     // modalTime.innerHTML = formatTime(Math.floor(diff / 60)) + "小时" + formatTime(diff % 60) + "分钟后响铃";
     modalPickerHourValue.innerHTML = formatTime(alarm.hour);
     modalPickerMinuteValue.innerHTML = formatTime(alarm.minute);
-    updateModalTime(); // Update the modal time
-    currentAlarm = alarm; // Set the current alarm
+    updateModalTime();
+    currentAlarm = alarm; // 编辑时，currentAlarm指向被编辑的闹钟
   }
   modalInterval = setInterval(updateModalTime, 1000); // 每秒更新一次模态时间
 }
 
-
+// 关闭模态窗口的操作
 function hideModal() {
-  // Hide the modal window
-  modal.style.display = "none"; // Hide the modal element
-  modalTitle.innerHTML = ""; // Clear the modal title
-  modalTime.innerHTML = ""; // Clear the modal time
-  modalPickerHourValue.innerHTML = ""; // Clear the modal hour value
-  modalPickerMinuteValue.innerHTML = ""; // Clear the modal minute value
-  currentAlarm = null; // Clear the current alarm
-  // Clear the interval to stop updating the modal time
+  modal.style.display = "none"; 
+  modalTitle.innerHTML = ""; 
+  modalTime.innerHTML = ""; 
+  modalPickerHourValue.innerHTML = ""; 
+  modalPickerMinuteValue.innerHTML = ""; 
+  currentAlarm = null; 
+  // stop updating the modal time
   clearInterval(modalInterval);
   modalInterval = null;
 }
 
+// 修改时间（按键响应）
 function changeHour(direction) {
-  // Change the modal hour value according to the given direction
-  // The direction can be either "up" or "down"
-  var hour = parseInt(modalPickerHourValue.innerHTML); // Get the current hour value
+  // direction: "up" or "down"
+  var hour = parseInt(modalPickerHourValue.innerHTML); 
   if (direction == "up") {
-    hour = (hour + 1) % 24; // Increase the hour by 1, and wrap around if it exceeds 23
+    hour = (hour + 1) % 24; // 模24的+1
   } else if (direction == "down") {
-    hour = (hour + 23) % 24; // Decrease the hour by 1, and wrap around if it is less than 0
+    hour = (hour + 23) % 24; // 模24的-1
   }
-  modalPickerHourValue.innerHTML = formatTime(hour); // Update the modal hour value
-  updateModalTime(); // Update the modal time
+  modalPickerHourValue.innerHTML = formatTime(hour); // 更新设定时间
+  updateModalTime(); // 更新模态时间
 }
-
 function changeMinute(direction) {
-  // Change the modal minute value according to the given direction
-  // The direction can be either "up" or "down"
-  var minute = parseInt(modalPickerMinuteValue.innerHTML); // Get the current minute value
+  var minute = parseInt(modalPickerMinuteValue.innerHTML); 
   if (direction == "up") {
-    minute = (minute + 1) % 60; // Increase the minute by 1, and wrap around if it exceeds 59
+    minute = (minute + 1) % 60; 
   } else if (direction == "down") {
-    minute = (minute + 59) % 60; // Decrease the minute by 1, and wrap around if it is less than 0
+    minute = (minute + 59) % 60; 
   }
-  modalPickerMinuteValue.innerHTML = formatTime(minute); // Update the modal minute value
-  updateModalTime(); // Update the modal time
+  modalPickerMinuteValue.innerHTML = formatTime(minute); 
+  updateModalTime();
 }
 
-//更新模态时间的函数（显示“xx小时xx分钟后响铃”）
+// 更新模态时间的函数（显示“xx小时xx分钟后响铃”）
 function updateModalTime() {
-  // Update the modal time according to the modal hour and minute values
-//   设定的闹钟时间
-  var hour = parseInt(modalPickerHourValue.innerHTML); // Get the modal hour value
-  var minute = parseInt(modalPickerMinuteValue.innerHTML); // Get the modal minute value
-//   系统时间
+  // 设定的闹钟时间
+  var hour = parseInt(modalPickerHourValue.innerHTML); 
+  var minute = parseInt(modalPickerMinuteValue.innerHTML);
+  // 系统时间
   var date = new Date();
   var currentHour = date.getHours();
   var currentMinute = date.getMinutes();
-//   var diff = (hour * 60 + minute) - (currentHour * 60 + currentMinute); // Calculate the difference in minutes
+//   var diff = (hour * 60 + minute) - (currentHour * 60 + currentMinute); 
     var diff = (hour * 60 + minute) - (currentHour * 60 + currentMinute) - 1; //-1是为了符合实际情况，12:00的闹钟在12:00设定时第二天才会响
-    if (diff < 0) diff += 24 * 60; // Adjust the difference if it is negative
+    if (diff < 0) diff += 24 * 60; // 调整为正值
     if (diff === 0) modalTime.innerHTML = "不到1分钟后响铃";
     else if (diff < 60) modalTime.innerHTML = diff + "分钟后响铃";
     else modalTime.innerHTML = Math.floor(diff / 60) + "小时" + diff % 60 + "分钟后响铃"; // Update the modal time
 }
 
+// 提交模态窗口的操作
 function submitModal() {
-  // Submit the modal content
-  var hour = parseInt(modalPickerHourValue.innerHTML); // Get the modal hour value
-  var minute = parseInt(modalPickerMinuteValue.innerHTML); // Get the modal minute value
-  if (currentAlarm == null) {
-    // If there is no current alarm, it means adding a new alarm
-    createAlarm(hour, minute); // Call the createAlarm function
-  } else {
-    // If there is a current alarm, it means editing an existing alarm
-    var index = alarmList.indexOf(currentAlarm); // Get the index of the current alarm
-    editAlarm(index, hour, minute); // Call the editAlarm function
+  var hour = parseInt(modalPickerHourValue.innerHTML); 
+  var minute = parseInt(modalPickerMinuteValue.innerHTML);
+  if (currentAlarm == null) { // 创建闹钟
+    createAlarm(hour, minute); 
+  } else { // 编辑闹钟
+    var index = alarmList.indexOf(currentAlarm); 
+    editAlarm(index, hour, minute);
   }
-  hideModal(); // Hide the modal window
+  hideModal();
 }
 
-// Define a function to render the alarm list
+// 渲染闹钟列表
 function renderAlarmList() {
-  // Clear the alarms element
+  // 先清除（防止重叠显示）
   alarms.innerHTML = "";
-  // Loop through the alarm list
-  if(alarmList.length === 0) { alarms.style.display = "none"; }
-  else { alarms.style.display = "block";}
+  if(alarmList.length === 0)
+    alarms.style.display = "none";
+  else
+    alarms.style.display = "block";
   for (var i = 0; i < alarmList.length; i++) {
-    var alarm = alarmList[i]; // Get the alarm object
-    // Create an alarm element
+    var alarm = alarmList[i]; 
+    // 闹钟相关元素的显示
     var alarmElement = document.createElement("div");
     alarmElement.className = "alarm";
-    // Create an alarm time element
     var alarmTime = document.createElement("div");
     alarmTime.className = "alarm-time";
     alarmTime.innerHTML = formatTime(alarm.hour) + ":" + formatTime(alarm.minute);
-    // Create an alarm buttons element
     var alarmButtons = document.createElement("div");
     alarmButtons.className = "alarm-buttons";
-    // Create a toggle button element
     var toggleButton = document.createElement("div");
     toggleButton.className = "alarm-button toggle-button";
     if (alarm.active) {
-      // If the alarm is active, add the active class
+      // 闹钟激活状态的按钮样式
       toggleButton.classList.add("active");
     }
-    // Create a delete button element
     var deleteButton = document.createElement("div");
     deleteButton.className = "alarm-button delete-button";
     deleteButton.innerHTML = "✖";
-    // Append the elements to the alarm buttons element
     alarmButtons.appendChild(toggleButton);
     alarmButtons.appendChild(deleteButton);
-    // Append the elements to the alarm element
     alarmElement.appendChild(alarmTime);
     alarmElement.appendChild(alarmButtons);
-    // Append the alarm element to the alarms element
     alarms.appendChild(alarmElement);
-    // Add event listeners to the alarm element and its buttons
+
+    // 点击闹钟编辑
     alarmElement.addEventListener("click", function(event) {
-      // Prevent the event from bubbling up to the parent elements
-      event.stopPropagation();
-      // Get the index of the clicked alarm
+      event.stopPropagation(); // 阻止事件冒泡(防止触发父元素的事件)
       var index = Array.prototype.indexOf.call(alarms.children, this);
-      // Show the modal window with the edit mode and the index
       showModal("edit", index);
     });
+    // 闹钟状态按钮
     toggleButton.addEventListener("click", function(event) {
-      // Prevent the event from bubbling up to the parent elements
       event.stopPropagation();
-      // Get the index of the clicked alarm
       var index = Array.prototype.indexOf.call(alarms.children, this.parentNode.parentNode);
-      // Toggle the alarm status with the index
       toggleAlarm(index);
     });
+    // 删除闹钟按钮
     deleteButton.addEventListener("click", function(event) {
-      // Prevent the event from bubbling up to the parent elements
       event.stopPropagation();
-      // Get the index of the clicked alarm
       var index = Array.prototype.indexOf.call(alarms.children, this.parentNode.parentNode);
-      // Delete the alarm with the index
       deleteAlarm(index);
     });
   }
 }
 
-// Add event listeners to the add button and the modal elements
+/*-------按钮事件监听-------*/
+// 添加闹钟
 add.addEventListener("click", function() {
-  // Show the modal window with the add mode and -1 as the index
+  // mode:add index:-1
   showModal("add", -1);
 });
+// 关闭模态窗口
 modalClose.addEventListener("click", function() {
-  // Hide the modal window
   hideModal();
 });
+
+// 闹钟时间设定
 modalPickerHourUp.addEventListener("click", function() {
-  // Change the modal hour value up
   changeHour("up");
 });
 modalPickerHourDown.addEventListener("click", function() {
-  // Change the modal hour value down
   changeHour("down");
 });
 modalPickerMinuteUp.addEventListener("click", function() {
-  // Change the modal minute value up
   changeMinute("up");
 });
 modalPickerMinuteDown.addEventListener("click", function() {
-  // Change the modal minute value down
   changeMinute("down");
 });
+
+// 提交闹钟时间
 modalSubmit.addEventListener("click", function() {
-  // Submit the modal content
   submitModal();
 });
 
-// Call the getCurrentTime function every second
+// 每秒检查闹钟和更新系统时间
 setInterval(getCurrentTime, 1000);
-
-// Call the checkAlarm function every minute
 setInterval(checkAlarm, 1000);
