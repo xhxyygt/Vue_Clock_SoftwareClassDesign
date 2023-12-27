@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>倒计时</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="http:////at.alicdn.com/t/c/font_4380206_leorzp0h16c.css">
 </head>
 
 <body>
@@ -23,28 +24,31 @@
     <div class="timer" id="timer" style="display: none;">
         <h1 id="time">00:00:00</h1>
         <p id="total">共00秒</p>
-        <svg>
-            <mask id="progress-mask">
-                <!-- 用path绘制圆心在150，150，半径140的圆-->
-                <path  class="progress-mask" d="M 150 10
-                        A 140 140 0 0 1 150 290
-                        A 140 140 0 0 1 150 10" fill="none" stroke="white" stroke-width="20"></path>
-                <!-- <circle r="140" cx="150" cy="150" :stroke-dasharray="1.2 8.8" stroke-dasharray: 1.2 8.8;stroke-width="12" stroke="black"></circle> -->
-            </mask>
-            <circle class="background" r="140" cx="150" cy="150" mask="url(#progress-mask)"></circle>
-            <circle class="progress" r="140" cx="150" cy="150" id="progress" mask="url(#progress-mask)"></circle>
-        </svg>
-    </div>
-    <div class="buttons" id="buttons" style="display: none;">
-        <button class="pause" id="pause">暂停</button>
-        <button class="stop" id="stop">停止</button>
+        <div id="timer-circle">
+            <svg>
+                <mask id="progress-mask">
+                    <!-- 用path绘制圆心在150，150，半径140的圆-->
+                    <path  class="progress-mask" d="M 150 10
+                            A 140 140 0 0 1 150 290
+                            A 140 140 0 0 1 150 10" fill="none" stroke="white" stroke-width="20"></path>
+                    <!-- <circle r="140" cx="150" cy="150" :stroke-dasharray="1.2 8.8" stroke-dasharray: 1.2 8.8;stroke-width="12" stroke="black"></circle> -->
+                </mask>
+                <circle class="background" r="140" cx="150" cy="150" mask="url(#progress-mask)"></circle>
+                <circle class="progress" r="140" cx="150" cy="150" id="progress" mask="url(#progress-mask)"></circle>
+            </svg>
+        </div>
+
+        <div class="buttons" id="buttons" style="display: none;">
+            <button class="pause" id="pause">暂停</button>
+            <button class="stop" id="stop">停止</button>
+        </div>
     </div>
 
     <!-- 设定页面 -->
     <div class="settings" id="settings">
-        <button class="increase" id="hour-increase" >▲</button>
-        <button class="increase" id="minute-increase">▲</button>
-        <button class="increase" id="second-increase">▲</button>
+        <button class="iconfont icon-arrow-up-bold" id="hour-increase" type="button"></button>
+        <button class="iconfont icon-arrow-up-bold" id="minute-increase" type="button"></button>
+        <button class="iconfont icon-arrow-up-bold" id="second-increase" type="button"></button>
         <span class="dim" id="hour-prev">23</span>
         <span class="dim" id="minute-prev">59</span>
         <span class="dim" id="second-prev">59</span>
@@ -57,10 +61,10 @@
         <span class="dim" id="hour-next">01</span>
         <span class="dim" id="minute-next">01</span>
         <span class="dim" id="second-next">01</span>
-        <button class="decrease" id="hour-decrease">▲</button>
-        <button class="decrease" id="minute-decrease">▲</button>
-        <button class="decrease" id="second-decrease">▲</button>
-        <button class="start" id="start">开始计时</button>
+        <button class="iconfont icon-arrow-down-bold" id="hour-decrease" type="button"></button>
+        <button class="iconfont icon-arrow-down-bold" id="minute-decrease" type="button"></button>
+        <button class="iconfont icon-arrow-down-bold" id="second-decrease" type="button"></button>
+        <button class="start" id="start" type="button">开始计时</button>
 
         <!--消息提示框-->
         <dialog id="message-box">
