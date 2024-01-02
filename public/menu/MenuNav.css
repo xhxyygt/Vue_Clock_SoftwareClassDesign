@@ -1,44 +1,64 @@
-/* 顶部菜单栏 */
-nav.menu {
-    background-color: #333;
-    height: 50px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+#nav {
+    margin-top:10px;
+    width:90%;
+    /* 在页面左右居中 */
+    margin-left: auto;
+    margin-right: auto;
+
     position: relative;
-    z-index: 2;
-  }
-  
-  nav.menu ul {
-    margin: 0;
-    padding: 0;
+    border: none;
+    border-radius: 40px;
+    display: flex;
     list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    background: #f5f5f5;
+    box-shadow: 20px 40px 40px #00000033;
+    padding: 10px;
+
     min-height: 50px;
-  }
-  
-  nav.menu li {
-    margin: 0 10px;
-    display: flex;
-    justify-content: center;
+    z-index: 2;
+    justify-content: space-around;
+    /* justify-content: center; */
     align-items: center;
-  }
-  
-  nav.menu a {
-    color: white;
+}
+
+#nav li a {
+    position: relative;
+    /* padding: 15px 40px; */
+    padding: 20px 20px;
+    font: 500 24px '优设标题黑';
+    border: none;
+    outline: none;
+    color: rgb(70, 100, 180);
+    display: inline-block;
     text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-    /* 文本居中 */
-    text-align: center;
+    z-index: 3;
+    /* 文字居中 */
     display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  nav.menu a:hover {
-    background-color: white;
-    color: #333;
-  }
+    text-align: center;
+
+}
+
+.slide1,
+.slide2 {
+    position: absolute;
+    display: inline-block;
+    height: 80%;
+    border-radius: 10em;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
+}
+
+.slide1 {
+    background-color: rgb(170, 190, 255);
+    z-index: 2;
+}
+
+.slide2 {
+    opacity: 0;
+    background-color: rgba(170, 190, 255, .5);
+    z-index: 1;
+    box-shadow: 0 0 20px #ffffffaa inset;
+}
+
+.squeeze {
+    transform: scale(0.9);
+}
