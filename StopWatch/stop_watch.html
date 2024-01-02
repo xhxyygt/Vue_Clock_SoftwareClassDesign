@@ -4,20 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>秒表</title>
+    <!-- <link rel="stylesheet" href="../public/styles.css"> -->
 	<link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="http:////at.alicdn.com/t/c/font_4380206_leorzp0h16c.css">
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="../public/menu/MenuNav.js" type="text/javascript" defer></script>
+    <link rel="stylesheet" href="../public/menu/MenuNav.css">
 </head>
 <body>
-    <nav class="menu">
-        <ul>
-            <li><a href="../AlarmClock/alarm_clock.html">闹钟</a></li>
-            <li><a href="../world_clock/worldclock.html">世界时钟</a></li>
-            <li><a href="../StopWatch/stop_watch.html">秒表</a><li>
-            <li><a href="../Timer/timer.html">计时器</a></li>
-            <li><a href="../Calender/calendar_lunar.html">日历</a></li>
-            <li><a href="#">睡眠追踪</a></li>
-        </ul>
-    </nav>
+    <div id="app">
+        <menu-nav></menu-nav>
+    </div>
     <div id="container">
         <div id="timer">00:00.000</div>
         <ul id="record-list" style="display: none;"></ul>

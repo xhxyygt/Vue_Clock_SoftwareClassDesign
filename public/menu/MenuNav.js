@@ -12,52 +12,5 @@ app.component('menu-nav', {
       </ul>
     </nav>
     `,
-//   设置css样式
-    // data() {
-    //     return{
-    //         style: {
-    //             menu: {
-    //                 width: '100%',
-    //                 height: '50px',
-    //                 backgroundColor: '#333',
-    //                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
-    //                 position: 'relative',
-    //                 zIndex: '2',
-    //                 margin: '0',
-    //             },
-    //             ul: {
-    //                 margin: '0',
-    //                 padding: '0',
-    //                 listStyle: 'none',
-    //                 display: 'flex',
-    //                 justifyContent: 'center',
-    //                 alignItems: 'center',
-    //                 height: '100%',
-    //                 minHeight: '50px',
-    //             },
-    //             li: {
-    //                 margin: '0 10px',
-    //                 display: 'flex',
-    //                 justifyContent: 'center',
-    //                 alignItems: 'center',
-    //             },
-    //             a: {
-    //                 color:'white',
-    //                 textDecoration: 'none',
-    //                 padding: '5px 10px',
-    //                 borderRadius: '5px',
-    //                 transition: 'all 0.3s ease-in-out',
-    //                 textAlign: 'center',
-    //                 display: 'flex',
-    //                 justifyContent: 'center',
-    //                 alignItems: 'center',
-    //             }
-    //         },
-
-    //     }
-    // }
-
-
-
 })
 app.mount('#app')
