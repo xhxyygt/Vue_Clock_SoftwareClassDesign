@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<title>世界时钟</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>世界时钟</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="styles-clock.css">
 </head>
+
 
 <body>
 <!-- 顶部菜单栏 -->
@@ -14,15 +17,44 @@
 		<li><a href="../world_clock/worldclock.html">世界时钟</a></li>
 		<li><a href="../StopWatch/stop_watch.html">秒表</a><li>
 		<li><a href="../Timer/timer.html">计时器</a></li>
-		<li><a href="../Calender/calendar-1.html">日历</a></li>
+		<li><a href="../Calender/calendar_lunar.html">日历</a></li>
 		<li><a href="#">睡眠追踪</a></li>
     </ul>
 </nav>
 <!-- 添加按钮和、菜单、城市列表 -->
 <div class="container">
-	<div id="clock"></div>
+	<div class="container-clock">
+		<div class="clock">
+			<div class="clock__circle">
+			<div class="clock__rounder"></div>
+			<div class="clock__hour" id="clock-hour"></div>
+			<div class="clock__minutes" id="clock-minutes"></div>
+		</div>
+
+		<div>
+			<div class="clock__date">
+				<span class="clock__day-week" id="date-day-week"></span>
+
+				<div>
+					<span class="clock__month" id="date-month"></span>
+					<span class="clock__day" id="date-day"></span>
+					<span class="clock__year" id="date-year"></span>
+				</div>
+			</div>
+
+				<div class="clock__text">
+				<span class="clock__text-hour" id="text-hour"></span>
+				<span class="clock__text-minutes" id="text-minutes"></span>
+				<span class="clock__text-ampm" id="text-ampm"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- <div id="clock"></div> -->
 	<!--点击按钮添加城市，点击遮罩层（即页面空白处）关闭菜单-->
-	<button id="addcity" onclick="toggleMenu()">添加城市</button>
+	<button type="button" id="addcity" onclick="toggleMenu()">添加城市</button>
 	<div class="overlay" onclick="toggleMenu()"></div>
 	<div id="city-menu">
 		<span class="close-btn" onclick="toggleMenu()">✖</span>
@@ -31,12 +63,14 @@
 		<!-- 城市列表将在这里生成 -->
 		</ul>
 	</div>
+	<!-- 用户添加的城市 -->
 	<div id="cities"></div>
 </div>
 <!-- 消息框 -->
 <div id="message" class="message"></div>
 
 <script src="script.js"></script>
+<script src="clock.js"></script>
 </body>
 
 </html>

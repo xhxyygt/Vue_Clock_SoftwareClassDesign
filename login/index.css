@@ -176,7 +176,7 @@ input:focus::placeholder{
     text-align: center;
     margin-bottom: 4px;
     /* 水平方向不显示滑动条 */
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 .message {
     color: black; 

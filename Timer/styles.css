@@ -1,0 +1,386 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    /* background-color: rgb(171, 213, 238); */
+}
+body {
+    background-color: #e0e0e0;
+    font-family: Arial, sans-serif;
+}
+
+
+.timer {
+    margin: 20px auto;
+    width: 300px;
+    height: 300px;
+    /* border: 10px solid black; */
+    border-radius: 50%;
+    position: relative;
+    /* 下移一点 */
+    top: 100px;
+    box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+}
+
+.timer h1 {
+    font-size: 60px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.timer p {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timer svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.timer circle {
+    /* r =140 */
+    fill: none;
+    stroke-width: 10;
+    stroke-linecap: round;
+    transform-origin: 50% 50%;
+}
+.progress-mask{
+    stroke-dasharray: 1.2 4;
+    stroke-width: 10;
+    stroke-linecap: butt;
+    fill:transparent;
+
+
+}
+
+.timer circle.background {
+    stroke: rgb(237, 237, 237);
+    /* stroke-dasharray: 1.2 8.8; */
+    stroke-linecap: butt;
+    transform: rotate(-90deg);
+
+}
+
+.timer circle.progress {
+    /* 圆圈为虚线，间隔和每一段都很短 */
+    /* stroke: gray; */
+    stroke: rgb(19, 143, 184);
+    /* stroke-dasharray: 1.2 8.8; */
+    stroke-dasharray: 880 880;
+    /* 虚线边界为直角 */
+    /* stroke-linecap: butt; */
+
+    transform: rotate(-90deg);
+
+
+}
+
+.buttons {
+    margin: 20px auto;
+    width: 300px;
+    /* display: flex; */
+    justify-content: space-between;
+    /* 在svg下边 */
+    position: relative;
+    top: 350px;
+
+}
+
+
+.buttons button {
+    width: 100px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+.buttons button.pause {
+    background: linear-gradient(to bottom right, #ffa963, #ebdf40);
+    border: 0;
+    border-radius: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow .2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+}
+.buttons button.pause:active{
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+.buttons button.pause:not([disabled]):hover {
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.buttons button.stop {
+    background: linear-gradient(to bottom right, #EF4765, #FF9A5A);
+    border: 0;
+    border-radius: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow .2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+}
+.buttons button.stop:active{
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+.buttons button.stop:hover {
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.settings {
+    margin: 20px auto;
+    width: 300px;
+    height: 400px;
+    display: grid;
+    /* grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr); */
+    grid-template-columns: 5fr 1fr 5fr 1fr 5fr 1fr;
+    grid-template-rows: repeat(5, 1fr) 2fr;
+    grid-gap: 10px;
+    align-items: center;
+    justify-items: center;
+    
+    /* 整个块在页面的上下居中 */
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    margin: 50px auto;
+    border-radius: 40px;
+    box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+    padding: 30px 70px;
+}
+
+.settings button {
+    grid-column: span 2;
+    /* grid-row: 1 / 2; */
+    width: 60px;
+    height: 40px;
+    margin-top: 10%;
+    border: none;
+    border-radius: 20px;
+    font-size: 30px;
+    color: gray;
+    /* 加粗 */
+    font-weight: bold;
+    background-color: transparent;
+    cursor: pointer;
+    /* 凸起的阴影 */
+    box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.3), -2px -5px 5px rgba(255, 255, 255, 0.5);
+}
+
+/* 鼠标在按钮上时按钮响应 */
+.settings button:hover {
+    /* box-shadow: inset 2px 5px 5px rgba(0, 0, 0, 0.3), inset -2px -5px 5px rgba(255, 255, 255, 0.5); */
+    transform: translateY(-1px);
+    transition: all 0.1s ease-in-out;
+}
+/* 点击按钮的响应 */
+.settings button:active {
+    background-color: #d4d4d4;
+    box-shadow: inset 2px 5px 5px rgba(0, 0, 0, 0.3), inset -2px -5px 5px rgba(255, 255, 255, 0.5);
+    transform: translateY(2px);
+    /* 动画 */
+    /* transition: all 0.1s ease-in-out; */
+}
+
+.settings span {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.settings span.dim {
+    grid-column: span 2;
+    font-size: 30px;
+    font-weight: normal;
+    color: gray;
+}
+.settings span.time-set{
+    text-align: right;
+    grid-row: 3/4;
+}
+.settings span#hour {grid-column: 1/3;}
+.settings span#minute {grid-column: 3/5;}
+.settings span#second {grid-column: 5/7;}
+/* .settings span#hour::after {content: "时";}
+.settings span#minute::after {content: "分"; font-size: medium; font-weight: normal;}
+.settings span#second::after {content: "秒";} */
+.settings span.label {
+    font-size: 15px;
+    font-weight: normal;
+    grid-row: 3/4;
+}
+.settings span#label-h {grid-column: 2/3;}
+.settings span#label-m {grid-column: 4/5;}
+.settings span#label-s {grid-column: 6/7;}
+
+.settings button.start {
+    grid-column: 1 / 7;
+    grid-row: 6 / 7;
+    width: 200px;
+    background: linear-gradient(to bottom right, #34c61e, #27c593);
+    border: 0;
+    border-radius: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow .2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+}
+.settings button.start:not([disabled]):focus{
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(177, 239, 71, 0.5), .125rem .125rem 1rem rgba(90, 255, 164, 0.5);
+}
+.settings button.start:not([disabled]):hover {
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(177, 239, 71, 0.5), .125rem .125rem 1rem rgba(90, 255, 164, 0.5);
+}
+
+.alert {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+
+/* 顶部菜单栏 */
+nav.menu {
+    background-color: #333;
+    height: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+  }
+  
+  nav.menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 50px;
+  }
+  
+  nav.menu li {
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  nav.menu a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    /* 文本居中 */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  nav.menu a:hover {
+    background-color: white;
+    color: #333;
+  }
+
+/*消息提示框*/
+#message-box {
+/* 消息框阴影 */
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.2);
+border: 1px solid #ccc;
+border-radius: 10px;
+background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+/* 消息框在页面底部，左右居中 */
+position: fixed;
+bottom: 50%;
+margin-bottom: 0px;
+padding: 10px;
+width: 300px;
+
+text-align: center;
+color: #333;
+font-size: 20px;
+line-height: 1.5;
+
+/* 消息框的层级 */
+z-index: 9999;
+}
+
+/* 为按钮添加纹理和细节 */
+#ok-button {
+background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+width: 60px;
+height: 40px;
+border: 1px solid #ccc;
+border-radius: 5px;
+box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+font-size: 16px;
+padding: 5px 10px;
+}
+
+/* 为按钮添加点击效果 */
+#ok-button:active {
+background: linear-gradient(to bottom, #d0d0d0, #f0f0f0);
+box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.2), inset 0 -1px 1px rgba(255, 255, 255, 0.2);
+}

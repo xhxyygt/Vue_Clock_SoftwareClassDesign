@@ -12,9 +12,9 @@
 
 // SERVER_HOST = "10.19.190.183";
 var SERVER_HOST;
-// localStorage存SERVER_HOST和token？
+// localStorage存SERVER_HOST和token
 
-  // 从cities.json文件中获取城市列表
+
   var cities = [] //用于接收文件里的城市列表
   var addedCities = []; // 用于存储已添加的城市名称
   var myHeaders = new Headers();
@@ -31,7 +31,7 @@ var SERVER_HOST;
     
 
 
-// /*1. 获取token（调试用，直接获取，若为实例则从localStorage获取）*/
+// /*----0. 获取token（调试用，直接获取，若为实例则从localStorage获取）----*/
 //     myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
 //     myHeaders.append("Content-Type", "application/json");
 //     var raw = JSON.stringify({
@@ -56,7 +56,7 @@ var SERVER_HOST;
 //           myHeaders.append("Authorization", result.data.Token);
 //           // console.log(result.data.Token);
 
-/*2. 登陆成功，获取城市列表*/
+/*----1. 登陆成功，获取城市列表----*/
           var requestOptions = {
             method: 'GET',
             headers: myHeaders,
@@ -71,7 +71,7 @@ var SERVER_HOST;
                 cities = result.data.cities;
                 // console.log(cities);
 
-/*3. 获取用户已添加的城市*/ 
+/*----2. 获取用户已添加的城市----*/ 
                 fetch("//"+SERVER_HOST+":8080/world_clock/get", requestOptions)
                   .then(response => response.json())
                   // .then(result => console.log(result))
@@ -160,21 +160,21 @@ var SERVER_HOST;
     //   });
     
 
-      updateLocalTime(); //打开后立即更新本地时间（防止隔1秒才出现造成卡顿效果）
+      // updateLocalTime(); //打开后立即更新本地时间（防止隔1秒才出现造成卡顿效果）
   });
   
 
 
 
-    // 更新本地时间
-    function updateLocalTime() {
-      const now = new Date();
-      // document.getElementById('clock').innerHTML = now.toLocaleTimeString().slice(0, 5) + ' ' + now.toLocaleDateString(); //小时和分钟
-      document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US',{hour12: false}) + ' ' + now.toLocaleDateString(); //小时、分钟和秒
-      //改为12小时制
-      // document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US', { hour12: true  }) + ' ' + now.toLocaleDateString(); 
-    }
-    setInterval(updateLocalTime, 1000);
+    // // 更新本地时间
+    // function updateLocalTime() {
+    //   const now = new Date();
+    //   // document.getElementById('clock').innerHTML = now.toLocaleTimeString().slice(0, 5) + ' ' + now.toLocaleDateString(); //小时和分钟
+    //   document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US',{hour12: false}) + ' ' + now.toLocaleDateString(); //小时、分钟和秒
+    //   //改为12小时制
+    //   // document.getElementById('clock').innerHTML = now.toLocaleTimeString('en-US', { hour12: true  }) + ' ' + now.toLocaleDateString(); 
+    // }
+    // setInterval(updateLocalTime, 1000);
     
     // 消息模块，3s后消失
     function showMessage(text) {
@@ -191,7 +191,11 @@ var SERVER_HOST;
       const isMenuVisible = menu.style.display === 'block';
       menu.style.display = isMenuVisible ? 'none' : 'block'; // 切换菜单的显示状态（打开->关闭 关闭->打开）
       overlay.style.display = isMenuVisible ? 'none' : 'block';
-      if (!isMenuVisible) populateCities(); 
+      if (!isMenuVisible) {
+        populateCities(); 
+        // 清空搜索框
+        document.getElementById('search').value = '';
+      }
     }
     
     // 显示城市列表并相应点击
@@ -201,7 +205,7 @@ var SERVER_HOST;
       cities.forEach(city => {
         const li = document.createElement('li'); 
         // li.innerHTML = `<span class="city-name">${city.name}</span> - ${city.country} - ${city.timezone}`;
-        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT ${city.id}`; //后端获取的
+        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT${(city.time_zone<0?"":"+") + city.time_zone}`; //后端获取的
         li.onclick = function() { selectCity(city); };
         cityList.appendChild(li);
       });
@@ -217,14 +221,14 @@ var SERVER_HOST;
         return city.city.toLowerCase().includes(search) ||
               city.country.toLowerCase().includes(search)||
               //id搜索(id是数字，所以要转换成字符串)
-              city.id.toString().includes(search);
+              city.time_zone.toString().includes(search);
       });
       const cityList = document.getElementById('city-list');
       cityList.innerHTML = '';
       filteredCities.forEach(city => {
         const li = document.createElement('li');
         // li.innerHTML = `<span class="city-name">${city.name}</span> - ${city.country} - ${city.timezone}`;
-        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT ${city.id}`;
+        li.innerHTML = `<span class="city-name">${city.city}</span> - ${city.country} - GMT${(city.time_zone<0?"":"+") + city.time_zone}`;
         li.onclick = function() { selectCity(city); };
         cityList.appendChild(li);
       });
