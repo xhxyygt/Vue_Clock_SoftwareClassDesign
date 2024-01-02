@@ -55,7 +55,7 @@
     <div id="message" class="message"></div>
     <script>
         // $("#flipperclock").load("flipperclock copy.html");
-        SERVER_HOST="10.19.190.183";
+        SERVER_HOST="10.19.186.249";
         localStorage.setItem('SEVER-HOST', SERVER_HOST);
         // 要操作到的元素
         let login=document.getElementById('login');
@@ -81,10 +81,19 @@
         login_button.addEventListener('click',()=>{
             var text = document.getElementById("text-login").value;
             var password = document.getElementById("password-login").value;
+            var flag=1;
             //console.log(text);
             //console.log(password);
             //用于控制台判定是否正确获取
-
+            if(text===""){
+            showMessage("用户名不能为空");
+            flag=0;
+            }
+            else if(password===""){
+            showMessage("密码不能为空");
+            flag=0;
+            }
+             if (flag===1){
             var myHeaders = new Headers();
             myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
             myHeaders.append("Content-Type", "application/json");
@@ -100,34 +109,48 @@
             body: raw,
             redirect: 'follow'
             };
-
+            
             fetch("//"+SERVER_HOST+":8080/login", requestOptions)
             .then(response => response.json())
 
              .then(result =>{
               if(result.code===1){
                 console.log('登入成功');
-                showMessage('登入成功');
+                showMessage('登录成功');
                 window.location.href="../AlarmClock/alarm_clock.html";
                 localStorage.setItem('token', result.data.Token);
               }
               else{
                 console.log('登入失败');
-                showMessage('登入失败');
+                showMessage('登录失败');
               }
              })
              .catch(error => console.log('error', error));
+            }
             })
-        
+            
         //注册按键点击事件
         register_button.addEventListener('click',()=>{    
          var text = document.getElementById("text-register").value;
          var password1 = document.getElementById("password1-register").value;
          var password2 = document.getElementById("password2-register").value;
+         var flag1=1;
         // var email = document.getElementById("email-register").value;
+        if(text===""){
+            showMessage("用户名不能为空");
+            flag1=0;
+        }
+        else if(password1===""){
+            showMessage("密码不能为空");
+            flag1=0;
+        }
+        else if(password2===""){
+            showMessage("确认密码不能为空");
+            flag1=0;
+        }
 
-        if (password1 === password2){
-            var myHeaders = new Headers();
+        if ((password1 === password2)||flag1===1){
+        var myHeaders = new Headers();
          myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
          myHeaders.append("Content-Type", "application/json");
 
@@ -166,6 +189,8 @@
             showMessage('两次密码不一致!');
         }
          });
+        
+        
 
     function showMessage(text) {
       const messageDiv = document.getElementById('message');
