@@ -18,9 +18,10 @@
         // 定义函数
         // 格式化时间
         function formatTime(time) {
+            // time = time / 1000;
             var minutes = Math.floor(time / 60000);
             var seconds = Math.floor((time % 60000) / 1000);
-            var milliseconds = time % 1000;
+            var milliseconds = Math.floor(time % 1000);
             return (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds) + "." + (milliseconds < 10 ? "00" + milliseconds : milliseconds < 100 ? "0" + milliseconds : milliseconds);
         }
 
@@ -35,7 +36,7 @@
         // 开始计时
         function startTimer() {
             startTime = Date.now();
-            interval = setInterval(updateTime, 10);
+            interval = setInterval(updateTime, 1);
             start.style.display = "none";
             record.style.display = "inline";
             pause.style.display = "inline";
@@ -58,7 +59,7 @@
         function resumeTimer() {
             pause_period += Date.now() - pauseTime;
             // startTime = Date.now();
-            interval = setInterval(updateTime, 10);
+            interval = setInterval(updateTime, 1);
             resume.style.display = "none";
             stop.style.display = "none";
             record.style.display = "inline";
@@ -68,7 +69,7 @@
         // 结束计时
         function stopTimer() {
             clearInterval(interval);
-            timer.textContent = "00:00.000";
+            timer.textContent = "00:00.00";
             recordList.innerHTML = "";
             resume.style.display = "none";
             stop.style.display = "none";

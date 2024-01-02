@@ -33,6 +33,8 @@ body {
     width: 250px;
 
     font-size: 48px;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
     font-weight: bold;
     color: #333;
     box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
