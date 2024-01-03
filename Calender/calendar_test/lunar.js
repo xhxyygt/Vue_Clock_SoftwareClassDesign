@@ -221,15 +221,15 @@ const wFtv = [
                 function cDay(d) {
                     var s;
                     switch (d) {
-                        case 10:
-                            s = '初十';
-                            break;
-                        case 20:
-                            s = '二十';
-                            break;
-                        case 30:
-                            s = '三十';
-                            break;
+                        // case 10:
+                        //     s = '初十';
+                        //     break;
+                        // case 20:
+                        //     s = '二十';
+                        //     break;
+                        // case 30:
+                        //     s = '三十';
+                        //     break;
                         default:
                             s = nStr2[Math.floor(d / 10)];
                             //s += nStr1[d % 10];

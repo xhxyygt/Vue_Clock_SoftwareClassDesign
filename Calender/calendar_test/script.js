@@ -1,34 +1,27 @@
 
 const isLeapYear = (year) => {
     return (
-      (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) ||
-      (year % 100 === 0 && year % 400 === 0)
+        (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) ||
+        (year % 100 === 0 && year % 400 === 0)
     );
-  };
-  const getFebDays = (year) => {
+};
+const getFebDays = (year) => {
     return isLeapYear(year) ? 29 : 28;
-  };
-  let calendar = document.querySelector('.calendar');
-  const month_names = [
-    '一月',
-    '二月',
-    '三月',
-    '四月',
-    '五月',
-    '六月',
-    '七月',
-    '八月',
-    '九月',
-    '十月',
-    '十一月',
-    '十二月',
-  ];
-  let month_picker = document.querySelector('#month-picker');
-  const dayTextFormate = document.querySelector('.day-text-formate');
-  const timeFormate = document.querySelector('.time-formate');
-  const dateFormate = document.querySelector('.date-formate');
-  
-  month_picker.onclick = () => {
+};
+const month_names = [
+    '一月','二月','三月','四月',
+    '五月','六月','七月','八月',
+    '九月','十月','十一月','十二月',
+];
+
+let calendar = document.querySelector('.calendar');
+let month_picker = document.querySelector('#month-picker');
+const dayTextFormate = document.querySelector('.day-text-formate');
+const timeFormate = document.querySelector('.time-formate');
+const dateFormate = document.querySelector('.date-formate');
+
+// 点击月份显示月份列表
+month_picker.onclick = () => {
     month_list.classList.remove('hideonce');
     month_list.classList.remove('hide');
     month_list.classList.add('show');
@@ -38,36 +31,39 @@ const isLeapYear = (year) => {
     timeFormate.classList.add('hideTime');
     dateFormate.classList.remove('showtime');
     dateFormate.classList.add('hideTime');
-  };
-  
-  const generateCalendar = (month, year) => {
-    let calendar_days = document.querySelector('.calendar-days');
+};
+
+// 根据选择的月份和年份生成日历
+// 注：month为0-11（1月参数为0）
+const generateCalendar = (month, year) => {
+    let calendar_days = document.querySelector('.calendar-days'); // 日期表格
     calendar_days.innerHTML = '';
     let calendar_header_year = document.querySelector('#year');
     let days_of_month = [
-      31,
-      getFebDays(year),
-      31,
-      30,
-      31,
-      30,
-      31,
-      31,
-      30,
-      31,
-      30,
-      31,
+        31,
+        getFebDays(year),
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31,
     ];
     
-    let currentDate = new Date();
     
+    // 上方的月份和年份
     month_picker.innerHTML = month_names[month];
-    
     calendar_header_year.innerHTML = year;
     
-    let first_day = new Date(year, month);
-  
-  
+    let first_day = new Date(year, month); // 当月第一天
+    let currentDate = new Date();
+
+
+    
   for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
   
       let day = document.createElement('div');
@@ -95,6 +91,7 @@ const isLeapYear = (year) => {
     month_list.append(month);
     month.onclick = () => {
       currentMonth.value = index;
+    //   console.log(currentMonth.value); //点击5月，控制台输出4
       generateCalendar(currentMonth.value, currentYear.value);
       month_list.classList.replace('show', 'hide');
       dayTextFormate.classList.remove('hideTime');
