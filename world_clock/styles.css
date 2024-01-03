@@ -1,34 +1,15 @@
-
-
-body { 
-    font-family: Arial, sans-serif; 
-    margin: 0; 
-    padding: 0; 
-    background: #f7f7f7;
-}
 .container {
     /*上下留白*/
     padding-top: 10px;
-    padding-bottom: 20px;
     /*左右留白*/
     padding-left: 20px;
     padding-right: 20px;
     /*居中*/
-    margin: 10px;
+    margin: 0 auto;
+    margin-top: 20px;
     /*宽度*/
-    /* width: 100%; */
-/* 延伸到屏幕底部,留白一点点 */
+    width: 95%;
     min-height: calc(100vh - 80px);
-
-
-    /*背景颜色*/
-    /* background-color: #dff7f6; */
-    background-color: #fff;
-    /*圆角*/
-    border-radius: 10px;
-    /*阴影*/
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-
 }
 
 /*网页最上边的当地时间*/
@@ -132,48 +113,5 @@ button#addcity:hover{
     background: #f0f0f0; 
     padding: 10px; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-/* 顶部菜单栏 */
-nav.menu {
-    background-color: #333;
-    min-height: 50px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-nav.menu ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    min-height: 50px;
-}
-
-nav.menu li {
-    margin: 0 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-nav.menu a {
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-    /* 文本居中 */
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-nav.menu a:hover {
-    background-color: white;
-    color: #333;
 }
 
