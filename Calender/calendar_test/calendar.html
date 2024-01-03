@@ -1,40 +1,46 @@
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>日历</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">  
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:700,400' rel='stylesheet' type='text/css'>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://code.angularjs.org/1.8.2/angular-animate.js'></script>
     <script src="script.js" defer></script>
-  </head>
-  <body>
+    <script src="schedule.js" defer></script>
+</head>
+<body>
     <div class="contianer">
-      <div class="calendar">
-        <div class="calendar-header">
-          <span class="month-picker" id="month-picker"></span>
-          <div class="year-picker" id="year-picker">
-            <span class="year-change" id="pre-year">
-              <pre><</pre>
-            </span>
-            <span id="year"></span>
-            <span class="year-change" id="next-year">
-              <pre>></pre>
-            </span>
-          </div>
-        </div>
- 
+        <div class="calendar">
+            <div class="calendar-header">
+                <span class="month-picker" id="month-picker"></span>
+                <div class="year-picker" id="year-picker">
+                    <span class="year-change" id="pre-year">
+                        <pre><</pre>
+                    </span>
+                    <span id="year"></span>
+                    <span class="year-change" id="next-year">
+                        <pre>></pre>
+                    </span>
+                </div>
+            </div>
         <div class="calendar-body">
-          <div class="calendar-week-days">
-            <div>日</div>
-            <div>一</div>
-            <div>二</div>
-            <div>三</div>
-            <div>四</div>
-            <div>五</div>
-            <div>六</div>
-          </div>
-          <div class="calendar-days">
-          </div>
+            <div class="calendar-week-days">
+                <div>日</div>
+                <div>一</div>
+                <div>二</div>
+                <div>三</div>
+                <div>四</div>
+                <div>五</div>
+                <div>六</div>
+            </div>
+            <div class="calendar-days"></div>
         </div>
         <div class="calendar-footer">
         </div>
@@ -47,6 +53,12 @@
         </div>
         <div class="month-list"></div>
       </div>
+      <div class="schedule">
+        <div class='list'>
+            <div class='list-item' ng-repeat='item in items'>
+        </div>
+        </div>
+        </div> 
     </div>
-  </body>
+    </body>
 </html>

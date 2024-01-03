@@ -70,6 +70,7 @@ const isLeapYear = (year) => {
   for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
   
       let day = document.createElement('div');
+      day.classList.add('date-item');
   
       if (i >= first_day.getDay()) {
         day.innerHTML = i - first_day.getDay() + 1;
@@ -157,22 +158,62 @@ const isLeapYear = (year) => {
   }, 1000);
   
 // 点击下方的今日时间，跳转到当天
+// 判断当前是否是今天，若是今天则不用跳转
+// 判断当前月份是否和今天在同一月份，如果是的话就不用跳转，只把current-date类名添加到当天同时删除其他元素的current-date类名
     const today = document.querySelector('.date-time-formate');
     today.addEventListener('click', () => {
-        currentMonth.value = currentDate.getMonth();
-        currentYear.value = currentDate.getFullYear();
-        generateCalendar(currentMonth.value, currentYear.value);
+        if (currentMonth.value === currentDate.getMonth() && currentYear.value === currentDate.getFullYear()) { //月份是当前月，不用跳转，只把current-date类名添加到当天同时删除其他元素的current-date类名
+            const calendarDays = document.querySelector('.calendar-days');
+            const siblings = calendarDays.children;
+            for (let i = 0; i < siblings.length; i++) {
+                // console.log(siblings[i].innerHTML);
+                // console.log(currentDate.getDate());
+                // console.log(siblings[i].innerHTML.toString() === currentDate.getDate().toString());
+                if (siblings[i].innerHTML.toString() === currentDate.getDate().toString()) {
+                    siblings[i].classList.add('current-date');
+                }
+                else {
+                    siblings[i].classList.remove('current-date');
+                }
+            }            
         }
-    );
+        else {
+            currentMonth.value = currentDate.getMonth();
+            currentYear.value = currentDate.getFullYear();
+            generateCalendar(currentMonth.value, currentYear.value);
+        }
+    });
+
+    // const today = document.querySelector('.date-time-formate');
+    // today.addEventListener('click', () => {
+    //     currentMonth.value = currentDate.getMonth();
+    //     currentYear.value = currentDate.getFullYear();
+    //     generateCalendar(currentMonth.value, currentYear.value);
+    //     }
+    // );
 
 // 用户点击某一天后，当天的背景色变化
     const calendarDays = document.querySelector('.calendar-days');
     calendarDays.addEventListener('click', (e) => {
         const target = e.target;
-        if (target.classList.contains('current-date')) {
-            target.classList.add('current-date-clicked');
+        if (target.classList.contains('date-item')) {
+            // 添加current-date类名，同时去掉其他元素的current-date类名
+            target.classList.add('current-date');
+            const siblings = target.parentNode.children;
+            for (let i = 0; i < siblings.length; i++) {
+                if (siblings[i] !== target) {
+                    siblings[i].classList.remove('current-date');
+                }
+            }
+            
+
         }
+
+        // target.addClass("current-date").siblings().removeClass("current-date");
+        // if (target.classList.contains('current-date')) {
+        //     target.classList.add('current-date-clicked');
+        // }
     }
     );
-    
+
 
