@@ -102,3 +102,7 @@ body {
 #record-list li span:last-child {
     font-weight: bold;
 }
+/* 不显示滑动条 */
+::-webkit-scrollbar {
+    display: none;
+}

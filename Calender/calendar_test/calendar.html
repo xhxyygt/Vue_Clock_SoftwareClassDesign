@@ -4,7 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>日历</title>
-    <link rel="stylesheet" href="styles.css">  
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="add_date.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Montserrat:700,400' rel='stylesheet' type='text/css'>
 
@@ -14,6 +15,7 @@
     <script src='https://code.angularjs.org/1.8.2/angular-animate.js'></script>
     <script src="script.js" defer></script>
     <script src="schedule.js" defer></script>
+    <script src="lunar.js" defer></script>
 </head>
 <body>
     <div class="contianer">
@@ -53,12 +55,31 @@
         </div>
         <div class="month-list"></div>
       </div>
+      
       <div class="schedule">
         <div class='list'>
-            <div class='list-item' ng-repeat='item in items'>
+            <div class='list-item'>
+            </div>
         </div>
-        </div>
-        </div> 
+      </div> 
     </div>
+    <button class="add-button" onclick="showPopup('add')">+</button>
+    <!-- 添加窗口 -->
+    <div class="overlay">
+        <div class="popup">
+          <h2 id="popupTitle"></h2>
+          <label for="taskInput">日程安排:</label>
+          <input type="text" id="taskInput" placeholder="请输入日程安排">
+          <br>
+          <label for="startTimeInput">开始日期:</label>
+          <input type="datetime-local" id="startTimeInput">
+          <br>
+          <label for="endTimeInput">结束日期:</label>
+          <input type="datetime-local" id="endTimeInput">
+          <br>
+          <button onclick="cancelSchedule()">取消</button>
+          <button onclick="saveSchedule()">完成</button>
+        </div>
+      </div>
     </body>
 </html>

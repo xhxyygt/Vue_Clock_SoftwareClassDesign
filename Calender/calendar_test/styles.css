@@ -202,6 +202,10 @@
     top: 140px;
     justify-content: center;
   }
+  .date-time-formate:hover {
+    cursor: pointer;
+    color:#68c9f0;
+  }
   .day-text-formate {
     font-family: Microsoft JhengHei UI;
     font-size: 1.4rem;
@@ -297,7 +301,9 @@
     }
   }
 
-
+  ::-webkit-scrollbar {
+    display: none;
+  }
 /* 日程部分 */
 .schedule {
     background: linear-gradient(#c4f185, #86d2f3);
