@@ -40,13 +40,13 @@
                                                     }
                                                 </script>
                                             </select> 月 </font>
-                                        <font color="#ffffff" face="宋体" id="GZ" style="FONT-SIZE: 12pt"></font><br>  
+                                        <font color="red" face="宋体" id="GZ" style="FONT-SIZE: 12pt"></font><br>  
                                         <div class="jump-container">
                                             <button class="jump-btn" onclick="jumpToToday()">今</button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr align="middle" bgcolor="#e0e0e0">
+                                <tr align="middle" bgcolor="#e0e0e0" height="30">
                                     <td width="54">日</td>
                                     <td width="54">一</td>
                                     <td width="54">二</td>
@@ -58,17 +58,17 @@
                                 <script>
                                     var gNum;
                                     for (let i = 0; i < 6; i++) {
-                                        document.write('<tr align="center">');
+                                        document.write('<tr align="center" height="49">');
                                         for (let j = 0; j < 7; j++) {
                                             gNum = i * 7 + j;
-                                            document.write('<td id=""GD" + gNum"><font id="SD' + gNum + '" size=2 face="Arial Black"');
+                                            document.write('<td id=""GD" + gNum"><font id="SD' + gNum + '" size=3 face="Arial Black"');
                                             if (j == 0) {
                                                 document.write('color=red');
                                             }
                                             if (j == 6) {
                                                 document.write('color=#000080');
                                             }
-                                            document.write(' title=""></font><br><font id="LD' + gNum + '" size=2 style="font-size:9pt"> </font></td>');
+                                            document.write(' title=""></font><br><font id="LD' + gNum + '" size=2 style="font-size:8pt"> </font></td>');
                                         }
                                         document.write('</tr>');
                                     }
@@ -86,9 +86,6 @@
         </div>
 
         <div>
-            
-
-              
               <div class="schedule-list">
                 <ul id="scheduleItems"></ul>
               </div>
@@ -322,7 +319,16 @@
         }
         //在表格中显示公历和农历的日期,以及相关节日
         var cld;
+        var flag=0;
+        var targetDates = [
+         "2024-11-1 2024-11-2",
+         "2024-11-1 2025-11-4"
+        ];
+        var chose_date=null;
+        var chose_cell;
         function drawCld(SY, SM) {
+            if(flag){
+            removeClickListeners(cld);}
             var TF = true;
             var p1 = p2 = "";
             var i, sD, s, size;
@@ -334,20 +340,32 @@
                 lObj = eval('LD' + i);
                 sObj.className = '';
                 sD = i - cld.firstWeek;
+                var row=parseInt(i/7)+4;
+                var col=i%7+1;
+                var targetCell = document.querySelector("tr:nth-child("+row+") td:nth-child("+col+")");
+                targetCell.style.backgroundColor = '#e0e0e0';
+                targetCell.classList.remove("has-dot");
+                targetCell.classList.remove("chosecell_tag");
                 if (sD > -1 && sD < cld.length) { //日期内
                     sObj.innerHTML = sD + 1;
-                       var row=parseInt(i/7)+4;
-                       var col=i%7+1;
-                       var targetCell = document.querySelector("tr:nth-child("+row+") td:nth-child("+col+")");
                     if (cld[sD].isToday) {
-                        sObj.style.color = '#9900FF'; //今日颜色
-                        // 找到目标单元格的 DOM 元素
+                        sObj.style.color = 'rgba(241, 101, 20, 0.915)'; //今日颜色
                        // 修改单元格的样式属性
-                       targetCell.style.backgroundColor = "orange";
-                        
-                    } else {
-                        sObj.style.color = '';
-                        targetCell.style.backgroundColor = "white";
+                       chose_cell=targetCell;
+                       chose_cell.classList.add("chosecell_tag");
+                    } 
+                     // 特定时间段日期标记
+                    var currentDate = new Date(cld[sD].sYear + "-" + cld[sD].sMonth + "-" + cld[sD].sDay );
+                    for (var j = 0; j < targetDates.length; j++) {
+                        var dateRange = targetDates[j].split(" ");
+                        var startDate = new Date(dateRange[0]);
+                        var endDate = new Date(dateRange[1]);
+                        if (currentDate >= startDate && currentDate <= endDate) {
+                            // 修改目标单元格的样式属性
+                            targetCell.classList.add("has-dot");
+                        }
+                        else{targetCell.classList.remove("has-dot");
+                        }
                     }
                     if (cld[sD].lDay == 1) { //显示农历月
                         lObj.innerHTML = '<b>' + (cld[sD].isLeap ? '闰' : '') +monthsChinese[ cld[sD].lMonth-1] +'</b>';
@@ -406,7 +424,50 @@
                     lObj.innerHTML = '';
                 }
             }
+            addClickListeners(cld);
         }
+       //事件监听，点击日历中某一格返回当前日期
+          // 定义全局函数 handleClick
+            function handleClick() {
+            var sD = this.dataset.sD;
+            chose_cell.classList.remove("chosecell_tag");
+            chose_cell = this;
+            chose_cell.classList.add("chosecell_tag");
+            var solarDate = cld[sD].sYear + "-" + cld[sD].sMonth + "-" + (parseInt(sD) + 1);
+            chose_date = solarDate;
+            console.log("当前选中的公历日期是：" + chose_date);
+            }
+
+            // 在 addClickListeners 函数中使用闭包
+            function addClickListeners(cld) {
+            var i;
+            var sD;
+            for (i = 0; i < 42; i++) {
+                sD = i - cld.firstWeek;
+                var row = parseInt(i / 7) + 4;
+                var col = i % 7 + 1;
+                var targetCell = document.querySelector("tr:nth-child(" + row + ") td:nth-child(" + col + ")");
+                if (sD > -1 && sD < cld.length) {
+                (function() {
+                    targetCell.dataset.sD = sD;
+                    targetCell.addEventListener("click", handleClick);
+                })();
+                }
+            }
+            }
+            function removeClickListeners(cld) {
+            var i;
+            var sD;
+            for (i = 0; i < 42; i++) {
+                sD = i - cld.firstWeek;
+                var row = parseInt(i / 7) + 4;
+                var col = i % 7 + 1;
+                var targetCell = document.querySelector("tr:nth-child(" + row + ") td:nth-child(" + col + ")");
+                if (sD > -1 && sD < cld.length) {
+                targetCell.removeEventListener("click", handleClick);
+                }
+            }
+            }
         function jumpToToday() {
         initial();
         }
@@ -475,9 +536,11 @@
         var tD = Today.getDate();
         //打开页时,在下拉列表中显示当前年月,并调用自定义函数drawCld(),显示公历和农历的相关信息
         function initial() {
+            
             CLD.SY.selectedIndex = tY - 1900;
             CLD.SM.selectedIndex = tM;
             drawCld(tY, tM);
+            flag=1;
         }
     </script>
 
