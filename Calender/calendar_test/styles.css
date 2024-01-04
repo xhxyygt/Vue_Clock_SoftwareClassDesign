@@ -38,7 +38,8 @@
   }
   .calendar {
     /* height: 610px; */
-    width: max-content;
+    /* width: max-content; */
+    width: 450px;
     background-color: white;
     border-radius: 25px;
     overflow: hidden;
@@ -158,6 +159,10 @@
     display: block;
     width: 100%;
     text-align: center;
+  }
+  .calendar-days div.day-text{
+    font-size: 0.6rem;
+    /* color: gray; */
   }
    .calendar-days .date-item:hover {
     transition: width 0.2s ease-in-out, height 0.2s ease-in-out;

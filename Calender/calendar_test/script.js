@@ -39,7 +39,7 @@ month_picker.onclick = () => {
 // 根据给出的数组进行计算
 var fat = mat = 9;
 var eve = 0; 
-const month_info = (month, year) => {
+function month_info(month, year){
   fat = mat = 0; // 用于保存某月的第几个星期几的节日
   var SolarDateObj, LunarDateObj;
   var lY, lM, lD = 1; 
@@ -68,7 +68,9 @@ const month_info = (month, year) => {
     31,
   ];
   current_month['days'] = days_of_month[month]; // 公历当月天数
-  SolarDateObj = new Date(month, year, 1); // 当月第一天
+  // console.log(month, year);
+  SolarDateObj = new Date(year, month, 1); // 当月第一天
+  // console.log(SolarDateObj);
   current_month['first_day'] = SolarDateObj.getDay(); // 当月第一天是星期几
 
   if((month+1) == 5) {fat = SolarDateObj.getDay()} // 保存某月的第几个星期几的节日
@@ -79,95 +81,61 @@ const month_info = (month, year) => {
       LunarDateObj = new Dianaday(SolarDateObj); // 当月第一天的农历日期
       lY = LunarDateObj.year; // 农历年份
       lM = LunarDateObj.month; // 农历月份
-      lD = LunarDateObj.day; // 农历日期
+      lD = LunarDateObj.day; // 农历日期改为整数
       lL = LunarDateObj.isLeap; // 农历是否闰月
       lX = lL? leapDays(lY): monthDays(lY, lM); // 农历当月天数
-      if (lM == 12) { eve = lX }
+      if (lM == 12) { eve = lX } //除夕
       if (n == 0) firstLM = lM;
       lDPOS[n++] = i - lD + 1;
     }
     current_month[i] = new calElement(year, month+1, i+1, nStr1[(i + current_month['first_day']) % 7], lY, lM, lD++, lL);
     //周末判断
-    if((i + current_month['first_day']) % 7 == 0 ) current_month[i]['isWeekend'] = true;
+    if((i + current_month['first_day']) % 7 == 0 || (i + current_month['first_day']) % 7 == 6){
+      current_month[i]['is_weekend'] = true;
+    }
+    //农历日期(中文)
+    current_month[i]['lunar_date'] = cDay(current_month[i]['lDay']);
+    //公历节日
+    for (var j in sFtv) {
+      if (parseInt(sFtv[j].substr(0, 2)) == (month + 1)) {
+        if (parseInt(sFtv[j].substr(2, 4)) == (i + 1)) {
+          current_month[i]['solarFestival'] = sFtv[j].substr(5);
+          // console.log(current_month[i]['solar_festival']);
+        }
+      }
+    }
+    //农历节日
+    for (var j in lFtv) {
+      if(parseInt(lFtv[j].substr(0, 2)) == parseInt(lM)){
+        if(parseInt(lFtv[j].substr(2, 4)) == parseInt(current_month[i]['lDay'])){
+          current_month[i]['lunarFestival'] = lFtv[j].substr(5);
+        }
+        if (lM == 12) { // 判断是否为除夕
+          if (current_month[i]['lDay'] == eve) {
+            current_month[i]['lunarFestival'] = '除夕';
+          }
+        }
+      }
+    }
 
-
+    //某月的第几个星期几的节日
+    if ((month + 1) == 5 && (i + 1) == fat) {current_month[i]['solarFestival'] += '母亲节 ';} // 母亲节
+    if ((month + 1) == 6 && (i + 1) == mat) {current_month[i]['solarFestival'] += '父亲节 ';} // 父亲节
+    // 今日
+    if (year == tY && month == tM && i + 1 == tD) {
+      current_month[i]['is_today'] = true;
+    }
   }
-
-
-  LunarDateObj = new Dianaday(SolarDateObj); // 当月第一天的农历日期
-  current_month['lunar_year'] = LunarDateObj.year; // 农历年份
-  current_month['lunar_month'] = LunarDateObj.month; // 农历月份
-  current_month['lunar_day'] = LunarDateObj.day; // 农历日期
-  current_month['lunar_month_name'] = monthName[LunarDateObj.month]; // 农历月份名称
-  current_month['lunar_year_name'] = Animals[(LunarDateObj.year - 4) % 12]; // 农历年份名称
-  current_month['lunar_month_days'] = monthDays(LunarDateObj.year, LunarDateObj.month); // 农历月份天数
-  current_month['solar_terms'] = solarTermCal(year, month); // 节气
-  current_month['gan'] = Gan[(year - 4) % 10]; // 干
-  current_month['zhi'] = Zhi[(year - 4) % 12]; // 支
-
-  // 获取公历节日
-var solar_festival = ""; // 初始化一个空字符串
-var solar_festival_date = (month + 1) * 100 + SolarDateObj.getDate(); // 计算公历节日的日期，例如1月1日是101，2月14日是214
-for (var i = 0; i < sFtv.length; i++) { // 遍历公历节日的数组
-    var solar_festival_item = sFtv[i]; // 获取每个节日的字符串
-    if (solar_festival_item.startsWith(solar_festival_date)) { // 如果节日的字符串以公历节日的日期开头
-        solar_festival = solar_festival_item.slice(5); // 去掉前五个字符，只保留节日的名称
-        break; // 跳出循环
-    }
-}
-current_month['solar_festival'] = solar_festival; // 将字符串赋值给current_month['solar_festival']
-
-// 获取农历节日
-var lunar_festival = ""; // 初始化一个空字符串
-var lunar_festival_date = LunarDateObj.month * 100 + LunarDateObj.day; // 计算农历节日的日期，例如正月初一是101，五月初五是505
-for (var i = 0; i < lFtv.length; i++) { // 遍历农历节日的数组
-    var lunar_festival_item = lFtv[i]; // 获取每个节日的字符串
-    if (lunar_festival_item.startsWith(lunar_festival_date)) { // 如果节日的字符串以农历节日的日期开头
-        lunar_festival = lunar_festival_item.slice(5); // 去掉前五个字符，只保留节日的名称
-        break; // 跳出循环
-    }
-}
-current_month['lunar_festival'] = lunar_festival; // 将字符串赋值给current_month['lunar_festival']
-
-// 获取某月的第几个星期几的节日
-var week_festival = ""; // 初始化一个空字符串
-var week_festival_date = (SolarDateObj.getMonth() + 1) * 100 + Math.floor((SolarDateObj.getDate() - 1) / 7) * 10 + SolarDateObj.getDay(); // 计算某月的第几个星期几的节日的日期，例如1月的第3个星期日是1310，9月的第4个星期一是9440
-for (var i = 0; i < wFtv.length; i++) { // 遍历某月的第几个星期几的节日的数组
-    var week_festival_item = wFtv[i]; // 获取每个节日的字符串
-    if (week_festival_item.startsWith(week_festival_date)) { // 如果节日的字符串以某月的第几个星期几的节日的日期开头
-        week_festival = week_festival_item.slice(5); // 去掉前五个字符，只保留节日的名称
-        break; // 跳出循环
-    }
-}
-current_month['week_festival'] = week_festival; // 将字符串赋值给current_month['week_festival']
-
-
+  // 节气
+  tmp1 = sTerm(year, month * 2) - 1;
+  tmp2 = sTerm(year, month * 2 + 1) - 1;
+  current_month[tmp1]['solarTerms'] = solarTerm[month * 2];
+  current_month[tmp2]['solarTerms'] = solarTerm[month * 2 + 1];
 
   return current_month;
 };
 
 
-
-
-
-
-solarTermCal = (y, m) => {
-  // 节气
-  var sTermInfo = [
-    0, 21208, 42467, 63836, 85337, 107014,
-    128867, 150921, 173149, 195551, 218072, 240693,
-    263343, 285989, 308563, 331033, 353350, 375494,
-    397447, 419210, 440795, 462224, 483532, 504758
-  ];
-  var solarTerms = [];
-  var tmp1 = new Date( ( 31556925974.7*(y-1900) + sTermInfo[m*2+1]*60000 ) + Date.UTC(1900,0,6,2,5) );
-  var tmp2 = tmp1.getUTCDate();
-  if ( tmp2 == m+1 ) solarTerms.push(solarTerm[m*2+1]);
-  tmp1 = new Date( ( 31556925974.7*(y-1900) + sTermInfo[m*2]*60000 ) + Date.UTC(1900,0,6,2,5) );
-  tmp2= tmp1.getUTCDate();
-  if ( tmp2 == m+1 ) solarTerms.push(solarTerm[m*2]);
-  return solarTerms;
-};
 
 // 根据选择的月份和年份生成日历
 // 注：month为0-11（1月参数为0）
@@ -219,7 +187,18 @@ const generateCalendar = (month, year) => {
       if (i >= first_day.getDay()) {
         // day.innerHTML = i - first_day.getDay() + 1;
         day_num.innerHTML = i - first_day.getDay() + 1;
-        day_text.innerHTML = '农历';
+        // day_text.innerHTML = current_month[i - first_day.getDay() ]['lunar_date'];
+        // 优先级：阳历节日 > 农历节日 > 节气 > 农历日期,前三种情况颜色为红色
+        if (current_month[i - first_day.getDay()]['solarFestival'] !== '') {
+          day_text.innerHTML = current_month[i - first_day.getDay()]['solarFestival'];
+        } else if (current_month[i - first_day.getDay()]['lunarFestival'] !== '') {
+          day_text.innerHTML = current_month[i - first_day.getDay()]['lunarFestival'];
+        } else if (current_month[i - first_day.getDay()]['solarTerms'] !== '') {
+          day_text.innerHTML = current_month[i - first_day.getDay()]['solarTerms'];
+        } else {
+          day_text.innerHTML = current_month[i - first_day.getDay()]['lunar_date'];
+        }
+
 
         if (i - first_day.getDay() + 1 === currentDate.getDate() &&
           year === currentDate.getFullYear() &&

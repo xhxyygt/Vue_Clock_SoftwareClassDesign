@@ -21,6 +21,7 @@ const lunarInfo = [
 // 例如0x04bd8表示1900年的农历信息, 0000 0100 1011 1101 1000, 
 // 从高到低依次表示12个月份的大小月信息, 0x04bd8的第一个字节0x04表示1900年的1月是小月, 
 // 第二个字节0x0b表示1900年的2月是大月, 以此类推, 最后一个字节0x08表示1900年的12月是小月
+var sTermInfo = new Array(0, 21208, 42467, 63836, 85337, 107014, 128867, 150921, 173149, 195551, 218072, 240693, 263343, 285989, 308563, 331033, 353350, 375494, 397447, 419210, 440795, 462224, 483532, 504758);
 const solarTerm = [
     '小寒', '大寒', '立春', '雨水', '惊蛰', '春分',
     '清明', '谷雨', '立夏', '小满', '芒种', '夏至',
@@ -151,7 +152,9 @@ function Dianaday(objDate) {
         else { this.isLeap = true; --i; --this.monCyl; }
     if (offset < 0) { offset += temp; --i; --this.monCyl; }
     this.month = i;
-    this.day = offset + 1;
+    // this.day = offset + 1;
+    //四舍五入转换成整数
+    this.day = Math.floor(offset) + 1;
 }
 
 // //记录公历和农历某天的日期
@@ -173,297 +176,36 @@ function calElement(sYear, sMonth, sDay, week, lYear, lMonth, lDay, isLeap) {
     this.solarTerms = ''; //节气
 }
 
-// //返回某年的第n个节气为几日(从0小寒起算)
-// function sTerm(y, n) {
-//     var offDate = new Date((31556925974.7 * (y - 1900) + sTermInfo[n] * 60000) + Date.UTC(1900, 0, 6, 2, 5));
-//     return (offDate.getUTCDate())
-// }
+//返回某年的第n个节气为几日(从0小寒起算)
+function sTerm(y, n) {
+    var offDate = new Date((31556925974.7 * (y - 1900) + sTermInfo[n] * 60000) + Date.UTC(1900, 0, 6, 2, 5));
+    return (offDate.getUTCDate())
+}
 
-// //保存y年m+1月的相关信息
-// var fat = mat = 9;
-// var eve = 0;
-// function calendar_generate(y, m) {
-//     fat = mat = 0;
-//     var sDObj, lDObj, lY, lM, lD = 1, lL, lX = 0, tmp1, tmp2;
-//     var lDPOS = new Array(3);
-//     var n = 0;
-//     var firstLM = 0;
-//     sDObj = new Date(y, m, 1);    //当月第一天的日期
-//     this.length = solarDays(y, m);    //公历当月天数
-//     this.firstWeek = sDObj.getDay();    //公历当月1日星期几
-//     if ((m + 1) == 5) { fat = sDObj.getDay() }
-//     if ((m + 1) == 6) { mat = sDObj.getDay() }
-//     for (var i = 0; i < this.length; i++) {
-//         if (lD > lX) {
-//             sDObj = new Date(y, m, i + 1);    //当月第一天的日期
-//             lDObj = new Dianaday(sDObj);     //农历
-//             lY = lDObj.year;           //农历年
-//             lM = lDObj.month;          //农历月
-//             lD = lDObj.day;            //农历日
-//             lL = lDObj.isLeap;         //农历是否闰月
-//             lX = lL ? leapDays(lY) : monthDays(lY, lM); //农历当月最后一天
-//             if (lM == 12) { eve = lX }
-//             if (n == 0) firstLM = lM;
-//             lDPOS[n++] = i - lD + 1;
-//         }
-//         this[i] = new calElement(y, m + 1, i + 1, nStr1[(i + this.firstWeek) % 7], lY, lM, lD++, lL);
-//         if ((i + this.firstWeek) % 7 == 0) {
-//             this[i].color = 'red';  //周日颜色
-//         }
-//     }
-//     //节气
-//     tmp1 = sTerm(y, m * 2) - 1;
-//     tmp2 = sTerm(y, m * 2 + 1) - 1;
-//     this[tmp1].solarTerms = solarTerm[m * 2];
-//     this[tmp2].solarTerms = solarTerm[m * 2 + 1];
-    
-//     if (y == tY && m == tM) {
-//         this[tD - 1].isToday = true;    //今日
-//     }
-// }
-//                 //用中文显示农历的日期
-//                 function cDay(d) {
-//                     var s;
-//                     switch (d) {
-//                         // case 10:
-//                         //     s = '初十';
-//                         //     break;
-//                         // case 20:
-//                         //     s = '二十';
-//                         //     break;
-//                         // case 30:
-//                         //     s = '三十';
-//                         //     break;
-//                         default:
-//                             s = nStr2[Math.floor(d / 10)];
-//                             //s += nStr1[d % 10];
-//                             s += nStr1[parseInt(d % 10)];
-//                             break;
-//                     }
-//                     return (s);
-//                 }
-//                 //在表格中显示公历和农历的日期,以及相关节日
-//                 var cld;
-//                 var flag=0;
-//                 var targetDates = [
-//                  "2024-11-1 2024-11-2",
-//                  "2024-11-1 2025-11-4"
-//                 ];
-//                 var chose_date=null;
-//                 var chose_cell;
-//                 function drawCld(SY, SM) {
-//                     if(flag){
-//                     removeClickListeners(cld);}
-//                     var TF = true;
-//                     var p1 = p2 = "";
-//                     var i, sD, s, size;
-//                     var monthsChinese=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
-//                     cld = new calendar_generate(SY, SM);
-//                     GZ.innerHTML = '                       【' + Animals[(SY - 4) % 12] + '】';    //生肖
-//                     for (i = 0; i < 42; i++) {
-//                         sObj = eval('SD' + i);
-//                         lObj = eval('LD' + i);
-//                         sObj.className = '';
-//                         sD = i - cld.firstWeek;
-//                         var row=parseInt(i/7)+4;
-//                         var col=i%7+1;
-//                         var targetCell = document.querySelector("tr:nth-child("+row+") td:nth-child("+col+")");
-//                         targetCell.style.backgroundColor = '#e0e0e0';
-//                         targetCell.classList.remove("has-dot");
-//                         targetCell.classList.remove("chosecell_tag");
-//                         if (sD > -1 && sD < cld.length) { //日期内
-//                             sObj.innerHTML = sD + 1;
-//                             if (cld[sD].isToday) {
-//                                 sObj.style.color = 'rgba(241, 101, 20, 0.915)'; //今日颜色
-//                                // 修改单元格的样式属性
-//                                chose_cell=targetCell;
-//                                chose_cell.classList.add("chosecell_tag");
-//                             } 
-//                              // 特定时间段日期标记
-//                             var currentDate = new Date(cld[sD].sYear + "-" + cld[sD].sMonth + "-" + cld[sD].sDay );
-//                             for (var j = 0; j < targetDates.length; j++) {
-//                                 var dateRange = targetDates[j].split(" ");
-//                                 var startDate = new Date(dateRange[0]);
-//                                 var endDate = new Date(dateRange[1]);
-//                                 if (currentDate >= startDate && currentDate <= endDate) {
-//                                     // 修改目标单元格的样式属性
-//                                     targetCell.classList.add("has-dot");
-//                                 }
-//                                 else{targetCell.classList.remove("has-dot");
-//                                 }
-//                             }
-//                             if (cld[sD].lDay == 1) { //显示农历月
-//                                 lObj.innerHTML = '<b>' + (cld[sD].isLeap ? '闰' : '') +monthsChinese[ cld[sD].lMonth-1] +'</b>';
-//                             }
-//                             else { //显示农历日
-//                                 lObj.innerHTML = cDay(cld[sD].lDay);
-//                             }
-//                             var Slfw = Ssfw = null;
-//                             s = cld[sD].solarFestival;
-//                             for (var ipp = 0; ipp < lFtv.length; ipp++) {    //农历节日
-//                                 if (parseInt(lFtv[ipp].substr(0, 2)) === parseInt(cld[sD].lMonth)) {
-//                                     if (parseInt(lFtv[ipp].substr(2, 4)) === parseInt(cld[sD].lDay)) {
-//                                         lObj.innerHTML = lFtv[ipp].substr(5);
-//                                         Slfw = lFtv[ipp].substr(5);
-//                                     }
-//                                 }
-//                                 if (12 == (cld[sD].lMonth)) {    //判断是否为除夕
-//                                     if (eve == (cld[sD].lDay)) { lObj.innerHTML = "除夕"; Slfw = "除夕"; }
-//                                 }
-//                             }
-//                             for (var ipp = 0; ipp < sFtv.length; ipp++) {    //公历节日
-//                                 if (parseInt(sFtv[ipp].substr(0, 2)) == (SM + 1)) {
-//                                     if (parseInt(sFtv[ipp].substr(2, 4)) == (sD + 1)) {
-//                                         lObj.innerHTML = sFtv[ipp].substr(5);
-//                                         Ssfw = sFtv[ipp].substr(5);
-//                                     }
-//                                 }
-//                             }
-//                             if ((SM + 1) == 5) {    //母亲节
-//                                 if (fat == 0) {
-//                                     if ((sD + 1) == 7) { Ssfw = "母亲节"; lObj.innerHTML = "母亲节" }
-//                                 }
-//                                 else if (fat < 9) {
-//                                     if ((sD + 1) == ((7 - fat) + 8)) { Ssfw = "母亲节"; lObj.innerHTML = "母亲节" }
-//                                 }
-//                             }
-//                             if ((SM + 1) == 6) {    //父亲节
-//                                 if (mat == 0) {
-//                                     if ((sD + 1) == 14) { Ssfw = "父亲节"; lObj.innerHTML = "父亲节" }
-//                                 }
-//                                 else if (mat < 9) {
-//                                     if ((sD + 1) == ((7 - mat) + 15)) { Ssfw = "父亲节"; lObj.innerHTML = "父亲节" }
-//                                 }
-//                             }
-//                             if (s.length <= 0) {    //设置节气的颜色
-//                                 s = cld[sD].solarTerms;
-//                                 if (s.length > 0) s = s.fontcolor('limegreen');
-//                             }
-//                             if (s.length > 0) { lObj.innerHTML = s; Slfw = s; }    //节气
-//                             if ((Slfw != null) && (Ssfw != null)) {
-//                                 lObj.innerHTML = Slfw + "/" + Ssfw;
-//                             }
-//                         }
-//                         else { //非日期
-//                             sObj.innerHTML = '';
-//                             lObj.innerHTML = '';
-//                         }
-//                     }
-//                     addClickListeners(cld);
-//                 }
-//                //事件监听，点击日历中某一格返回当前日期
-//                   // 定义全局函数 handleClick
-//                     function handleClick() {
-//                     var sD = this.dataset.sD;
-//                     chose_cell.classList.remove("chosecell_tag");
-//                     chose_cell = this;
-//                     chose_cell.classList.add("chosecell_tag");
-//                     var solarDate = cld[sD].sYear + "-" + cld[sD].sMonth + "-" + (parseInt(sD) + 1);
-//                     chose_date = solarDate;
-//                     console.log("当前选中的公历日期是：" + chose_date);
-//                     }
-        
-//                     // 在 addClickListeners 函数中使用闭包
-//                     function addClickListeners(cld) {
-//                     var i;
-//                     var sD;
-//                     for (i = 0; i < 42; i++) {
-//                         sD = i - cld.firstWeek;
-//                         var row = parseInt(i / 7) + 4;
-//                         var col = i % 7 + 1;
-//                         var targetCell = document.querySelector("tr:nth-child(" + row + ") td:nth-child(" + col + ")");
-//                         if (sD > -1 && sD < cld.length) {
-//                         (function() {
-//                             targetCell.dataset.sD = sD;
-//                             targetCell.addEventListener("click", handleClick);
-//                         })();
-//                         }
-//                     }
-//                     }
-//                     function removeClickListeners(cld) {
-//                     var i;
-//                     var sD;
-//                     for (i = 0; i < 42; i++) {
-//                         sD = i - cld.firstWeek;
-//                         var row = parseInt(i / 7) + 4;
-//                         var col = i % 7 + 1;
-//                         var targetCell = document.querySelector("tr:nth-child(" + row + ") td:nth-child(" + col + ")");
-//                         if (sD > -1 && sD < cld.length) {
-//                         targetCell.removeEventListener("click", handleClick);
-//                         }
-//                     }
-//                     }
-//                 function jumpToToday() {
-//                 initial();
-//                 }
-        
-//                 //在下拉列表中选择年月时,调用自定义函数drawCld(),显示公历和农历的相关信息
-//                 function changeCld() {
-//                     var y, m;
-//                     y = CLD.SY.selectedIndex + 1900;
-//                     m = CLD.SM.selectedIndex;
-//                     drawCld(y, m);
-//                 }
-//                 function addmonth(){
-//                     var y, m;
-//                     if(CLD.SM.selectedIndex<11){
-//                     CLD.SM.selectedIndex++;
-//                     }
-//                     else{
-//                     CLD.SM.selectedIndex=0;
-//                     CLD.SY.selectedIndex++;
-//                     }
-//                     y = CLD.SY.selectedIndex + 1900;
-//                     m = CLD.SM.selectedIndex;
-//                     drawCld(y, m);
-//                 }
-//                 function minusmonth(){
-//                     var y, m;
-//                     if(CLD.SM.selectedIndex>0){
-//                     CLD.SM.selectedIndex--;
-//                     }
-//                     else{
-//                     CLD.SM.selectedIndex=11;
-//                     CLD.SY.selectedIndex--;
-//                     }
-//                     y = CLD.SY.selectedIndex + 1900;
-//                     m = CLD.SM.selectedIndex;
-//                     drawCld(y, m);
-//                 }
-//                 function addyear(){
-//                     var y, m;
-//                     if(CLD.SY.selectedIndex<149){
-//                     CLD.SY.selectedIndex++;
-//                     }
-//                     else{
-//                     CLD.SY.selectedIndex=0;
-//                     }
-//                     y = CLD.SY.selectedIndex + 1900;
-//                     m = CLD.SM.selectedIndex;
-//                     drawCld(y, m);
-//                 }
-//                 function minusyear(){
-//                     var y, m;
-//                     if(CLD.SY.selectedIndex>0){
-//                     CLD.SY.selectedIndex--;
-//                     }
-//                     else{
-//                     CLD.SY.selectedIndex=149;
-//                     }
-//                     y = CLD.SY.selectedIndex + 1900;
-//                     m = CLD.SM.selectedIndex;
-//                     drawCld(y, m);
-//                 }
-//                 //用自定义变量保存当前系统中的年月日
-//                 var Today = new Date();
-//                 var tY = Today.getFullYear();
-//                 var tM = Today.getMonth();
-//                 var tD = Today.getDate();
-//                 //打开页时,在下拉列表中显示当前年月,并调用自定义函数drawCld(),显示公历和农历的相关信息
-//                 function initial() {
-                    
-//                     CLD.SY.selectedIndex = tY - 1900;
-//                     CLD.SM.selectedIndex = tM;
-//                     drawCld(tY, tM);
-//                     flag=1;
-//                 }
+
+//用中文显示农历的日期
+function cDay(d) {
+    var s;
+    switch (d) {
+    case 10:
+        s = '初十';
+        break;
+    case 20:
+        s = '二十';
+        break;
+    case 30:
+        s = '三十';
+        break;
+    default:
+        s = nStr2[Math.floor(d / 10)];
+        //s += nStr1[d % 10];
+        s += nStr1[parseInt(d % 10)];
+        break;
+    }
+    return (s);
+}
+//用自定义变量保存当前系统中的年月日
+    var Today = new Date();
+    var tY = Today.getFullYear();
+    var tM = Today.getMonth();
+    var tD = Today.getDate();
