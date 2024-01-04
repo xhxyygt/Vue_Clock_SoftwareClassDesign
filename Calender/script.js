@@ -339,7 +339,9 @@ function display_reddot() {
                 else {
                     siblings[i].classList.remove('current-date');
                 }
-            }            
+            }
+            chose_date = current_month[currentDate.getDate() - 1]['sYear'] + "-" + current_month[currentDate.getDate() - 1]['sMonth'] + "-" + currentDate.getDate();
+            displaySchedule(scheduleItems);          
         }
         else {
             currentMonth.value = currentDate.getMonth();

@@ -3,96 +3,73 @@
     <head>
         <meta charset="UTF-8">
         <title>日历</title>
-        <link rel="stylesheet" href="calendar_lunar.css">
-        <link rel="stylesheet" href="adddate.css">
         <script src="../public/vue.global.js"></script>
         <script src="../public/menu/MenuNav.js" type="text/javascript" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <link rel="stylesheet" href="../public/menu/MenuNav.css">
+
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="add_date.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:700,400' rel='stylesheet' type='text/css'>
+        
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='https://code.angularjs.org/1.8.2/angular-animate.js'></script>
+        <script src="lunar.js" defer></script>
+        <script src="schedule.js" defer></script>
+        <script src="script.js" defer></script>
     </head>
     <body onload="initial()">
-        <div class="addbutton-container">
-            <button class="add-button" onclick="showPopup('add')">+</button>
-        </div>
         <div id="app">
             <menu-nav></menu-nav>
         </div>
-        <div id="calendar-container">
-        <div align="center">
-            <form name="CLD">
-                <h2>日历</h2>
-                <table>
-                        <td align="middle">
-                            <table>
-                                <tr>
-                                    <td colspan="7">
-                                        <font color="#006600" style="FONT-SIZE: 9pt">公历
-                                            <select name="SY" onchange="changeCld()" style="FONT-SIZE: 9pt">
-                                                <script>
-                                                    for (let i = 1900; i < 2050; i++) {
-                                                        document.write('<option>' + i);
-                                                    }
-                                                </script>
-                                            </select> 年 <select id="seM" name="SM" onchange="changeCld()" style="FONT-SIZE: 9pt">
-                                                <script>
-                                                    for (let i = 1; i < 13; i++) {
-                                                        document.write('<option>' + i);
-                                                    }
-                                                </script>
-                                            </select> 月 </font>
-                                        <font color="red" face="宋体" id="GZ" style="FONT-SIZE: 12pt"></font><br>  
-                                        <div class="jump-container">
-                                            <button class="jump-btn" onclick="jumpToToday()">今</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr align="middle" bgcolor="#e0e0e0" height="30">
-                                    <td width="54">日</td>
-                                    <td width="54">一</td>
-                                    <td width="54">二</td>
-                                    <td width="54">三</td>
-                                    <td width="54">四</td>
-                                    <td width="54">五</td>
-                                    <td width="54">六</td>
-                                </tr>
-                                <script>
-                                    var gNum;
-                                    for (let i = 0; i < 6; i++) {
-                                        document.write('<tr align="center" height="49">');
-                                        for (let j = 0; j < 7; j++) {
-                                            gNum = i * 7 + j;
-                                            document.write('<td id=""GD" + gNum"><font id="SD' + gNum + '" size=3 face="Arial Black"');
-                                            if (j == 0) {
-                                                document.write('color=red');
-                                            }
-                                            if (j == 6) {
-                                                document.write('color=#000080');
-                                            }
-                                            document.write(' title=""></font><br><font id="LD' + gNum + '" size=2 style="font-size:8pt"> </font></td>');
-                                        }
-                                        document.write('</tr>');
-                                    }
-                                </script>
-                            </table>
-                        </td>
-                </table>
-            </form>
-            <div class="button-container">
-                <button onclick="minusyear()" class="button-style"><<</button>
-                <button onclick="minusmonth()" class="button-style"><</button>
-                <button onclick="addmonth()" class="button-style">></button>
-                <button onclick="addyear()" class="button-style">>></button>
+        <div class="contianer">
+            <div class="calendar">
+                <div class="calendar-header">
+                    <span class="month-picker" id="month-picker"></span>
+                    <div class="year-picker" id="year-picker">
+                        <span class="year-change" id="pre-year">
+                            <pre><</pre>
+                        </span>
+                        <span id="year"></span>
+                        <span class="year-change" id="next-year">
+                            <pre>></pre>
+                        </span>
+                    </div>
+                </div>
+            <div class="calendar-body">
+                <div class="calendar-week-days">
+                    <div>日</div>
+                    <div>一</div>
+                    <div>二</div>
+                    <div>三</div>
+                    <div>四</div>
+                    <div>五</div>
+                    <div>六</div>
+                </div>
+                <div class="calendar-days"></div>
             </div>
-        </div>
-
-        <div>
-              <div class="schedule-list">
-                <ul id="scheduleItems"></ul>
+            <div class="calendar-footer">
+            </div>
+            <div class="date-time-formate">
+              <div class="day-text-formate">今</div>
+              <div class="date-time-value">
+                <div class="time-formate">02:51:20</div>
+                <div class="date-formate">23 - july - 2022</div>
               </div>
+            </div>
+            <div class="month-list"></div>
+          </div>
+          
+          <div class="schedule">
+            <div class="schedule-list">
+              <ul id="scheduleItems"></ul>
+            </div>
+          </div> 
         </div>
-        </div>
-        </div> 
-
+        <button class="add-button" onclick="showPopup('add')">+</button>
+        <!-- 添加窗口 -->
         <div class="overlay">
             <div class="popup">
               <h2 id="popupTitle"></h2>
@@ -109,9 +86,5 @@
               <button onclick="saveSchedule()">完成</button>
             </div>
           </div>
-
-          
-        <script src="add_date.js"></script>
-        <script src="calendar_lunar.js"></script>
 </body>
 </html>
