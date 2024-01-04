@@ -117,7 +117,9 @@ function month_info(month, year){
         }
       }
     }
-    current_month[i]['month_name'] = monthName[lM - 1]; 
+    // current_month[i]['month_name'] = monthName[lM - 1]; 
+    if(current_month[i]['isLeap'] == true) {current_month[i]['month_name'] = '闰' + monthName[lM - 1];}
+    else {current_month[i]['month_name'] = monthName[lM - 1];}
     //某月的第几个星期几的节日
     if ((month + 1) == 5 && (i + 1) == fat) {current_month[i]['solarFestival'] += '母亲节 ';} // 母亲节
     if ((month + 1) == 6 && (i + 1) == mat) {current_month[i]['solarFestival'] += '父亲节 ';} // 父亲节
