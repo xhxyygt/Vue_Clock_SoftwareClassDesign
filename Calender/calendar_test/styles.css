@@ -175,6 +175,21 @@
     background-color: var(--light-btn);
     border-radius: 20%;
   }
+  /* 有日程时在日期下方标记一个点 */
+  .calendar-days .has-dot::before {
+    content: "";
+    display: block;
+    width: 5px;
+    height: 5px;
+    background-color: rgb(94, 171, 197);
+    /* 周围淡色阴影 */
+    box-shadow: 0 0 0 1px #fff;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -3px;
+    right:50%;
+    transform: translateX(50%);
+  }
   .month-list {
     position: relative;
     left: 0;
@@ -329,7 +344,7 @@
     display: none;
   }
 /* 日程部分 */
-.schedule {
+/* .schedule {
     background: linear-gradient(#c4f185, #86d2f3);
     width: 600px;
     height: 550px;
@@ -348,13 +363,16 @@
   .schedule .schedule-list ul {
     padding: 2.25em;
   }
-  .schedule .schedule-list li {
+  .schedule .schedule-list .schedule-item {
     padding: 1em;
     width: 180px;
     color: #FFF;
     transform: translateX(-700px);
   }
-  .schedule .schedule-list .description {
+  .schedule .schedule-list li:nth-child(2n) {
+    background: #5d97ad;
+  } */
+  /* .schedule .schedule-list .description {
     font-size: 12px;
   }
   .schedule form {
@@ -387,4 +405,4 @@
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
-  }
+  } */

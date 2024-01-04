@@ -1,6 +1,7 @@
 // 用户点击日期的响应：改变背景颜色，显示当天的日程
 // 点击日期包括点击日期的数字和日期的背景
 // 日期的背景是一个div，日期的数字是div的子元素
+var chose_date;
 const calendarDays = document.querySelector('.calendar-days');
 calendarDays.addEventListener('click', function(event) {
     var target = event.target;
@@ -24,6 +25,10 @@ calendarDays.addEventListener('click', function(event) {
             siblings[i].classList.remove('current-date');
         }
     }
+    // 获取当前的data-date属性值
+    chose_date = target.getAttribute('data-date');
+    console.log(chose_date);
+    displaySchedule(scheduleItems);
 }
 );
 
@@ -71,7 +76,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       })
       displaySchedule(scheduleItems);
       targetDates=updatetarget(scheduleItems);
-      display_reddot(cld);
+      display_reddot(targetDates);
       }else{
         console.log(result.msg);
       }
@@ -166,7 +171,7 @@ var overlay = document.querySelector('.overlay');
 
 
           targetDates=updatetarget(scheduleItems);
-          display_reddot(cld);
+          display_reddot();
           displaySchedule(scheduleItems);
 
           hidePopup();
@@ -232,7 +237,7 @@ var overlay = document.querySelector('.overlay');
             hidePopup();
 
             targetDates=updatetarget(scheduleItems);
-            display_reddot(cld);
+            display_reddot();
             displaySchedule(scheduleItems);
 
             alert('修改日程成功');
@@ -285,6 +290,7 @@ var overlay = document.querySelector('.overlay');
       var end_date=new Date(endtime);
       end_date.setHours(0, 0, 0, 0);
       var clickdate=new Date(chose_date);
+      console.log(clickdate);
       clickdate.setHours(0, 0, 0, 0);
        if(clickdate<start_date||clickdate>end_date){
         scheduleItem.style.display = 'none';
@@ -342,7 +348,7 @@ var overlay = document.querySelector('.overlay');
               scheduleItems.removeChild(scheduleItem);
               targetDates=updatetarget(scheduleItems);
               displaySchedule(scheduleItems);
-              display_reddot(cld);
+              display_reddot();
             }else{
               console.log(result.msg);
             }

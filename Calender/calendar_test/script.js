@@ -117,7 +117,7 @@ function month_info(month, year){
         }
       }
     }
-
+    current_month[i]['month_name'] = monthName[lM - 1]; 
     //某月的第几个星期几的节日
     if ((month + 1) == 5 && (i + 1) == fat) {current_month[i]['solarFestival'] += '母亲节 ';} // 母亲节
     if ((month + 1) == 6 && (i + 1) == mat) {current_month[i]['solarFestival'] += '父亲节 ';} // 父亲节
@@ -174,20 +174,21 @@ const generateCalendar = (month, year) => {
   for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
   
       let day = document.createElement('div'); //每一天
-      day.classList.add('date-item');
-      //每一天的数字日期和文字日期（农历或节日）
-      let day_num = document.createElement('div');
-      day_num.classList.add('day-number');
-      let day_text = document.createElement('div');
-      day_text.classList.add('day-text');
-      day.appendChild(day_num);
-      day.appendChild(day_text);
-
-  
-      if (i >= first_day.getDay()) {
+      if (i >= first_day.getDay()) { //有日期的单元格
+        day.classList.add('date-item');
+        // 把当天的阳历日期存到属性里
+        //chose_date=cld[sD].sYear + "-" + cld[sD].sMonth + "-" + (parseInt(sD) + 1);
+        day.setAttribute('data-date', current_month[i - first_day.getDay()]['sYear'] + "-" + current_month[i - first_day.getDay()]['sMonth'] + "-" + (parseInt(i - first_day.getDay()) + 1));
+        day.classList.remove('has-dot'); // 移除日程标记
+        //每一天的数字日期和文字日期（农历或节日）
+        let day_num = document.createElement('div');
+        day_num.classList.add('day-number');
+        let day_text = document.createElement('div');
+        day_text.classList.add('day-text');
+        day.appendChild(day_num);
+        day.appendChild(day_text);
         // day.innerHTML = i - first_day.getDay() + 1;
         day_num.innerHTML = i - first_day.getDay() + 1;
-        // day_text.innerHTML = current_month[i - first_day.getDay() ]['lunar_date'];
         // 优先级：阳历节日 > 农历节日 > 节气 > 农历日期,前三种情况颜色为红色
         if (current_month[i - first_day.getDay()]['solarFestival'] !== '') {
           day_text.innerHTML = current_month[i - first_day.getDay()]['solarFestival'];
@@ -195,21 +196,57 @@ const generateCalendar = (month, year) => {
           day_text.innerHTML = current_month[i - first_day.getDay()]['lunarFestival'];
         } else if (current_month[i - first_day.getDay()]['solarTerms'] !== '') {
           day_text.innerHTML = current_month[i - first_day.getDay()]['solarTerms'];
-        } else {
+        }else if(current_month[i - first_day.getDay()]['lunar_date'] === '初一'){
+          day_text.innerHTML = current_month[i - first_day.getDay()]['month_name'] + '月';
+        }
+        else {
           day_text.innerHTML = current_month[i - first_day.getDay()]['lunar_date'];
         }
 
-
-        if (i - first_day.getDay() + 1 === currentDate.getDate() &&
-          year === currentDate.getFullYear() &&
-          month === currentDate.getMonth()
-        ) {
+        if(year === currentDate.getFullYear() && month === currentDate.getMonth()){
+          if (i - first_day.getDay() + 1 === currentDate.getDate()) {
+            day.classList.add('current-date');
+            chose_date = current_month[i - first_day.getDay()]['sYear'] + "-" + current_month[i - first_day.getDay()]['sMonth'] + "-" + (parseInt(i - first_day.getDay()) + 1);
+            console.log(chose_date);
+          }
+        }
+        //如果不是本月，默认为阳历该月1日添加current-date类
+        else if(i-first_day.getDay() + 1 === 1 ){
           day.classList.add('current-date');
+          chose_date = current_month[i - first_day.getDay()]['sYear'] + "-" + current_month[i - first_day.getDay()]['sMonth'] + "-" + (parseInt(i - first_day.getDay()) + 1);
+          console.log(chose_date);
         }
       }
       calendar_days.appendChild(day);
     }
+    displaySchedule(scheduleItems);
+    display_reddot();
   };
+
+var targetDates = []; //日程数组
+// 根据日程显示日程标记has-dot
+function display_reddot() {
+  let date_item = document.querySelectorAll('.date-item');
+  for (let i = 0; i < date_item.length; i++) {
+    let date = date_item[i].getAttribute('data-date');
+    for (var j = 0; j < targetDates.length; j++) {
+      var dateRange = targetDates[j].split(" ");
+      var startDate = new Date(dateRange[0]);
+      var endDate = new Date(dateRange[1]);
+      startDate.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
+      var currentDate = new Date(date);
+      currentDate.setHours(0, 0, 0, 0);
+      if (currentDate >= startDate && currentDate <= endDate) {
+          // 修改目标单元格的样式属性
+          date_item[i].classList.add("has-dot");
+      }
+    }
+
+  }
+}
+
+
   
   let month_list = calendar.querySelector('.month-list');
   month_names.forEach((e, index) => {
@@ -291,10 +328,10 @@ const generateCalendar = (month, year) => {
         if (currentMonth.value === currentDate.getMonth() && currentYear.value === currentDate.getFullYear()) { //月份是当前月，不用跳转，只把current-date类名添加到当天同时删除其他元素的current-date类名
             const calendarDays = document.querySelector('.calendar-days');
             const siblings = calendarDays.children;
-            for (let i = 0; i < siblings.length; i++) {
+            // console.log(currentDate);
+            for (let i = current_month.first_day; i < siblings.length; i++) {
                 // console.log(siblings[i].innerHTML);
                 // console.log(currentDate.getDate());
-                // console.log(siblings[i].innerHTML.toString() === currentDate.getDate().toString());
                 // siblings[i]中的day-number和currateDate比较，如果相等则添加current-date类名，否则删除current-date类名
                 if (siblings[i].children[0].innerHTML.toString() === currentDate.getDate().toString()) {
                     siblings[i].classList.add('current-date');
