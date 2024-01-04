@@ -44,14 +44,14 @@
     position: relative; /* 添加相对定位 */
   }
   
-  .schedule-item {
+  /* .schedule-item {
     position: relative;
     margin-bottom: 10px;
     padding: 5px;
     border-radius: 5px;
     background-color: #f5f5f5;
   }
-  
+   */
   .schedule-item h3 {
     font-size: 16px;
     margin-bottom: 2px;
@@ -64,8 +64,8 @@
   
   .schedule-item button {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 20px;
     padding: 4px 8px;
     background-color: #f44336;
     color: #fff;
@@ -80,8 +80,7 @@
   
   .schedule-item .edit-button {
     position: absolute;
-    top: 60px;
-    right: 10px;
+    top: 50px;
     padding: 4px 8px;
     background-color: #009688;
     color: #fff;
