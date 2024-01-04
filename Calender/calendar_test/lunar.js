@@ -155,23 +155,23 @@ function Dianaday(objDate) {
 }
 
 // //记录公历和农历某天的日期
-// function calElement(sYear, sMonth, sDay, week, lYear, lMonth, lDay, isLeap) {
-//     this.isToday = false;
-//     //公历
-//     this.sYear = sYear;
-//     this.sMonth = sMonth;
-//     this.sDay = sDay;
-//     this.week = week;
-//     //农历
-//     this.lYear = lYear;
-//     this.lMonth = lMonth;
-//     this.lDay = lDay;
-//     this.isLeap = isLeap;
-//     //节日记录
-//     this.lunarFestival = ''; //农历节日
-//     this.solarFestival = ''; //公历节日
-//     this.solarTerms = ''; //节气
-// }
+function calElement(sYear, sMonth, sDay, week, lYear, lMonth, lDay, isLeap) {
+    this.isToday = false;
+    //公历
+    this.sYear = sYear;
+    this.sMonth = sMonth;
+    this.sDay = sDay;
+    this.week = week;
+    //农历
+    this.lYear = lYear;
+    this.lMonth = lMonth;
+    this.lDay = lDay;
+    this.isLeap = isLeap;
+    //节日记录
+    this.lunarFestival = ''; //农历节日
+    this.solarFestival = ''; //公历节日
+    this.solarTerms = ''; //节气
+}
 
 // //返回某年的第n个节气为几日(从0小寒起算)
 // function sTerm(y, n) {

@@ -38,17 +38,21 @@ month_picker.onclick = () => {
 // 相关信息在 lunarInfo, sokarTerm, Animals, Gan, Zhi, nStr1, nStr2, monthName, sFtv, lFtv, wFtv已经给出
 // 根据给出的数组进行计算
 var fat = mat = 9;
+var eve = 0; 
 const month_info = (month, year) => {
   fat = mat = 0; // 用于保存某月的第几个星期几的节日
   var SolarDateObj, LunarDateObj;
   var lY, lM, lD = 1; 
   var lL, lX = 0;// 农历信息
   var tmp1, tmp2; // 临时变量
+    var lDPOS = new Array(3); // 农历日期保存数组
+    var n = 0; 
+    var firstLM = 0; // 保存当年农历的闰月
 
-  var current_month = {
-    month: month,
-    year: year,
-  }
+  current_month = new Array(); // 保存一个月的相关信息
+  current_month['month'] = month; // 公历月份
+  current_month['year'] = year; // 公历年份
+
   let days_of_month = [
     31,
     getFebDays(year),
@@ -70,7 +74,25 @@ const month_info = (month, year) => {
   if((month+1) == 5) {fat = SolarDateObj.getDay()} // 保存某月的第几个星期几的节日
   if((month+1) == 6) {mat = SolarDateObj.getDay()} // 保存某月的第几个星期几的节日
   for (var i = 0; i < current_month['days']; i++) {
-    
+    if(lD>lX){
+      SolarDateObj = new Date(year, month, i+1); // 当月第一天
+      LunarDateObj = new Dianaday(SolarDateObj); // 当月第一天的农历日期
+      lY = LunarDateObj.year; // 农历年份
+      lM = LunarDateObj.month; // 农历月份
+      lD = LunarDateObj.day; // 农历日期
+      lL = LunarDateObj.isLeap; // 农历是否闰月
+      lX = lL? leapDays(lY): monthDays(lY, lM); // 农历当月天数
+      if (lM == 12) { eve = lX }
+      if (n == 0) firstLM = lM;
+      lDPOS[n++] = i - lD + 1;
+    }
+    current_month[i] = new calElement(year, month+1, i+1, nStr1[(i + current_month['first_day']) % 7], lY, lM, lD++, lL);
+    //周末判断
+    if((i + current_month['first_day']) % 7 == 0 ) current_month[i]['isWeekend'] = true;
+
+
+  }
+
 
   LunarDateObj = new Dianaday(SolarDateObj); // 当月第一天的农历日期
   current_month['lunar_year'] = LunarDateObj.year; // 农历年份
