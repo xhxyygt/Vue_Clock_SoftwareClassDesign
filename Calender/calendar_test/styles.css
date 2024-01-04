@@ -340,21 +340,21 @@
     transform: scale(0.95) translateX(-15px);
     z-index: 0;
   }
-  .schedule .list {
+  .schedule .schedule-list {
     height: 80%;
     overflow-y: scroll;
     padding: 1em;
   }
-  .schedule .list ul {
+  .schedule .schedule-list ul {
     padding: 2.25em;
   }
-  .schedule .list li {
+  .schedule .schedule-list li {
     padding: 1em;
     width: 180px;
     color: #FFF;
     transform: translateX(-700px);
   }
-  .schedule .list .description {
+  .schedule .schedule-list .description {
     font-size: 12px;
   }
   .schedule form {
