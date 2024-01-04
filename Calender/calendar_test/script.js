@@ -37,7 +37,7 @@ month_picker.onclick = () => {
 // 注：month为0-11（1月参数为0）
 const generateCalendar = (month, year) => {
     let calendar_days = document.querySelector('.calendar-days'); // 日期表格
-    calendar_days.innerHTML = '';
+    // calendar_days.innerHTML = '';
     let calendar_header_year = document.querySelector('#year');
     let days_of_month = [
         31,
@@ -66,11 +66,21 @@ const generateCalendar = (month, year) => {
     
   for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
   
-      let day = document.createElement('div');
+      let day = document.createElement('div'); //每一天
       day.classList.add('date-item');
+      //每一天的数字日期和文字日期（农历或节日）
+      let day_num = document.createElement('div');
+      day_num.classList.add('day-number');
+      let day_text = document.createElement('div');
+      day_text.classList.add('day-text');
+      day.appendChild(day_num);
+      day.appendChild(day_text);
+
   
       if (i >= first_day.getDay()) {
-        day.innerHTML = i - first_day.getDay() + 1;
+        // day.innerHTML = i - first_day.getDay() + 1;
+        day_num.innerHTML = i - first_day.getDay() + 1;
+        day_text.innerHTML = '农历';
 
         if (i - first_day.getDay() + 1 === currentDate.getDate() &&
           year === currentDate.getFullYear() &&
@@ -167,7 +177,8 @@ const generateCalendar = (month, year) => {
                 // console.log(siblings[i].innerHTML);
                 // console.log(currentDate.getDate());
                 // console.log(siblings[i].innerHTML.toString() === currentDate.getDate().toString());
-                if (siblings[i].innerHTML.toString() === currentDate.getDate().toString()) {
+                // siblings[i]中的day-number和currateDate比较，如果相等则添加current-date类名，否则删除current-date类名
+                if (siblings[i].children[0].innerHTML.toString() === currentDate.getDate().toString()) {
                     siblings[i].classList.add('current-date');
                 }
                 else {

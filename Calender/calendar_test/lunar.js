@@ -178,7 +178,7 @@ const wFtv = [
                 //保存y年m+1月的相关信息
                 var fat = mat = 9;
                 var eve = 0;
-                function calendar(y, m) {
+                function calendar_generate(y, m) {
                     fat = mat = 0;
                     var sDObj, lDObj, lY, lM, lD = 1, lL, lX = 0, tmp1, tmp2;
                     var lDPOS = new Array(3);
@@ -254,7 +254,7 @@ const wFtv = [
                     var p1 = p2 = "";
                     var i, sD, s, size;
                     var monthsChinese=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
-                    cld = new calendar(SY, SM);
+                    cld = new calendar_generate(SY, SM);
                     GZ.innerHTML = '                       【' + Animals[(SY - 4) % 12] + '】';    //生肖
                     for (i = 0; i < 42; i++) {
                         sObj = eval('SD' + i);
