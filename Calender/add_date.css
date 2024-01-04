@@ -53,18 +53,21 @@
   }
    */
   .schedule-item h3 {
-    font-size: 16px;
-    margin-bottom: 2px;
+    font-size: 30px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-style: italic;
+
   }
   
   .schedule-item p {
-    font-size: 12px;
+    font-size: 16px;
     margin-bottom: 2px;
   }
   
   .schedule-item button {
     position: absolute;
-    top: 15px;
+    top: 25px;
     right: 20px;
     padding: 4px 8px;
     background-color: #f44336;
@@ -72,6 +75,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
   }
   
   .schedule-item button:hover {
@@ -80,7 +84,7 @@
   
   .schedule-item .edit-button {
     position: absolute;
-    top: 50px;
+    top: 70px;
     padding: 4px 8px;
     background-color: #009688;
     color: #fff;
