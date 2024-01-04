@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     .then(result => {
       console.log(result);
       if(result.code === 1){
-        addedSchedule = result.data.schedules;
+        var addedSchedule = result.data.schedules;
         addedSchedule.forEach( schedule => {
           // var 
           // createScheduleItem(schedule)
@@ -36,7 +36,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
           var scheduleItem = createScheduleItem(newItem);
           scheduleItems.appendChild(scheduleItem);
+          
       })
+      displaySchedule(scheduleItems);
+      targetDates=updatetarget(scheduleItems);
+      display_reddot(cld);
       }else{
         console.log(result.msg);
       }
@@ -128,9 +132,14 @@ var overlay = document.querySelector('.overlay');
 
           var scheduleItem = createScheduleItem(newItem);
           scheduleItems.appendChild(scheduleItem);
-    
+
+
+          targetDates=updatetarget(scheduleItems);
+          display_reddot(cld);
+          displaySchedule(scheduleItems);
+
           hidePopup();
-          // addedSchedules.push(newItem);
+
           alert('新建日程成功');//
         }
         else {
@@ -139,15 +148,13 @@ var overlay = document.querySelector('.overlay');
         }
       })
       .catch(error => console.log('error', error));
-
-
     }
     //保存日程信息，点击完成键执行，包括修改日程的功能
     function saveSchedule() {
       var newTask = taskInput.value.trim();
       var newStartTime = startTimeInput.value;
       var newEndTime = endTimeInput.value;
-
+      
       if (newTask === '' || newStartTime === '' || newEndTime === '') {
         alert('请输入完整的日程信息');
         return;
@@ -192,6 +199,11 @@ var overlay = document.querySelector('.overlay');
             endTimeInput.value = '';
     
             hidePopup();
+
+            targetDates=updatetarget(scheduleItems);
+            display_reddot(cld);
+            displaySchedule(scheduleItems);
+
             alert('修改日程成功');
           }
           else {
@@ -200,16 +212,59 @@ var overlay = document.querySelector('.overlay');
           }
         })
         .catch(error => console.log('error', error));
-
-
       }
+
     }
     //取消按键
     function cancelSchedule() {
       hidePopup();
     }
+    //更新targetdate
+    function updatetarget(scheduleItems){
+      var scheduleItemElements = scheduleItems.querySelectorAll('.schedule-item');
+      var target=[];
+      scheduleItemElements.forEach(function(scheduleItem){
+        var startTimeText = scheduleItem.querySelector('.startTimeText').textContent;
+        const pattern_start = /(\d{4}-\d{2}-\d{2})/;
+        const startnumbers = startTimeText.match(pattern_start);
+        var endTimeText = scheduleItem.querySelector('.endTimeText').textContent;
+        const pattern_end = /(\d{4}-\d{2}-\d{2})/;
+        const endnumbers = endTimeText.match(pattern_end);
+        var starttime = startnumbers[1];
+        var endtime = endnumbers[1];
+        var start_end=starttime+" "+endtime;
+        target.push(start_end);
+      })
+      return target;
+    }
+    //日程的指定显示
+    function displaySchedule(scheduleItems){
+      var scheduleItemElements = scheduleItems.querySelectorAll('.schedule-item');
+      scheduleItemElements.forEach(function(scheduleItem){
+      var startTimeText = scheduleItem.querySelector('.startTimeText').textContent;
+      const pattern_start = /(\d{4}-\d{2}-\d{2})/;
+      const startnumbers = startTimeText.match(pattern_start);
+      var endTimeText = scheduleItem.querySelector('.endTimeText').textContent;
+      const pattern_end = /(\d{4}-\d{2}-\d{2})/;
+      const endnumbers = endTimeText.match(pattern_end);
+      var starttime = startnumbers[1];
+      var endtime = endnumbers[1];
+      var start_date=new Date(starttime);
+      start_date.setHours(0, 0, 0, 0);
+      var end_date=new Date(endtime);
+      end_date.setHours(0, 0, 0, 0);
+      var clickdate=new Date(chose_date);
+      clickdate.setHours(0, 0, 0, 0);
+       if(clickdate<start_date||clickdate>end_date){
+        scheduleItem.style.display = 'none';
+       }
+       else{scheduleItem.style.display = 'block';}
+    })
+    }
+    
     //创建日程表项，显示于下方
     function createScheduleItem(item) {
+
       var id = item.id;
       var scheduleItem = document.createElement('li');
       scheduleItem.classList.add('schedule-item');
@@ -254,18 +309,18 @@ var overlay = document.querySelector('.overlay');
             if(result.code === 1){
               console.log("删除成功");
               scheduleItems.removeChild(scheduleItem);
+              targetDates=updatetarget(scheduleItems);
+              displaySchedule(scheduleItems);
+              display_reddot(cld);
             }else{
               console.log(result.msg);
             }
           })
           .catch(error => console.log('error', error));
- 
-
       });
 
       scheduleItem.appendChild(deleteButton);
 
       item.element = scheduleItem;
-
       return scheduleItem;
     }
