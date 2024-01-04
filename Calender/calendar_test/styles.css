@@ -344,7 +344,7 @@
     display: none;
   }
 /* 日程部分 */
-/* .schedule {
+.schedule {
     background: linear-gradient(#c4f185, #86d2f3);
     width: 600px;
     height: 550px;
@@ -365,13 +365,14 @@
   }
   .schedule .schedule-list .schedule-item {
     padding: 1em;
-    width: 180px;
     color: #FFF;
-    transform: translateX(-700px);
+    position: relative;
+    border-radius: 5px;
+    margin-bottom: 1em;
+    /* 内阴影 */
+    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.5);
+
   }
-  .schedule .schedule-list li:nth-child(2n) {
-    background: #5d97ad;
-  } */
   /* .schedule .schedule-list .description {
     font-size: 12px;
   }
